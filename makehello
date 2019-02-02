@@ -1,0 +1,5 @@
+clear
+rm hello
+rm *.o
+g++ -c -pedantic -Wall -Wextra -std=c++11 hello.cc complex.cc
+g++ -o hello hello.o complex.o
