@@ -60,6 +60,7 @@ int main(int argv, char* argc[]){
    Complx<int> bplx(1,1);
    Complx<int> cplx(bplx * bplx.complexConjugate());
    Complx<int> dplx(0,1);
-   cout<<aplx/bplx<<endl<<cplx<<endl<<aplx/dplx<<endl;
+   Complx<>    eplx(aplx/dplx);
+   cout<<aplx/bplx<<endl<<cplx<<endl<<aplx/dplx<<endl<<eplx<<endl;
    return 1;
 }
