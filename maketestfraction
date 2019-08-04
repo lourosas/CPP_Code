@@ -1,0 +1,5 @@
+clear
+rm testfraction
+rm *.o
+g++ -c -pedantic -Wall -Wextra -std=c++11 testfraction.cc fraction.cc
+g++ -o testfraction testfraction.o fraction.o

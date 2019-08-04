@@ -1,0 +1,20 @@
+clear
+rm testthreads
+rm testthreads2
+rm testthreads3
+rm testthreads4
+rm testthreads5
+rm testthreads6
+rm *.o
+g++ -c -pthread -std=c++11 testthreads.cc
+g++ -o testthreads testthreads.o -pthread
+g++ -c -pthread -std=c++11 testthreads2.cc
+g++ -o testthreads2 testthreads2.o -pthread
+g++ -c -pthread -std=c++11 testthreads3.cc
+g++ -o testthreads3 testthreads3.o -pthread
+g++ -c -pthread -std=c++11 testthreads4.cc
+g++ -o testthreads4 testthreads4.o -pthread
+g++ -c -pthread -std=c++11 testthreads5.cc
+g++ -o testthreads5 testthreads5.o -pthread
+g++ -c -pthread -std=c++11 testthreads6.cc ThreadX.cc
+g++ -o testthreads6 ThreadX.o testthreads6.o -pthread

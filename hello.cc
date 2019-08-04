@@ -1,66 +1,101 @@
-/********************************************************************
-********************************************************************/
+//////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <iomanip>
-#include "complex.h"
-#include "complx.h"
+#include <string>
+#include <cstring>
 
 using namespace std;
 
-int main(int argv, char* argc[]){
-   int i = -1;
-   cout<<"Hello World\n";
-   cout<<++i<<" ";
-   Complex a(1,3);
-   cout<<++i<<" ";
-   Complex b(1,4);
-   cout<<a*a.complexConjugate()<<endl;
-   Complex c = Complex(1,2) + Complex(0,1);
-   cout<<endl<<a<<endl<<b<<endl<<c<<endl;
-   a *= b;
-   cout<<endl<<a<<endl;
-   c *= b;
-   b -= a;
-   cout<<endl<<a<<endl<<b<<endl<<c<<endl;
-   cout<<a*a.complexConjugate()<<endl;
-   cout<<"\n*****************************************************\n";
-   cout<<"\nNow Going to try a template class\n";
-   cout<<"\n*****************************************************\n";
-   /*
-   Complx<int> aplx;
-   Complx<int> bplx(0,0);
-   Complx<int> cplx(1, -3);
-   cout<<bplx<<endl<<cplx<<endl;
-   bplx = cplx;
-   cout<<bplx<<endl<<cplx<<endl;
-   Complx<int> dplx = cplx;
-   cout<<dplx<<endl;
-   Complx<int> eplx(Complx<int>(23, -6));
-   cout<<eplx<<endl;
-   cout<<Complx<double>(8.639, 2.22535)<<endl;
-   Complx<int> fplx = aplx * bplx;
-   cout<<fplx<<endl;
-   cout<<dplx * eplx<<endl;
-   cout<<Complx<int>(3,5) * Complx<int>(5,0)<<endl;
-   cout<<Complx<>(8.1,-1.) * Complx<>(-2.4,3.)<<endl;
-   cout<<dplx.complexConjugate()<<endl;
-   cout<<cplx.complexConjugate()<<endl;
-   cout<<dplx.lengthSquared()<<endl;
-   cout<<cplx.lengthSquared()<<endl;
-   cout<<aplx.complexConjugate()<<endl;
-   cout<<aplx.lengthSquared()<<endl;
-   cout<<(Complx<>(8.1, -1.)).complexConjugate()<<endl;
-   cout<<(Complx<>(8.1, -1.)).lengthSquared()<<endl;
-   cout<<cplx*cplx.complexConjugate()<<endl;
-   cout<<(cplx <= bplx)<<endl<<(fplx <= eplx)<<endl;
-   dplx = cplx*cplx.complexConjugate();
-   cout<<dplx<<endl;
-   */
-   Complx<int> aplx(3,2);
-   Complx<int> bplx(1,1);
-   Complx<int> cplx(bplx * bplx.complexConjugate());
-   Complx<int> dplx(0,1);
-   Complx<>    eplx(aplx/dplx);
-   cout<<aplx/bplx<<endl<<cplx<<endl<<aplx/dplx<<endl<<eplx<<endl;
-   return 1;
+void doSomeTesting();
+
+/*
+*/
+int main(int argc, char *argv[]){
+   cout<<"Hello World\n"<<argc<<endl<<argv[0]<<endl;
+   doSomeTesting();
 }
+
+/*
+*/
+void doSomeTesting(){
+   char* theInput    = new char[81];
+   int   loopCounter = 0;
+   string toContinue;
+   do{
+      int number;
+      loopCounter = 0; //reset the loop counter
+      cout<<"Input a Number:  ";cin>>number; cout<<number<<endl;
+      cin.ignore(81,'\n');
+      do{
+         for(int i = 0; i < 81; i++){
+            theInput[i] = '\0';//initialize the string
+         }
+         cout<<"To Continue? Type \"yes\" or \"no\" ";
+         cin.get(theInput, 81);
+         cin.ignore(81,'\n');
+         for(int i = 0; i < strlen(theInput); i++){
+            theInput[i] = toupper(theInput[i]);
+         }
+         toContinue = theInput;
+      }while(toContinue != "YES" &&
+             toContinue != "NO"  &&
+             ++loopCounter < 3);
+   }while(toContinue != "NO" && loopCounter < 3);
+   if(loopCounter > 2){
+     cout<<"\nIt is obvious you do not want ot answer with either "
+       <<"a 'yes' or a 'no'!!  So exiting\n";
+   }
+   cout<<"Goodbye\n";
+   delete [] theInput;
+}
+
+/*
+void doSomeTesting(){
+   char toContinue  = '\0';
+   int  loopCounter =    0;
+   do{
+      int number;
+      loopCounter = 0;  //Reset the loop counter
+      cout<<"Input a Number:  ";cin>>number; cout<<number<<endl;
+      do{
+         cout<<"To Continue? type 'y' or type 'n' ";
+         cin>>toContinue;
+      }while(toupper(toContinue) !='Y' && 
+             toupper(toContinue) !='N' &&
+             ++loopCounter < 3);
+      cout<<loopCounter<<endl;
+   }while(toupper(toContinue) != 'N' && loopCounter < 3);
+   if(loopCounter > 2){
+      cout<<"\nIt is obvious you do not want to answer with "
+        <<"either a 'y' or 'n'\nSo Exiting\n";
+   }
+   cout<<"Goodbye!\n";
+}
+*/
+
+/*
+Same logic as above, but a little more awkward to follow
+void doSomeTesting(){
+   char toContinue  = '\0';
+   int  loopCounter =    0;
+   do{
+      int number;
+      loopCounter = 0;
+      cout<<"Input a Number:  ";cin>>number;cout<<number<<endl;
+      do{
+         cout<<"To Continue? type 'y' or type 'n' ";
+         cin>>toContinue;
+         if(++loopCounter > 2           && 
+            toupper(toContinue) != 'N' &&
+            toupper(toContinue) != 'Y'){
+            cout<<"\nIt is obvious you do not want to answer with "
+              <<"either a 'y' or 'n'\nSo Exiting\n";
+            toContinue = 'n'; //Break out of the loop
+         }
+      }while(toupper(toContinue)!='N' && toupper(toContinue)!='Y');
+   }while(toupper(toContinue) != 'N');
+   cout<<"Goodbye!\n";
+}
+*/
+
+//////////////////////////////////////////////////////////////////////

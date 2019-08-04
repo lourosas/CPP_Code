@@ -29,15 +29,19 @@ class Complex
       Complex operator-(Complex&& );      //rvalue
       Complex operator*(const Complex& ); //lvalue
       Complex operator*(Complex&& );      //rvalue
+      Complex operator/(const Complex& ); //lvalue
+      Complex operator/(Complex&& );      //rvalue
 
       //Getting rid of the constants as an attempt to
       //understand the lvalue/rvalue difference
       Complex& operator+=(const Complex& );//lvalue
-      Complex& operator+=(Complex&& );    //rvalue
+      Complex& operator+=(Complex&& );     //rvalue
       Complex& operator-=(const Complex& );//lvalue
-      Complex& operator-=(Complex&& );    //rvalue
+      Complex& operator-=(Complex&& );     //rvalue
       Complex& operator*=(const Complex& );//lvalue
-      Complex& operator*=(Complex&& );    //rvalue
+      Complex& operator*=(Complex&& );     //rvalue
+      Complex& operator/=(const Complex& );//lvalue
+      Complex& operator/=(Complex&& );     //rvalue
       
       int operator==(const Complex& );    //lvalue
       int operator==(Complex&& );         //rvalue

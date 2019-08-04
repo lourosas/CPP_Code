@@ -129,6 +129,22 @@ Complex Complex::operator*(Complex&& comp){
 }
 
 /*
+Division Operator
+lvalue (or, something of that manner)
+*/
+Complex Complex::operator/(const Complex& comp){
+   //The value of the complex conjugate
+   int denom = comp.lengthSquared();
+
+   int real = (this->real() * comp.real()) +
+              (this->imag() * comp.imag());
+   int imag = (this->imag() * comp.real()) -
+              (this->real() * comp.imag());
+
+   return Complex(real/denom, imag/denom);
+}
+
+/*
 lvalue addition-assingment operator
 */
 Complex& Complex::operator+=(const Complex& comp){
