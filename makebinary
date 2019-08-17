@@ -1,0 +1,3 @@
+rm *.o
+g++ -c binaryInputOutput.cc 
+g++ -o binarayInputOutput binaryInputOutput.o

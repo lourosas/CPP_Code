@@ -5,6 +5,16 @@ rm testthreads3
 rm testthreads4
 rm testthreads5
 rm testthreads6
+rm testthreads7
+rm testthreads8
+rm testthreads9
+rm testthreads10
+rm testthreads11
+rm testthreads12
+rm testthreads13
+rm testthreads14
+rm testthreads15
+rm testthreads16
 rm *.o
 g++ -c -pthread -std=c++11 testthreads.cc
 g++ -o testthreads testthreads.o -pthread
@@ -18,3 +28,25 @@ g++ -c -pthread -std=c++11 testthreads5.cc
 g++ -o testthreads5 testthreads5.o -pthread
 g++ -c -pthread -std=c++11 testthreads6.cc ThreadX.cc
 g++ -o testthreads6 ThreadX.o testthreads6.o -pthread
+g++ -c -pthread -std=c++11 testthreads7.cc
+g++ -o testthreads7 testthreads7.o -pthread
+g++ -c -pthread -std=c++11 testthreads8.cc ThreadX.cc ThreadY.cc
+g++ -o testthreads8 ThreadX.o ThreadY.o testthreads8.o -pthread
+g++ -c -pthread -std=c++11 testthreads9.cc ThreadX.cc ThreadY.cc
+g++ -o testthreads9 ThreadX.o ThreadY.o testthreads9.o -pthread
+g++ -c -pthread -std=c++11 testthreads10.cc ThreadX.cc ThreadY.cc
+g++ -o testthreads10 ThreadX.o ThreadY.o testthreads10.o -pthread
+g++ -c -pthread -std=c++11 testthreads11.cc ThreadX.cc ThreadY.cc
+g++ -o testthreads11 ThreadX.o ThreadY.o testthreads11.o -pthread
+g++ -c -pthread -std=c++11 testthreads12.cc
+g++ -o testthreads12 testthreads12.o -pthread
+g++ -c -pthread -std=c++11 testthreads13.cc
+g++ -o testthreads13 testthreads13.o -pthread
+g++ -c -pthread -std=c++11 testthreads14.cc
+g++ -o testthreads14 testthreads14.o -pthread
+g++ -c -pthread -std=c++11 testthreads15.cc
+g++ -o testthreads15 testthreads15.o -pthread
+g++ -c -pthread -std=c++11 testthreads16.cc
+g++ -o testthreads16 testthreads16.o -pthread
+g++ -c -pthread -std=c++11 testthreads17.cc ThreadZ.cc ThreadA.cc
+g++ -o testthreads17 ThreadZ.o ThreadA.o testthreads17.o -pthread

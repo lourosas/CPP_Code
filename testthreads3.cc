@@ -15,11 +15,14 @@ enum{
 void func(int threadNum, mutex& theMutex){
    thread::id id(this_thread::get_id());
    cout<<"Launched in thread "<<threadNum<<" , id: "<<hex<<id<<endl;
+   {
+   lock_guard<mutex> lg(theMutex);
    for(int i = 0; i < LOOPS; ++i){
-      lock_guard<mutex> lg(theMutex);
+      //lock_guard<mutex> lg(theMutex);
       cout<<"thread: "<<threadNum<<" id:  "<<id<<" , count = "
          <<i<<endl;
       this_thread::sleep_for(chrono::milliseconds(DELAY));
+   }
    }
 }
 
