@@ -9,9 +9,9 @@
 
 class ThreadA{
    public:
-		ThreadA();
-		~ThreadA();
-		void doWaits(std::mutex&, std::condition_variable&, ThreadZ& );
+      ThreadA();
+      ~ThreadA();
+      void doWaits(std::mutex&, std::condition_variable&, ThreadZ& );
    private:
 };
 #endif

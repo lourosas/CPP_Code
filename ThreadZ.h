@@ -8,15 +8,15 @@
 
 class ThreadZ{
    public:
-		ThreadZ();
-		~ThreadZ();
-		void doSomething(std::mutex&, std::condition_variable& );
-		int  getCount() const;
-		void setDone(bool );
+      ThreadZ();
+      ~ThreadZ();
+      void doSomething(std::mutex&, std::condition_variable& );
+      int  getCount() const;
+      void setDone(bool );
    private:
-		bool done;
-		int count;
-		enum{ DELAY = 3 };
-		void setCount(int );
+      bool done;
+      int count;
+      enum{ DELAY = 3 };
+      void setCount(int );
 };
 #endif

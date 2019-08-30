@@ -1,0 +1,5 @@
+clear
+rm testcalendar
+rm *.o
+g++ -c -std=c++11 testcalendar.cc Calendar.cc
+g++ -o testcalendar testcalendar.o Calendar.o
