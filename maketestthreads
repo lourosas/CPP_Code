@@ -50,3 +50,5 @@ g++ -c -pthread -std=c++11 testthreads16.cc
 g++ -o testthreads16 testthreads16.o -pthread
 g++ -c -pthread -std=c++11 testthreads17.cc ThreadZ.cc ThreadA.cc
 g++ -o testthreads17 ThreadZ.o ThreadA.o testthreads17.o -pthread
+g++ -c -pthread -std=c++11 testthreads18.cc ThreadB.cc
+g++ -o testthreads18 ThreadB.o testthreads18.o -pthread
