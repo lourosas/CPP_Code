@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <sstream>
 #include <vector>
+#include <stdexcept>
 #include "Calendar.h"
 
 int Calendar::daysInMonths[Calendar::MONTHS] =         {31,28,31,30,
@@ -38,7 +39,7 @@ Calendar::Calendar()
   _isLeapYear(false){}
 
 /**/
-Calendar::Calendar(std::string input)
+Calendar::Calendar(std::string input, format form)
 : _year(0),
   _month(0),
   _day(0),
@@ -48,7 +49,7 @@ Calendar::Calendar(std::string input)
   _second(0),
   _unixTime(0),
   _isLeapYear(false){
-   this->parseDate(input);
+   this->setDate(input, form);
 }
 
 /**/
@@ -98,8 +99,19 @@ std::ostream& Calendar::print(std::ostream& os) const{
 }
 
 /**/
-void Calendar::setDate(std::string input){
-   this->parseDate(input);
+void Calendar::setDate(std::string input, format form){
+   switch(form){
+      case STRING:
+         this->parseStringDate(input);
+         break;
+      case AMERICAN:
+         this->parseAmericanDate(input);
+         break;
+      case BRITISH:
+         this->parseBritishDate(input);
+         break;
+      default: ;
+   }
 }
 
 /**/
@@ -107,7 +119,16 @@ void Calendar::setTime(std::string input){}
 
 /////////////////Private Member Functions/////////////////////////////
 /**/
-void Calendar::parseDate(std::string input){
+void Calendar::parseAmericanDate(std::string input){}
+
+/**/
+void Calendar::parseBritishDate(std::string input){}
+
+/*
+String format:  "Month day, year"
+Like:  "January 1, 2019"
+*/
+void Calendar::parseStringDate(std::string input){
    std::vector<std::string> inputVect;
    //more to come on parsing the string!!!
    std::string convert = input;
@@ -120,26 +141,69 @@ void Calendar::parseDate(std::string input){
    while(iss>>indata){
       inputVect.push_back(indata);
    }
-   if(inputVect.size() > 1){
-      std::vector<std::string>::iterator it = inputVect.begin();
-      while(it != inputVect.end()){
-         std::string current = *it;
-         std::cout<<current<<std::endl;
-         //now, have to look at the data
-         //Find the Month (or try to)
-         for(int i = 0; i < (int)MONTHS; i++){
-            std::size_t found = current.find(listOfMonths[i]);
-            if(found != str::string::npos){
-         
-            }
-         }
-         ++it;
+   if(inputVect.size() < 3){
+      throw std::runtime_error(
+                            "At Least: \"Month Day, Year format!!\"");
+   }
+   std::size_t found;
+   std::string theMonth = inputVect.at(0);
+   std::string theDay   = inputVect.at(1);
+   std::string theYear  = inputVect.at(2);
+   bool isFound = false;
+   int i = 0;
+   while(!isFound && i < (int)MONTHS){
+      found = theMonth.find(listOfMonths[i]);
+      if(found != std::string::npos){
+         isFound = true;
+         this->_month = i + 1;
+      }
+      ++i;
+   }
+   found = theDay.find(",");
+   if(found != std::string::npos){
+      this->_dayOfMonth = std::stoi(theDay.substr(0,found));
+      //Somehow need to convert the day (_day which is the day in
+      //the year)!!
+   }
+   found = theYear.find(",");
+   if(found != std::string::npos){
+      this->_year = std::stoi(theYear.substr(0,found));
+   }
+   this->setIsLeapYear();
+   this->setDayOfYear();
+}
+
+/*
+Will set the _day field
+*/
+void Calendar::setDayOfYear(){
+   int totalDays = 0;
+   for(int i = 0; i < this->_month - 1; i++){
+      if(!this->isLeapYear()){
+         totalDays += Calendar::daysInMonths[i];
+      }
+      else{
+         totalDays += Calendar::daysInMonthsLeapYear[i];
       }
    }
+   totalDays += this->_dayOfMonth;
+   this->_day = totalDays;
+   std::cout<<this->_day<<std::endl;
 }
 
 /**/
-void Calendar::setIsLeapYear(bool isLeapYear){
-   this->_isLeapYear = isLeapYear;
+void Calendar::setIsLeapYear(){
+   this->_isLeapYear = false; //for now
+   if((!(this->_year % 400)) || 
+      ((this->_year % 100)   && (!(this->_year % 4)))){
+      this->_isLeapYear = true;
+   }
 }
 //////////////////////////////////////////////////////////////////////
+
+/*
+*/
+std::ostream& operator<<(std::ostream& os, const Calendar& rhs)
+{
+   return rhs.print(os);
+}
