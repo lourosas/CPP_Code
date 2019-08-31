@@ -26,8 +26,9 @@ class Calendar{
    private:
       enum{ MONTHS = 12 };
       void parseStringDate(std::string );
-      void parseAmericanDate(std::string);
-      void parseBritishDate(std::string);
+      void parseAmericanDate(std::string );
+      void parseBritishDate(std::string );
+      void parseTime(std::string );
       void setDayOfYear();
       void setIsLeapYear();
       int _year;

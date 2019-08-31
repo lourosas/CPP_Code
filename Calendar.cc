@@ -125,7 +125,7 @@ void Calendar::parseAmericanDate(std::string input){}
 void Calendar::parseBritishDate(std::string input){}
 
 /*
-String format:  "Month day, year"
+tring format:  "Month day, year"
 Like:  "January 1, 2019"
 */
 void Calendar::parseStringDate(std::string input){
@@ -135,7 +135,7 @@ void Calendar::parseStringDate(std::string input){
    for(int i = 0; i < convert.length(); i++){
       convert[i] = toupper(convert[i]);
    }
-   //try an istringstream or ostringstream...
+   //try an istringstream...
    std::istringstream iss(convert);
    std::string indata;
    while(iss>>indata){
@@ -169,8 +169,27 @@ void Calendar::parseStringDate(std::string input){
    if(found != std::string::npos){
       this->_year = std::stoi(theYear.substr(0,found));
    }
+   if(inputVect.size() > 3){
+      this->parseTime(inputVect.at(3));
+   }
    this->setIsLeapYear();
    this->setDayOfYear();
+}
+
+/**/
+void Calendar::parseTime(std::string theTime){
+   std::size_t found;
+   
+   found = theTime.find(":");
+   if(found != std::string::npos){
+      this->_hour = std::stoi(theTime.substr(0,2));
+   }
+   size_t begin = found + 1;
+   this->_minute = std::stoi(theTime.substr(begin,2));
+   found = theTime.find(":", begin);
+   if(found != std::string::npos){
+      this->_second = std::stoi(theTime.substr(found+1,2));
+   }
 }
 
 /*
@@ -188,7 +207,6 @@ void Calendar::setDayOfYear(){
    }
    totalDays += this->_dayOfMonth;
    this->_day = totalDays;
-   std::cout<<this->_day<<std::endl;
 }
 
 /**/
