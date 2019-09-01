@@ -100,17 +100,27 @@ std::ostream& Calendar::print(std::ostream& os) const{
 
 /**/
 void Calendar::setDate(std::string input, format form){
-   switch(form){
-      case STRING:
-         this->parseStringDate(input);
-         break;
-      case AMERICAN:
-         this->parseAmericanDate(input);
-         break;
-      case BRITISH:
-         this->parseBritishDate(input);
-         break;
-      default: ;
+   try{
+      switch(form){
+         case STRING:
+            this->parseStringDate(input);
+            break;
+         case AMERICAN:
+            this->parseAmericanDate(input);
+            break;
+         case BRITISH:
+            this->parseBritishDate(input);
+            break;
+         default: ;
+      }
+   }
+   catch(std::runtime_error& e){
+      std::cout<<e.what()<<std::endl<<"Calendar Reset\n";
+      this->resetCalendar();
+   }
+   catch(std::invalid_argument& e){
+      std::cout<<e.what()<<std::endl<<"Calendar Reset\n";
+      this->resetCalendar();
    }
 }
 
@@ -119,7 +129,47 @@ void Calendar::setTime(std::string input){}
 
 /////////////////Private Member Functions/////////////////////////////
 /**/
-void Calendar::parseAmericanDate(std::string input){}
+void Calendar::parseAmericanDate(std::string input){
+   std::vector<std::string> inputVect;
+   std::istringstream iss(input);
+   std::string indata;
+   std::size_t found;
+   std::size_t begin;
+   std::size_t end;
+
+   bool isFound = false;
+
+   while(iss>>indata){
+      inputVect.push_back(indata);
+   }
+
+   //Get the month/day/year first
+   std::string mdy = inputVect.at(0);
+   //will need to go ahead and setup some exception handling...
+   std::cout<<mdy<<std::endl;
+
+   //this one is going to be a little tougher...
+   //need to account for both two and one digit dates
+   //need to figure that out...
+   found = mdy.find("/");
+   if(found != std::string::npos){
+      this->_month = std::stoi(mdy.substr(0,found));
+      begin = found + 1;
+   }
+   found = mdy.find("/", begin);
+   if(found != std::string::npos){
+      int copy = found - begin;
+      this->_dayOfMonth = std::stoi(mdy.substr(begin, copy));
+      copy = mdy.length() - found - 1;
+      this->_year = std::stoi(mdy.substr(found + 1, copy));
+   }
+   //Try to parse out the time component
+   if(inputVect.size() > 1){
+      this->parseTime(inputVect.at(1));
+   }
+   this->setIsLeapYear();
+   this->setDayOfYear();
+}
 
 /**/
 void Calendar::parseBritishDate(std::string input){}
@@ -127,6 +177,7 @@ void Calendar::parseBritishDate(std::string input){}
 /*
 tring format:  "Month day, year"
 Like:  "January 1, 2019"
+TODO:  Get rid of the Magic Numbers!!!
 */
 void Calendar::parseStringDate(std::string input){
    std::vector<std::string> inputVect;
@@ -142,8 +193,9 @@ void Calendar::parseStringDate(std::string input){
       inputVect.push_back(indata);
    }
    if(inputVect.size() < 3){
-      throw std::runtime_error(
-                            "At Least: \"Month Day, Year format!!\"");
+      std::string error = "Input:  " + input;
+      error += " At Least: \"Month Day, Year format!!\" ";
+      throw std::runtime_error(error);
    }
    std::size_t found;
    std::string theMonth = inputVect.at(0);
@@ -169,6 +221,9 @@ void Calendar::parseStringDate(std::string input){
    if(found != std::string::npos){
       this->_year = std::stoi(theYear.substr(0,found));
    }
+   else{
+      this->_year = std::stoi(theYear);
+   }
    if(inputVect.size() > 3){
       this->parseTime(inputVect.at(3));
    }
@@ -176,7 +231,9 @@ void Calendar::parseStringDate(std::string input){
    this->setDayOfYear();
 }
 
-/**/
+/*
+TODO:  Get rid of the Magic Numbers!!
+*/
 void Calendar::parseTime(std::string theTime){
    std::size_t found;
    
@@ -190,6 +247,20 @@ void Calendar::parseTime(std::string theTime){
    if(found != std::string::npos){
       this->_second = std::stoi(theTime.substr(found+1,2));
    }
+}
+
+/*
+*/
+void Calendar::resetCalendar(){
+   this->_year       = 0;
+   this->_month      = 0;
+   this->_day        = 0;
+   this->_dayOfMonth = 0;
+   this->_hour       = 0;
+   this->_minute     = 0;
+   this->_second     = 0;
+   this->_unixTime   = 0;
+   this->_isLeapYear = 0;
 }
 
 /*
