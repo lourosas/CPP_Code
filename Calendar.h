@@ -18,17 +18,19 @@ class Calendar{
       ~Calendar();
       Calendar& operator=(const Calendar& );
       Calendar  operator-(const Calendar& );
+      int  dayOfYear();
       bool isLeapYear();
       std::ostream& print(std::ostream& ) const;
       void setDate(std::string, format form = STRING);
       void setTime(std::string);
    protected:
    private:
-      enum{ MONTHS = 12 };
+      enum{ ZERO = 0, ONE, TWO, THREE, MONTHS = 12 };
       void parseStringDate(std::string );
       void parseAmericanDate(std::string );
       void parseBritishDate(std::string );
       void parseTime(std::string );
+      void resetCalendar();
       void setDayOfYear();
       void setIsLeapYear();
       int _year;

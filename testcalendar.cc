@@ -10,7 +10,7 @@ int main(){
    std::cout<<cal<<std::endl;
    //cal.setDate("August 31, 2019");
    //cal.setDate("August 31, 2019, 12:18:38");
-   cal.setDate("9/1/2019", cal.AMERICAN);
+   cal.setDate("22/7/2019 12:18", cal.BRITISH);
    std::cout<<cal<<std::endl;
    return 0;
 }

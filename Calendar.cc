@@ -81,6 +81,9 @@ Calendar Calendar::operator-(const Calendar& rhs){
    return cal;
 }
 
+/**/
+int Calendar::dayOfYear(){ return this->_day; }
+
 ///////////////////Public Member Functions////////////////////////////
 /**/
 bool Calendar::isLeapYear(){ return this->_isLeapYear; }
@@ -128,14 +131,15 @@ void Calendar::setDate(std::string input, format form){
 void Calendar::setTime(std::string input){}
 
 /////////////////Private Member Functions/////////////////////////////
-/**/
+/*
+TODO:  Get Rid of Magic Numbers!!!
+*/
 void Calendar::parseAmericanDate(std::string input){
    std::vector<std::string> inputVect;
    std::istringstream iss(input);
    std::string indata;
    std::size_t found;
    std::size_t begin;
-   std::size_t end;
 
    bool isFound = false;
 
@@ -146,8 +150,6 @@ void Calendar::parseAmericanDate(std::string input){
    //Get the month/day/year first
    std::string mdy = inputVect.at(0);
    //will need to go ahead and setup some exception handling...
-   std::cout<<mdy<<std::endl;
-
    //this one is going to be a little tougher...
    //need to account for both two and one digit dates
    //need to figure that out...
@@ -172,7 +174,36 @@ void Calendar::parseAmericanDate(std::string input){
 }
 
 /**/
-void Calendar::parseBritishDate(std::string input){}
+void Calendar::parseBritishDate(std::string input){
+   std::vector<std::string> inputVect;
+   std::istringstream iss(input);
+   std::string indata;
+   std::size_t found;
+   std::size_t begin;
+
+   bool isFound = false;
+
+   while(iss>>indata){ inputVect.push_back(indata); }
+
+   //Get the day/month/year first
+   std::string dmy = inputVect.at(ZERO);
+   found = dmy.find("/");
+   if(found != std::string::npos){
+      this->_dayOfMonth = std::stoi(dmy.substr(ZERO,found));
+      begin             = found + ONE;
+   }
+   found = dmy.find("/", begin);
+   if(found != std::string::npos){
+      int copy = found - begin;
+      this->_month = std::stoi(dmy.substr(begin, copy));
+      copy = dmy.length() - found - ONE;
+      this->_year = std::stoi(dmy.substr(found+ONE, copy));
+   }
+   //Try to parse out the time component
+   if(inputVect.size() > ONE){ this->parseTime(inputVect.at(ONE)); }
+   this->setIsLeapYear();
+   this->setDayOfYear();
+}
 
 /*
 tring format:  "Month day, year"
