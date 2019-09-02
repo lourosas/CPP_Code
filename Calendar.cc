@@ -70,7 +70,15 @@ Calendar::~Calendar(){}
 ////////////////////////Operator Overloading//////////////////////////
 /**/
 Calendar& Calendar::operator=(const Calendar& rhs){
-   //More to come on this....
+   this->_year       = rhs._year;
+   this->_month      = rhs._month;
+   this->_day        = rhs._day;
+   this->_dayOfMonth = rhs._dayOfMonth;
+   this->_hour       = rhs._hour;
+   this->_minute     = rhs._minute;
+   this->_second     = rhs._second;
+   this->_unixTime   = rhs._unixTime;
+   this->_isLeapYear = rhs._isLeapYear;
    return *this;
 }
 
@@ -114,18 +122,17 @@ void Calendar::setDate(){
 /**/
 void Calendar::setDate(time_t date){
    //Pointer to the Time Structure
-   struct tm* ptm = localtime(&date);
-   this->_year = ptm->tm_year + NINETEENHUNDRED;
-   this->_month = ptm->tm_mon + ONE;
-   this->_dayOfMonth = ptm->tm_mday;
-   this->_day = ptm->tm_yday;
-   this->_hour = ptm->tm_hour;
-   this->_minute = ptm->tm_min;
-   this->_second = ptm->tm_sec;
-   //Now go ahead and convert that and set that to the
-   //_unixTime field
-   this->_unixTime = date;
+   struct tm* ptm     = localtime(&date);
+   this->_year        = ptm->tm_year + NINETEENHUNDRED;
+   this->_month       = ptm->tm_mon + ONE;
+   this->_dayOfMonth  = ptm->tm_mday;
+   this->_day         = ptm->tm_yday;
+   this->_hour        = ptm->tm_hour;
+   this->_minute      = ptm->tm_min;
+   this->_second      = ptm->tm_sec;
+
    this->setIsLeapYear();
+   this->setUnixTime();
 }
 
 /**/
@@ -161,7 +168,23 @@ void Calendar::setDate(std::string input, format form){
 }
 
 /**/
-void Calendar::setTime(std::string input){}
+void Calendar::setTime(std::string input){
+   try{
+      this->parseTime(input);
+   }
+   catch(std::invalid_argument& e){
+      std::string error = e.what();
+      error += " Calendar Reset ";
+      std::cout<<e.what()<<std::endl<<"Calendar Reset\n";
+      this->resetCalendar();
+      throw std::runtime_error(error);
+   }
+}
+
+/**/
+long Calendar::unixTime(){
+   return this->_unixTime;
+}
 
 /////////////////Private Member Functions/////////////////////////////
 /*
@@ -204,6 +227,7 @@ void Calendar::parseAmericanDate(std::string input){
    }
    this->setIsLeapYear();
    this->setDayOfYear();
+   this->setUnixTime();
 }
 
 /**/
@@ -236,6 +260,7 @@ void Calendar::parseBritishDate(std::string input){
    if(inputVect.size() > ONE){ this->parseTime(inputVect.at(ONE)); }
    this->setIsLeapYear();
    this->setDayOfYear();
+   this->setUnixTime();
 }
 
 /*
@@ -293,6 +318,7 @@ void Calendar::parseStringDate(std::string input){
    }
    this->setIsLeapYear();
    this->setDayOfYear();
+   this->setUnixTime();
 }
 
 /*
@@ -351,6 +377,24 @@ void Calendar::setIsLeapYear(){
       ((this->_year % 100)   && (!(this->_year % 4)))){
       this->_isLeapYear = true;
    }
+}
+
+
+/**/
+void Calendar::setUnixTime(){
+   //Need to create a time_t
+   //and make sure it is exactly what it needs to be...
+   struct tm _tm;
+   _tm.tm_year = this->_year - NINETEENHUNDRED;
+   _tm.tm_mon  = this->_month - ONE;
+   _tm.tm_mday = this->_dayOfMonth;
+   _tm.tm_yday = this->_day;
+   _tm.tm_hour = this->_hour;
+   _tm.tm_min  = this->_minute;
+   _tm.tm_sec  = this->_second;
+   time_t time = mktime(&_tm);
+
+   this->_unixTime = time;
 }
 //////////////////////////////////////////////////////////////////////
 

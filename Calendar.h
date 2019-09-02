@@ -24,6 +24,7 @@ class Calendar{
       void setDate(time_t ); //Set date/time to the input value
       void setDate(std::string, format form = STRING);
       void setTime(std::string);
+      long unixTime();
    protected:
    private:
       enum{
@@ -36,6 +37,7 @@ class Calendar{
       void resetCalendar();
       void setDayOfYear();
       void setIsLeapYear();
+      void setUnixTime();
       int _year;
       int _month;
       int _day;
