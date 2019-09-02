@@ -25,10 +25,11 @@ class Calendar{
       void setDate(std::string, format form = STRING);
       void setTime(std::string);
       long unixTime();
+      long unixTime() const;
    protected:
    private:
       enum{
-         ZERO = 0, ONE, TWO, THREE, MONTHS = 12,
+         ZERO = 0, ONE, TWO, THREE, MONTHS = 12, SEVENTY = 70,
          NINETEENHUNDRED = 1900 };
       void parseStringDate(std::string );
       void parseAmericanDate(std::string );

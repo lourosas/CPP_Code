@@ -86,6 +86,18 @@ Calendar& Calendar::operator=(const Calendar& rhs){
 Calendar Calendar::operator-(const Calendar& rhs){
    //More to come on this...
    Calendar cal;
+   long rhsUnixTime = rhs.unixTime();
+   time_t time = (time_t)difftime(this->_unixTime, rhsUnixTime);
+   struct tm* ptm  = gmtime(&time);
+   cal._second     = ptm->tm_sec;
+   cal._minute     = ptm->tm_min;
+   cal._hour       = ptm->tm_hour;
+   cal._dayOfMonth = ptm->tm_mday;
+   cal._month      = ptm->tm_mon;
+   cal._year       = ptm->tm_year - SEVENTY;
+   cal._day        = ptm->tm_yday;
+   
+   //cal.setDate(time);
    return cal;
 }
 
@@ -183,6 +195,11 @@ void Calendar::setTime(std::string input){
 
 /**/
 long Calendar::unixTime(){
+   return this->_unixTime;
+}
+
+/**/
+long Calendar::unixTime() const{
    return this->_unixTime;
 }
 

@@ -11,7 +11,7 @@ int main(){
    //cal.print(std::cout)<<endl;
    std::cout<<cal<<std::endl;
    try{
-      cal.setDate("September 4, 2018, 14:15:00");
+      cal.setDate("September 2, 1968, 14:15:00");
       /*
       Calendar aCal;
       std::cout<<cal<<std::endl;
@@ -45,6 +45,9 @@ int main(){
         <<"wday:  "<<ptm->tm_wday<<std::endl
         <<"yday:  "<<ptm->tm_yday<<std::endl
         <<"dst:   "<<ptm->tm_isdst<<std::endl;
+      Calendar bCal;
+      bCal = aCal - cal;
+      std::cout<<bCal<<std::endl;
    }
    catch(std::exception& e){
       std::cout<<e.what()<<std::endl;
