@@ -5,7 +5,6 @@
 #include <iomanip>
 #include <chrono>
 #include <ctime>
-#include <chrono>
 #include <string>
 #include <cstring>
 
@@ -21,11 +20,15 @@ class Calendar{
       int  dayOfYear();
       bool isLeapYear();
       std::ostream& print(std::ostream& ) const;
+      void setDate(); //Set date/time to the current date/time
+      void setDate(time_t ); //Set date/time to the input value
       void setDate(std::string, format form = STRING);
       void setTime(std::string);
    protected:
    private:
-      enum{ ZERO = 0, ONE, TWO, THREE, MONTHS = 12 };
+      enum{
+         ZERO = 0, ONE, TWO, THREE, MONTHS = 12,
+         NINETEENHUNDRED = 1900 };
       void parseStringDate(std::string );
       void parseAmericanDate(std::string );
       void parseBritishDate(std::string );

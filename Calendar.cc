@@ -101,6 +101,33 @@ std::ostream& Calendar::print(std::ostream& os) const{
    return os;
 }
 
+/*
+Set the values to the current date/time
+*/
+void Calendar::setDate(){
+   //Get the current UNIX Time:  the number of seconds since
+   //01/01/1970, 00:00:00
+   time_t aTime = time(NULL);
+   this->setDate(aTime);
+}
+
+/**/
+void Calendar::setDate(time_t date){
+   //Pointer to the Time Structure
+   struct tm* ptm = localtime(&date);
+   this->_year = ptm->tm_year + NINETEENHUNDRED;
+   this->_month = ptm->tm_mon + ONE;
+   this->_dayOfMonth = ptm->tm_mday;
+   this->_day = ptm->tm_yday;
+   this->_hour = ptm->tm_hour;
+   this->_minute = ptm->tm_min;
+   this->_second = ptm->tm_sec;
+   //Now go ahead and convert that and set that to the
+   //_unixTime field
+   this->_unixTime = date;
+   this->setIsLeapYear();
+}
+
 /**/
 void Calendar::setDate(std::string input, format form){
    try{
@@ -118,12 +145,18 @@ void Calendar::setDate(std::string input, format form){
       }
    }
    catch(std::runtime_error& e){
+      std::string error = e.what();
+      error += " Calendar Reset ";
       std::cout<<e.what()<<std::endl<<"Calendar Reset\n";
       this->resetCalendar();
+      throw std::runtime_error(error);
    }
    catch(std::invalid_argument& e){
+      std::string error = e.what();
+      error += " Calendar Reset ";
       std::cout<<e.what()<<std::endl<<"Calendar Reset\n";
       this->resetCalendar();
+      throw std::runtime_error(error);
    }
 }
 
