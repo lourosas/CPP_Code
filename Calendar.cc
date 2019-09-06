@@ -92,12 +92,27 @@ Calendar Calendar::operator-(const Calendar& rhs){
    cal._second     = ptm->tm_sec;
    cal._minute     = ptm->tm_min;
    cal._hour       = ptm->tm_hour;
-   cal._dayOfMonth = ptm->tm_mday;
+   //There is no day "0" in the month, but it needs to be
+   //accounted.
+   cal._dayOfMonth = ptm->tm_mday - ONE;
    cal._month      = ptm->tm_mon;
    cal._year       = ptm->tm_year - SEVENTY;
    cal._day        = ptm->tm_yday;
-   
+   /*
    //cal.setDate(time);
+   long days  = (long)time/86400;
+   long remainder = (long)time % 86400;
+   long hours = remainder/3600;
+   remainder = hours % 3600;
+   long mins = remainder/60;
+   long secs = remainder % 60;
+
+   cal._second = secs;
+   cal._minute = mins;
+   cal._hour   = hours;
+   cal._dayOfMonth = days;
+   cal._day    = days;
+   */
    return cal;
 }
 

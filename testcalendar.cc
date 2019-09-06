@@ -11,7 +11,10 @@ int main(){
    //cal.print(std::cout)<<endl;
    std::cout<<cal<<std::endl;
    try{
-      cal.setDate("September 2, 1968, 14:15:00");
+      //Need to change the string comparison to
+      //accomodate abbreviations
+      //cal.setDate("September 2, 1968, 14:15:00");
+      cal.setDate("September 4, 2018");
       /*
       Calendar aCal;
       std::cout<<cal<<std::endl;
@@ -27,7 +30,7 @@ int main(){
       cal.setDate(mktime(&_time));
       */
       Calendar aCal;
-      aCal.setDate();
+      aCal.setDate("September 4, 2019");
       long  calUnixTime =  cal.unixTime();
       long acalUnixTime = aCal.unixTime();
       std::cout<<cal<<std::endl<<aCal<<std::endl
