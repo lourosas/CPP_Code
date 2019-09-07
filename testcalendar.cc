@@ -14,7 +14,8 @@ int main(){
       //Need to change the string comparison to
       //accomodate abbreviations
       //cal.setDate("September 2, 1968, 14:15:00");
-      cal.setDate("September 4, 2018");
+      cal.setDate("September 1, 2018");
+      //cal.setDate("04/09/2018", Calendar::BRITISH);
       /*
       Calendar aCal;
       std::cout<<cal<<std::endl;

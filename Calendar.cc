@@ -12,6 +12,7 @@ int Calendar::daysInMonths[Calendar::MONTHS] =         {31,28,31,30,
 int Calendar::daysInMonthsLeapYear[Calendar::MONTHS] = {31,29,31,30,
                                                          31,30,31,31,
                                                          30,31,30,31};
+/*
 std::string Calendar::listOfMonths[Calendar::MONTHS] = {"JANUARY",
                                                         "FEBRUARY",
                                                         "MARCH",
@@ -24,6 +25,20 @@ std::string Calendar::listOfMonths[Calendar::MONTHS] = {"JANUARY",
                                                         "OCTOBER",
                                                         "NOVEMBER",
                                                         "DECEMBER"};
+*/
+
+std::string Calendar::listOfMonths[Calendar::MONTHS] = {"JAN",
+                                                        "FEB",
+                                                        "MAR",
+                                                        "APR",
+                                                        "MAY",
+                                                        "JUN",
+                                                        "JUL",
+                                                        "AUG",
+                                                        "SEP",
+                                                        "OCT",
+                                                        "NOV",
+                                                        "DEC"};
 
 
 /**/
@@ -50,6 +65,20 @@ Calendar::Calendar(std::string input, format form)
   _unixTime(0),
   _isLeapYear(false){
    this->setDate(input, form);
+}
+
+/**/
+Calendar::Calendar(time_t date, setting set)
+: _year(0),
+  _month(0),
+  _day(0),
+  _dayOfMonth(0),
+  _hour(0),
+  _minute(0),
+  _second(0),
+  _unixTime(0),
+  _isLeapYear(false){
+   this->setDate(date, set);
 }
 
 /**/
@@ -84,35 +113,12 @@ Calendar& Calendar::operator=(const Calendar& rhs){
 
 /**/
 Calendar Calendar::operator-(const Calendar& rhs){
+   //Calendar cal;
    //More to come on this...
-   Calendar cal;
    long rhsUnixTime = rhs.unixTime();
    time_t time = (time_t)difftime(this->_unixTime, rhsUnixTime);
-   struct tm* ptm  = gmtime(&time);
-   cal._second     = ptm->tm_sec;
-   cal._minute     = ptm->tm_min;
-   cal._hour       = ptm->tm_hour;
-   //There is no day "0" in the month, but it needs to be
-   //accounted.
-   cal._dayOfMonth = ptm->tm_mday - ONE;
-   cal._month      = ptm->tm_mon;
-   cal._year       = ptm->tm_year - SEVENTY;
-   cal._day        = ptm->tm_yday;
-   /*
-   //cal.setDate(time);
-   long days  = (long)time/86400;
-   long remainder = (long)time % 86400;
-   long hours = remainder/3600;
-   remainder = hours % 3600;
-   long mins = remainder/60;
-   long secs = remainder % 60;
+   Calendar cal(time, DIFF);
 
-   cal._second = secs;
-   cal._minute = mins;
-   cal._hour   = hours;
-   cal._dayOfMonth = days;
-   cal._day    = days;
-   */
    return cal;
 }
 
@@ -147,12 +153,25 @@ void Calendar::setDate(){
 }
 
 /**/
-void Calendar::setDate(time_t date){
-   //Pointer to the Time Structure
-   struct tm* ptm     = localtime(&date);
-   this->_year        = ptm->tm_year + NINETEENHUNDRED;
-   this->_month       = ptm->tm_mon + ONE;
-   this->_dayOfMonth  = ptm->tm_mday;
+void Calendar::setDate(time_t date, setting set){
+   struct tm* ptm = NULL;
+   if(set != DIFF){
+      //Pointer to the Time Structure
+      ptm = localtime(&date);
+   }
+   else{
+      ptm = gmtime(&date);
+   }
+   if(set != DIFF){
+      this->_year        = ptm->tm_year + NINETEENHUNDRED;
+      this->_month       = ptm->tm_mon + ONE;
+      this->_dayOfMonth  = ptm->tm_mday;
+   }
+   else{
+      this->_year        = ptm->tm_year - SEVENTY;
+      this->_month       = ptm->tm_mon;
+      this->_dayOfMonth  = ptm->tm_mday - ONE;
+   }
    this->_day         = ptm->tm_yday;
    this->_hour        = ptm->tm_hour;
    this->_minute      = ptm->tm_min;

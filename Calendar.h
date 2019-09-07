@@ -11,8 +11,10 @@
 class Calendar{
    public:
       enum format{STRING, AMERICAN, BRITISH};
+      enum setting{ NORMAL, DIFF };
       Calendar();
       Calendar(std::string, format form = STRING );
+      Calendar(time_t , setting set = NORMAL);
       Calendar(const Calendar& );
       ~Calendar();
       Calendar& operator=(const Calendar& );
@@ -21,7 +23,8 @@ class Calendar{
       bool isLeapYear();
       std::ostream& print(std::ostream& ) const;
       void setDate(); //Set date/time to the current date/time
-      void setDate(time_t ); //Set date/time to the input value
+      //Set date/time to input value
+      void setDate(time_t, setting set = NORMAL ); 
       void setDate(std::string, format form = STRING);
       void setTime(std::string);
       long unixTime();
