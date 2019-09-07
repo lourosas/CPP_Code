@@ -14,7 +14,7 @@ int main(){
       //Need to change the string comparison to
       //accomodate abbreviations
       //cal.setDate("September 2, 1968, 14:15:00");
-      cal.setDate("September 1, 2018");
+      cal.setDate("September 1, 2018 12:20:30");
       //cal.setDate("04/09/2018", Calendar::BRITISH);
       /*
       Calendar aCal;
@@ -31,7 +31,7 @@ int main(){
       cal.setDate(mktime(&_time));
       */
       Calendar aCal;
-      aCal.setDate("September 4, 2019");
+      aCal.setDate("September 4, 2019 13:20:31");
       long  calUnixTime =  cal.unixTime();
       long acalUnixTime = aCal.unixTime();
       std::cout<<cal<<std::endl<<aCal<<std::endl

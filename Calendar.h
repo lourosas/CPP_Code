@@ -19,13 +19,21 @@ class Calendar{
       ~Calendar();
       Calendar& operator=(const Calendar& );
       Calendar  operator-(const Calendar& );
-      int  dayOfYear();
-      bool isLeapYear();
+      int  dayOfMonth() const;
+      int  dayOfYear() const;
+      int  hour() const;
+      bool isLeapYear() const;
+      int  minute() const;
+      int  month() const;
+      int  second() const;
+      int  year() const;
       std::ostream& print(std::ostream& ) const;
       void setDate(); //Set date/time to the current date/time
       //Set date/time to input value
       void setDate(time_t, setting set = NORMAL ); 
+      //Throws: runtime_error, invalid_argument
       void setDate(std::string, format form = STRING);
+      //Throws: runtime_error
       void setTime(std::string);
       long unixTime();
       long unixTime() const;
@@ -34,6 +42,7 @@ class Calendar{
       enum{
          ZERO = 0, ONE, TWO, THREE, MONTHS = 12, SEVENTY = 70,
          NINETEENHUNDRED = 1900 };
+      //Throws:  runtime_error
       void parseStringDate(std::string );
       void parseAmericanDate(std::string );
       void parseBritishDate(std::string );

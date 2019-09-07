@@ -122,13 +122,30 @@ Calendar Calendar::operator-(const Calendar& rhs){
    return cal;
 }
 
-/**/
-int Calendar::dayOfYear(){ return this->_day; }
-
 ///////////////////Public Member Functions////////////////////////////
 /**/
-bool Calendar::isLeapYear(){ return this->_isLeapYear; }
+int  Calendar::dayOfMonth() const{ return this->_dayOfMonth; }
 
+/**/
+int  Calendar::dayOfYear() const{ return this->_day; }
+
+/**/
+int  Calendar::hour() const{ return this->_hour; }
+
+/**/
+bool Calendar::isLeapYear() const{ return this->_isLeapYear; }
+
+/**/
+int  Calendar::minute() const{ return this->_minute; }
+
+/**/
+int  Calendar::month() const{ return this->_month; }
+
+/**/
+int  Calendar::second() const{ return this->_second; }
+
+/**/
+int  Calendar::year() const{ return this->_year; }
 /**/
 std::ostream& Calendar::print(std::ostream& os) const{
    //This will need to change to some kind of "default format"
@@ -181,7 +198,9 @@ void Calendar::setDate(time_t date, setting set){
    this->setUnixTime();
 }
 
-/**/
+/*
+Throws:  runtime_error, invalid_argument
+*/
 void Calendar::setDate(std::string input, format form){
    try{
       switch(form){
@@ -213,7 +232,9 @@ void Calendar::setDate(std::string input, format form){
    }
 }
 
-/**/
+/*
+Throws:  runtime_error
+*/
 void Calendar::setTime(std::string input){
    try{
       this->parseTime(input);
@@ -315,9 +336,10 @@ void Calendar::parseBritishDate(std::string input){
 }
 
 /*
-tring format:  "Month day, year"
+string format:  "Month day, year"
 Like:  "January 1, 2019"
 TODO:  Get rid of the Magic Numbers!!!
+Throws:  runtime_error
 */
 void Calendar::parseStringDate(std::string input){
    std::vector<std::string> inputVect;
