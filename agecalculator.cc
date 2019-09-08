@@ -11,27 +11,49 @@ std::string name;
 
 void playDate()
 {
+   bool errorFound;
+   int  badCount = 0;
    Calendar date;
    Calendar current;
    char cBday[256];
    std::string bday;
-   std::cout<<"\n\nEnter your birthdate in 'Month, Day Year' "
-      <<"format: (Like January 1, 2001)\n";
-   std::cin.getline(cBday, 256);
-   bday = cBday;
-   try
-   {
-      date.setDate(bday);
-      current.setDate();
-      Calendar currentLength = current - date;
-      std::cout<<std::endl<<name<<std::endl
-         <<"You have been alive:  "<<currentLength.year()<<" years, "
-         <<currentLength.dayOfYear()<<" days, "<<currentLength.hour()
-         <<" hours, "<<currentLength.minute()<<" minutes, "
-         <<currentLength.second()<<" seconds\n";
+   do{
+      errorFound = false;
+      try
+      {
+         std::cout<<"\n\nEnter your birthdate in 'Month, Day Year' "
+           <<"format: (Like January 1, 2001)\n";
+         std::cin.getline(cBday, 256);
+         bday = cBday;
+         date.setDate(bday);
+         current.setDate();
+         Calendar currentLength = current - date;
+         std::cout<<std::endl<<name
+           <<", you have been alive for:  "<<currentLength.year()
+           <<" years, "
+           <<currentLength.dayOfYear()<<" days, "
+           <<currentLength.hour()
+           <<" hours, "<<currentLength.minute()<<" minutes, "
+           <<currentLength.second()<<" seconds\n";
+         badCount = 0;
+      }
+      catch(std::runtime_error& e){
+         std::cout<<"Please enter the date in the approriate format "
+           <<"with a Month, Day and Year\n\n";
+         ++badCount;
+         errorFound = true;
+      }
+      catch(std::invalid_argument& e){
+         std::cout<<"Please enter the date in the approriate format "
+           <<"with a Month, Day and Year\n\n";
+         ++badCount;
+         errorFound = true;
+      }
+   }while(errorFound && badCount < 3);
+   if(badCount){
+      std::cout<<"\n\nIt appears you are having trouble entering your "
+        <<"birthday, exiting\n\n";
    }
-   catch(std::runtime_error& e){  }
-   catch(std::invalid_argument& e){ }
 }
 
 void splashScreen()

@@ -12,20 +12,6 @@ int Calendar::daysInMonths[Calendar::MONTHS] =         {31,28,31,30,
 int Calendar::daysInMonthsLeapYear[Calendar::MONTHS] = {31,29,31,30,
                                                          31,30,31,31,
                                                          30,31,30,31};
-/*
-std::string Calendar::listOfMonths[Calendar::MONTHS] = {"JANUARY",
-                                                        "FEBRUARY",
-                                                        "MARCH",
-                                                        "APRIL",
-                                                        "MAY",
-                                                        "JUNE",
-                                                        "JULY",
-                                                        "AUGUST",
-                                                        "SEPTEMBER",
-                                                        "OCTOBER",
-                                                        "NOVEMBER",
-                                                        "DECEMBER"};
-*/
 
 std::string Calendar::listOfMonths[Calendar::MONTHS] = {"JAN",
                                                         "FEB",
@@ -294,12 +280,28 @@ void Calendar::parseAmericanDate(std::string input){
       this->_year = std::stoi(mdy.substr(found + 1, copy));
    }
    //Try to parse out the time component
-   if(inputVect.size() > 1){
-      this->parseTime(inputVect.at(1));
+   if(inputVect.size() > ONE){
+      this->parseTime(inputVect.at(ONE));
    }
    this->setIsLeapYear();
    this->setDayOfYear();
    this->setUnixTime();
+   if(this->isLeapYear()){
+      if(this->dayOfMonth() > daysInMonthsLeapYear[this->month()-1]){
+         std::string error("There are not ");
+         error += std::to_string(this->dayOfMonth());
+         error += " days in "+ listOfMonths[this->month()-1];
+         throw std::runtime_error(error);
+      }
+   }
+   else{
+      if(this->dayOfMonth() > daysInMonths[this->month()-1]){
+         std::string error("There are not ");
+         error += std::to_string(this->dayOfMonth());
+         error += " days in "+ listOfMonths[this->month()-1];
+         throw std::runtime_error(error);
+      }
+   }
 }
 
 /**/
@@ -392,6 +394,22 @@ void Calendar::parseStringDate(std::string input){
    this->setIsLeapYear();
    this->setDayOfYear();
    this->setUnixTime();
+   if(this->isLeapYear()){
+      if(this->dayOfMonth() > daysInMonthsLeapYear[this->month()-1]){
+         std::string error("There are not ");
+         error += std::to_string(this->dayOfMonth());
+         error += " days in "+ listOfMonths[this->month()-1];
+         throw std::runtime_error(error);
+      }
+   }
+   else{
+      if(this->dayOfMonth() > daysInMonths[this->month()-1]){
+         std::string error("There are not ");
+         error += std::to_string(this->dayOfMonth());
+         error += " days in "+ listOfMonths[this->month()-1];
+         throw std::runtime_error(error);
+      }
+   }
 }
 
 /*
