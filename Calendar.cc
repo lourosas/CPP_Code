@@ -163,7 +163,8 @@ void Calendar::setDate(time_t date, setting set){
       ptm = localtime(&date);
    }
    else{
-      std::cout<<std::hex<<"date:  "<<date<<std::endl;
+      std::cout<<std::hex<<"date:  "<<date<<std::endl
+         <<sizeof(time_t)<<std::endl<<std::endl;
       ptm = gmtime(&date);
    }
    if(set != DIFF){
