@@ -102,9 +102,8 @@ Calendar Calendar::operator-(const Calendar& rhs){
    //Calendar cal;
    //More to come on this...
    long rhsUnixTime = rhs.unixTime();
-   time_t time = (time_t)difftime(this->_unixTime, rhsUnixTime);
+   time_t time=(time_t)difftime((time_t)this->_unixTime,rhsUnixTime);
    Calendar cal(time, DIFF);
-
    return cal;
 }
 
@@ -163,8 +162,6 @@ void Calendar::setDate(time_t date, setting set){
       ptm = localtime(&date);
    }
    else{
-      std::cout<<std::hex<<"date:  "<<date<<std::endl
-         <<sizeof(time_t)<<std::endl<<std::endl;
       ptm = gmtime(&date);
    }
    if(set != DIFF){
@@ -172,22 +169,20 @@ void Calendar::setDate(time_t date, setting set){
       this->_month       = ptm->tm_mon + ONE;
       this->_dayOfMonth  = ptm->tm_mday;
       this->setIsLeapYear();
-      this->setUnixTime();
    }
    else{
       this->_year        = ptm->tm_year - SEVENTY;
       this->_month       = ptm->tm_mon;
       this->_dayOfMonth  = ptm->tm_mday - ONE;
-      //Setting the Unix time in getting the difference between two
-      //dates will not work as intended, what is really desired is
-      //to save the Unix time, regardless
-      this->_unixTime    = date;
    }
    this->_day         = ptm->tm_yday;
    this->_hour        = ptm->tm_hour;
    this->_minute      = ptm->tm_min;
    this->_second      = ptm->tm_sec;
-
+   //Set the Unix time via the Member Function
+   this->setUnixTime();
+   //Try to avoid the direct set
+   //this->_unixTime = date;
 }
 
 /*
@@ -381,6 +376,10 @@ void Calendar::parseStringDate(std::string input){
       }
       ++i;
    }
+   if(!isFound){
+      std::string s = theMonth + " does not exist! Please try again";
+      throw std::runtime_error(s);
+   }
    found = theDay.find(",");
    if(found != std::string::npos){
       this->_dayOfMonth = std::stoi(theDay.substr(0,found));
@@ -489,6 +488,7 @@ void Calendar::setUnixTime(){
    _tm.tm_hour = this->_hour;
    _tm.tm_min  = this->_minute;
    _tm.tm_sec  = this->_second;
+
    time_t time = mktime(&_tm);
 
    this->_unixTime = time;

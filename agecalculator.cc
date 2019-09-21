@@ -36,9 +36,6 @@ void playDate()
            <<" hours, "<<currentLength.minute()<<" minutes, "
            <<currentLength.second()<<" seconds\n";
          badCount = 0;
-         std::cout<<date.unixTime()<<std::endl;
-         std::cout<<current.unixTime()<<std::endl;
-         std::cout<<std::hex<<currentLength.unixTime()<<std::endl;
       }
       catch(std::runtime_error& e){
          std::cout<<"Please enter the date in the approriate format "
