@@ -1,0 +1,5 @@
+clear
+rm agecalculator
+rm *.o
+g++ -c -std=c++11 agecalculator.cc Calendar.cc
+g++ -o agecalculator agecalculator.o Calendar.o
