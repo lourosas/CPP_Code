@@ -357,17 +357,45 @@ void Calendar::parseStringDate(std::string input){
    while(iss>>indata){
       inputVect.push_back(indata);
    }
+   std::vector<std::string>::iterator iter = inputVect.begin();
+   while(iter != inputVect.end()){
+      ++iter;
+   }
+   /*
+   if(inputVect.size() == 2){
+      throw std::runtime_error("poop");
+   }
    if(inputVect.size() < 3){
       std::string error = "Input:  " + input;
       error += " At Least: \"Month Day, Year format!!\" ";
       throw std::runtime_error(error);
    }
+   */
    std::size_t found;
    std::string theMonth = inputVect.at(0);
    std::string theDay   = inputVect.at(1);
-   std::string theYear  = inputVect.at(2);
-   bool isFound = false;
-   int i = 0;
+   std::string theYear;
+   char* day = new char[theDay.length() + 1];
+   std::strcpy(day, theDay.c_str());
+   char* p = strtok(day,",");
+   int loopcounter = 0;
+   while(p != NULL){
+      if(!loopcounter){
+         theDay = p;
+      }
+      else{
+         theYear = p;
+      }
+      p = strtok(NULL,",");
+      ++loopcounter;
+   }
+   if(loopcounter < 2){
+      theYear = inputVect.at(2);
+   }
+   //std::cout<<theDay<<std::endl<<theYear<<std::endl;
+   delete [] day;
+   bool isFound         = false;
+   int i                = 0;
    while(!isFound && i < (int)MONTHS){
       found = theMonth.find(listOfMonths[i]);
       if(found != std::string::npos){
