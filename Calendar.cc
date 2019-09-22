@@ -313,7 +313,7 @@ void Calendar::parseBritishDate(std::string input){
    std::size_t found;
    std::size_t begin;
 
-   bool isFound = false;
+   bool isFound  = false;
 
    while(iss>>indata){ inputVect.push_back(indata); }
 
@@ -345,6 +345,7 @@ TODO:  Get rid of the Magic Numbers!!!
 Throws:  runtime_error
 */
 void Calendar::parseStringDate(std::string input){
+   bool parseTime = false;
    std::vector<std::string> inputVect;
    //more to come on parsing the string!!!
    std::string convert = input;
@@ -359,6 +360,11 @@ void Calendar::parseStringDate(std::string input){
    }
    std::vector<std::string>::iterator iter = inputVect.begin();
    while(iter != inputVect.end()){
+      std::string data = *iter;
+      size_t found = data.find(":");
+      if(found != std::string::npos){
+         parseTime = true;
+      }
       ++iter;
    }
    /*
@@ -392,7 +398,6 @@ void Calendar::parseStringDate(std::string input){
    if(loopcounter < 2){
       theYear = inputVect.at(2);
    }
-   //std::cout<<theDay<<std::endl<<theYear<<std::endl;
    delete [] day;
    bool isFound         = false;
    int i                = 0;
@@ -421,8 +426,8 @@ void Calendar::parseStringDate(std::string input){
    else{
       this->_year = std::stoi(theYear);
    }
-   if(inputVect.size() > 3){
-      this->parseTime(inputVect.at(3));
+   if(parseTime){
+      this->parseTime(inputVect.at(inputVect.size()-1));
    }
    this->setIsLeapYear();
    this->setDayOfYear();
