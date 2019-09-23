@@ -399,8 +399,8 @@ void Calendar::parseStringDate(std::string input){
       theYear = inputVect.at(2);
    }
    delete [] day;
-   bool isFound         = false;
-   int i                = 0;
+   bool isFound = false;
+   int i        = 0;
    while(!isFound && i < (int)MONTHS){
       found = theMonth.find(listOfMonths[i]);
       if(found != std::string::npos){
@@ -413,19 +413,8 @@ void Calendar::parseStringDate(std::string input){
       std::string s = theMonth + " does not exist! Please try again";
       throw std::runtime_error(s);
    }
-   found = theDay.find(",");
-   if(found != std::string::npos){
-      this->_dayOfMonth = std::stoi(theDay.substr(0,found));
-      //Somehow need to convert the day (_day which is the day in
-      //the year)!!
-   }
-   found = theYear.find(",");
-   if(found != std::string::npos){
-      this->_year = std::stoi(theYear.substr(0,found));
-   }
-   else{
-      this->_year = std::stoi(theYear);
-   }
+   this->_dayOfMonth = std::stoi(theDay);
+   this->_year = std::stoi(theYear);
    if(parseTime){
       this->parseTime(inputVect.at(inputVect.size()-1));
    }
