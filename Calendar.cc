@@ -367,38 +367,31 @@ void Calendar::parseStringDate(std::string input){
       }
       ++iter;
    }
-   /*
-   if(inputVect.size() == 2){
-      throw std::runtime_error("poop");
-   }
-   if(inputVect.size() < 3){
-      std::string error = "Input:  " + input;
-      error += " At Least: \"Month Day, Year format!!\" ";
-      throw std::runtime_error(error);
-   }
-   */
    std::size_t found;
    std::string theMonth = inputVect.at(0);
    std::string theDay   = inputVect.at(1);
    std::string theYear;
-   char* day = new char[theDay.length() + 1];
-   std::strcpy(day, theDay.c_str());
-   char* p = strtok(day,",");
-   int loopcounter = 0;
-   while(p != NULL){
-      if(!loopcounter){
-         theDay = p;
-      }
-      else{
-         theYear = p;
-      }
-      p = strtok(NULL,",");
-      ++loopcounter;
-   }
-   if(loopcounter < 2){
+   //new part of the algorithm...
+   if(inputVect.size() >= 3){
       theYear = inputVect.at(2);
    }
-   delete [] day;
+   else{
+      char* day = new char[theDay.length() + 1];
+      std::strcpy(day, theDay.c_str());
+      char* p = strtok(day, ",");
+      int loopcounter = 0;
+      while(p){
+         if(!loopcounter){
+            theDay = p;
+         }
+         else{
+            theYear = p;
+         }
+         p = strtok(NULL,",");
+         ++loopcounter;
+      }
+      delete [] day;
+   }
    bool isFound = false;
    int i        = 0;
    while(!isFound && i < (int)MONTHS){
