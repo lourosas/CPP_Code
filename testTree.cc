@@ -7,7 +7,7 @@
 int main(int argc, char* argv[]){
    std::cout<<argc<<", "<<argv[0]<<"\nHello World\n";
    Tree t;
-   for(int i = 0; i < 1; i++){
+   for(int i = 0; i < 10; i++){
       std::cout<<i<<", "<<t.insert(i)<<std::endl;
    }
 }

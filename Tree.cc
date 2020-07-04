@@ -56,10 +56,20 @@ int Tree::peek(int data){
 int Tree::insert(Node*& node, int data){
    int level = -1;
    std::cout<<"\nnode = "<<node<<std::endl;
-   node = new Node(data);
-   std::cout<<"\nnode = "<<node<<std::endl;
-   this->_size++;
-   level = this->_size;
+   if(node){
+      if(data > node->data()){
+         level = this->insert(node->right, data);
+      }
+      else if(data < node->data()){
+         level = this->insert(node->left, data);
+      }
+   }
+   else{
+      node = new Node(data);
+      std::cout<<"\nnode = "<<node<<std::endl;
+      this->_size++;
+      level = this->_size;
+   }
    return level;
 }
 

@@ -9,18 +9,24 @@
 Node::Node(int value) :
 left(NULL),
 right(NULL),
-_data(INT_MIN){}
+_data(INT_MIN){
+   this->data(value);
+}
 
 /*
 Virtual
 Need to think about this to make sure that it workd.
 */
 Node::~Node(){
-   std::cout<<"in the Node Destructor\n";
+   std::cout<<"in the Node Destructor\n"<<this->data()<<", "
+      <<this->left<<", "<<this->right
+      <<std::endl;
    if(this->left){
+      delete this->left;
       this->left = NULL;
    }
    if(this->right){
+      delete this->right;
       this->right = NULL;
    }
 }
@@ -32,7 +38,6 @@ int Node::data(){
 }
 
 /*
-Not really needed
 */
 void Node::data(int value){
    this->_data = value;
