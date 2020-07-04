@@ -8,7 +8,7 @@
 #include "Node.h"
 
 /**/
-Tree::Tree() : 
+Tree::Tree() :
 _root(NULL),
 _size(0)
 {}
@@ -55,7 +55,11 @@ int Tree::peek(int data){
 */
 int Tree::insert(Node*& node, int data){
    int level = -1;
-
+   std::cout<<"\nnode = "<<node<<std::endl;
+   node = new Node(data);
+   std::cout<<"\nnode = "<<node<<std::endl;
+   this->_size++;
+   level = this->_size;
    return level;
 }
 
@@ -71,7 +75,18 @@ int Tree::remove(Node*& node, int data){
 */
 int Tree::peek(Node* node, int data){
    int isFound = 0;
-
+   if(node){
+      if(data > node->data()){
+         isFound = this->peek(node->right, data);
+      }
+      else if(data < node->data()){
+         isFound = this->peek(node->left, data);
+      }
+      else{
+         isFound = 1;
+      }
+   }
+   std::cout<<"\nisFound = "<<isFound;
    return isFound;
 }
 

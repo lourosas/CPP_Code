@@ -16,7 +16,7 @@ Virtual
 Need to think about this to make sure that it workd.
 */
 Node::~Node(){
-   std::cout<<"in the Node Desctructor\n";
+   std::cout<<"in the Node Destructor\n";
    if(this->left){
       this->left = NULL;
    }
