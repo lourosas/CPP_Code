@@ -96,7 +96,7 @@ int Tree::peek(Node* node, int data){
          isFound = 1;
       }
    }
-   std::cout<<"\nisFound = "<<isFound;
+   std::cout<<"\nisFound = "<<isFound<<std::endl;
    return isFound;
 }
 
