@@ -55,7 +55,6 @@ int Tree::peek(int data){
 */
 int Tree::insert(Node*& node, int data){
    int level = -1;
-   std::cout<<"\nnode = "<<node<<std::endl;
    if(node){
       if(data > node->data()){
          level = this->insert(node->right, data);
@@ -66,7 +65,6 @@ int Tree::insert(Node*& node, int data){
    }
    else{
       node = new Node(data);
-      std::cout<<"\nnode = "<<node<<std::endl;
       this->_size++;
       level = this->_size;
    }
@@ -96,8 +94,18 @@ int Tree::peek(Node* node, int data){
          isFound = 1;
       }
    }
-   std::cout<<"\nisFound = "<<isFound<<std::endl;
    return isFound;
 }
 
+/*
+*/
+std::ostream& Tree::print(std::ostream& os){
+   os<<std::endl<<this->_size<<std::endl<<*(this->_root)<<std::endl;
+   return os;
+}
+///////////////////////Function Definitions///////////////////////////
+/**/
+std::ostream& operator<<(std::ostream& os, Tree& tree){
+   return tree.print(os);
+}
 //////////////////////////////////////////////////////////////////////

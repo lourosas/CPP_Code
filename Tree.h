@@ -15,6 +15,7 @@ class Tree
       int insert(int );
       int remove(int );
       int peek(int );
+      std::ostream& print(std::ostream& );
    private:
       int insert(Node*& , int );
       int remove(Node*& , int );
@@ -22,5 +23,6 @@ class Tree
       Node* _root;
       int   _size;
 };
+std::ostream& operator<<(std::ostream&, Tree& );
 #endif
 //////////////////////////////////////////////////////////////////////

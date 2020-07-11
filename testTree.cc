@@ -15,5 +15,6 @@ int main(int argc, char* argv[]){
       std::cout<<"Value = "<<value<<", "<<t.insert(value)
          <<" (size)"<<std::endl;
    }
+   std::cout<<"Tree:  "<<t;
 }
 //////////////////////////////////////////////////////////////////////
