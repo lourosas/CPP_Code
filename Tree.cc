@@ -76,15 +76,13 @@ int Tree::insert(Node*& node, int data){
 int Tree::remove(Node*& node, int data){
    int level  = -1;
    Node* temp = NULL;
-   if(node == this->_root){}//delete root
-   else{
       if(data < node->left->data()){
          level = this->remove(node->left, data);
       }
       else if(data > node->right->data()){
          level = this->remove(node->right, data)
       }
-      else if(data == node->left->data()){
+      else if(data == node->left->data() || node == this->_root){
          temp = node->left;
       }
       else if(data == node->right->data()){
@@ -101,7 +99,6 @@ int Tree::remove(Node*& node, int data){
       delete temp;
       this->size--;
       level = this->_size;
-   }
 
    return level;
 }
