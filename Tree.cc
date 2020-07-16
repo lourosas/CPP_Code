@@ -39,8 +39,9 @@ int Tree::insert(int data){
 */
 int Tree::remove(int data){
    int return_value = -1;
+   Node* parent = NULL;
    if(this->peek(data)){
-      return_value = this->remove(this->_root, data);
+      return_value = this->remove(parent, this->_root, data);
    }
    return return_value;
 }
@@ -73,33 +74,61 @@ int Tree::insert(Node*& node, int data){
 
 /*
 */
-int Tree::remove(Node*& node, int data){
+Node* Tree::maximum(Node*& node){
+   Node* y = node;
+   while(y->right){
+      node = y;
+      y = y->right;
+   }
+   return y;
+}
+
+/*
+*/
+Node* Tree::minimum(Node*& node){
+   Node* y = node;
+   while(y->left){
+      node = y;
+      y = y->left;
+   }
+   return y;
+}
+
+/*
+*/
+int Tree::remove(Node*& parent, Node*& node, int data){
    int level  = -1;
    Node* temp = NULL;
-      if(data < node->left->data()){
-         level = this->remove(node->left, data);
+   
+   if(data < node->left->data()){
+      level = this->remove(node, node->left, data);
+   }
+   else if(data > node->right->data()){
+      level = this->remove(node, node->right, data);
+   }
+   //Found the node, now time to remove
+   else{
+      if(!(node->left)){
+         this->transplant(parent, node, node->right);
       }
-      else if(data > node->right->data()){
-         level = this->remove(node->right, data)
+      else if(!(node->right)){
+         this->transplant(parent, node, node->left);
       }
-      else if(data == node->left->data() || node == this->_root){
-         temp = node->left;
+      else{
+         Node* temp_parent = node->right;
+         temp = this->minimum(temp_parent);
+         if(node->right != temp){
+            this->transplant(temp_parent, temp, temp->right);
+            temp->right = node->right;
+         }
+         this->transplant(parent, node, temp);
+         temp->left  = node->left;
       }
-      else if(data == node->right->data()){
-         temp = node->right;
-      }
-      node->left = temp->left;
-      Node* temp2 = node->right;
-      while(temp2){
-         temp2 = temp2->right;
-      }
-      temp2->right = temp->right;
-      temp->left   = NULL;
-      temp->right  = NULL;
-      delete temp;
-      this->size--;
-      level = this->_size;
-
+      node->left  = NULL;
+      node->right = NULL;
+      delete node;
+      level = --(this->_size);
+   }
    return level;
 }
 
@@ -127,6 +156,22 @@ std::ostream& Tree::print(std::ostream& os){
    os<<std::endl<<this->_size<<std::endl<<*(this->_root)<<std::endl;
    return os;
 }
+
+
+/*
+*/
+void Tree::transplant(Node*& parent, Node* x, Node* y){
+   if(!parent){
+      this->_root = y;
+   }
+   else if(parent->left == x){
+      parent->left = y;
+   }
+   else{
+      parent->right = y;
+   }
+}
+
 ///////////////////////Function Definitions///////////////////////////
 /**/
 std::ostream& operator<<(std::ostream& os, Tree& tree){
