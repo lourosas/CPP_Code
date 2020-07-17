@@ -10,7 +10,7 @@ int main(int argc, char* argv[]){
    Tree t;
    time_t timer;
    srand((unsigned)time(&timer));
-   for(int i = 0; i < 100; i++){
+   for(int i = 0; i < 20; i++){
       int value = rand() % 10000;
       std::cout<<"Value = "<<value<<", "<<t.insert(value)
          <<" (size)"<<std::endl;

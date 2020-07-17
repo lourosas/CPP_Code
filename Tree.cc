@@ -96,9 +96,12 @@ Node* Tree::minimum(Node*& node){
 
 /*
 */
-int Tree::remove(Node*& parent, Node*& node, int data){
-   int level  = -1;
-   Node* temp = NULL;
+//int Tree::remove(Node*& parent, Node*& node, int data){
+//int Tree::remove(Node*& parent, Node* node, int data){
+int Tree::remove(Node* parent, Node* node, int data){
+   int level       = -1;
+   Node* temp      = NULL;
+   Node* temp_node = NULL;
    
    if(data < node->left->data()){
       level = this->remove(node, node->left, data);
@@ -121,12 +124,19 @@ int Tree::remove(Node*& parent, Node*& node, int data){
             this->transplant(temp_parent, temp, temp->right);
             temp->right = node->right;
          }
-         this->transplant(parent, node, temp);
+         if(!parent){//Root node slightly different when moved...
+            temp_node = node;
+            this->transplant(parent, temp_node, temp);
+         }
+         else{
+            this->transplant(parent, node, temp);
+         }
          temp->left  = node->left;
       }
       node->left  = NULL;
       node->right = NULL;
       delete node;
+      node = NULL;
       level = --(this->_size);
    }
    return level;

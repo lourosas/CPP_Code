@@ -20,7 +20,9 @@ class Tree
       int insert(Node*& , int );
       Node* maximum(Node*& );
       Node* minimum(Node*& );
-      int remove(Node*&, Node*& , int );
+      int remove(Node*, Node* , int );
+      //int remove(Node*&, Node* , int );
+      //int remove(Node*&, Node*& , int );
       int peek(Node* , int );
       void transplant(Node*&, Node*, Node* );
       Node* _root;
