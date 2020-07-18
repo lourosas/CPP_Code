@@ -18,7 +18,7 @@ Virtual
 Need to think about this to make sure that it workd.
 */
 Node::~Node(){
-   std::cout<<"in the Node Destructor\n"<<this->data()<<", "
+   std::cout<<"in the Node Destructor:  "<<this->data()<<", "
       <<this->left<<", "<<this->right
       <<std::endl;
    if(this->left){

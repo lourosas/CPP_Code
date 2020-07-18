@@ -96,54 +96,6 @@ Node* Tree::minimum(Node*& node){
 
 /*
 */
-//int Tree::remove(Node*& parent, Node*& node, int data){
-//int Tree::remove(Node*& parent, Node* node, int data){
-int Tree::remove(Node* parent, Node* node, int data){
-   int level       = -1;
-   Node* temp      = NULL;
-   Node* temp_node = NULL;
-   
-   if(data < node->left->data()){
-      level = this->remove(node, node->left, data);
-   }
-   else if(data > node->right->data()){
-      level = this->remove(node, node->right, data);
-   }
-   //Found the node, now time to remove
-   else{
-      if(!(node->left)){
-         this->transplant(parent, node, node->right);
-      }
-      else if(!(node->right)){
-         this->transplant(parent, node, node->left);
-      }
-      else{
-         Node* temp_parent = node->right;
-         temp = this->minimum(temp_parent);
-         if(node->right != temp){
-            this->transplant(temp_parent, temp, temp->right);
-            temp->right = node->right;
-         }
-         if(!parent){//Root node slightly different when moved...
-            temp_node = node;
-            this->transplant(parent, temp_node, temp);
-         }
-         else{
-            this->transplant(parent, node, temp);
-         }
-         temp->left  = node->left;
-      }
-      node->left  = NULL;
-      node->right = NULL;
-      delete node;
-      node = NULL;
-      level = --(this->_size);
-   }
-   return level;
-}
-
-/*
-*/
 int Tree::peek(Node* node, int data){
    int isFound = 0;
    if(node){
@@ -159,6 +111,59 @@ int Tree::peek(Node* node, int data){
    }
    return isFound;
 }
+
+/*
+*/
+//int Tree::remove(Node*& parent, Node*& node, int data){
+//int Tree::remove(Node*& parent, Node* node, int data){
+//it is very simple--if an input needs to be changed, it NEEDS
+//to be passed by reference!!!!!
+int Tree::remove(Node* parent, Node* node, int data){
+   int level       = -1;
+   Node* temp      = NULL;
+   Node* temp_node = NULL;
+
+   if(node->data() == data){
+      if(!(node->left)){
+         this->transplant(parent, node, node->right);
+      }
+      else if(!(node->right)){
+         this->transplant(parent, node, node->left);
+      }
+      else{
+         Node* temp_parent = node->right;
+         temp = this->minimum(temp_parent);
+         if(node->right != temp){
+            this->transplant(temp_parent, temp, temp->right);
+            temp->right = node->right;
+         }
+         if(!parent){
+            temp_node = node;
+            this->transplant(parent, temp_node, temp);
+         }
+         else{
+            this->transplant(parent, node, temp);
+         }
+         temp->left = node->left;
+      }
+      node->left  = NULL;
+      node->right = NULL;
+      delete node;
+      node  = NULL;
+      level = --(this->_size);
+   }
+   else{
+      if(data < node->data()){
+         level = this->remove(node, node->left, data);
+      }
+      else{
+         level = this->remove(node, node->right, data);
+      }
+   }
+   return level;
+}
+
+
 
 /*
 */
