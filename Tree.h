@@ -18,9 +18,12 @@ class Tree
       std::ostream& print(std::ostream& );
    private:
       int insert(Node*& , int );
+      Node* max(Node* );
       Node* maximum(Node*& );
+      Node* min(Node* );
       Node* minimum(Node*& );
       int remove(Node*, Node* , int );
+      Node* remove(Node*, int );
       //int remove(Node*&, Node* , int );
       //int remove(Node*&, Node*& , int );
       int peek(Node* , int );

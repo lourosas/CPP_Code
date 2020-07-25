@@ -41,7 +41,9 @@ int Tree::remove(int data){
    int return_value = -1;
    Node* parent = NULL;
    if(this->peek(data)){
-      return_value = this->remove(parent, this->_root, data);
+      //return_value = this->remove(parent, this->_root, data);
+      this->_root = this->remove(this->_root, data);
+      return_value = this->_size;
    }
    return return_value;
 }
@@ -74,11 +76,31 @@ int Tree::insert(Node*& node, int data){
 
 /*
 */
+Node* Tree::max(Node* node){
+   Node* y = node;
+   while(y->right){
+      y = y->right;
+   }
+   return y;
+}
+
+/*
+*/
 Node* Tree::maximum(Node*& node){
    Node* y = node;
    while(y->right){
       node = y;
       y = y->right;
+   }
+   return y;
+}
+
+/*
+*/
+Node* Tree::min(Node* node){
+   Node* y = node;
+   while(y->left){
+      y = y->left;
    }
    return y;
 }
@@ -163,7 +185,50 @@ int Tree::remove(Node* parent, Node* node, int data){
    return level;
 }
 
-
+/*
+*/
+Node* Tree::remove(Node* root, int data){
+   Node* temp = NULL;
+   if(data < root->data()){
+      root->left = this->remove(root->left, data);
+   }
+   else if(data > root->data()){
+      root->right = this->remove(root->right, data);
+   }
+   else{
+      if(!(root->left)){
+         temp = root;
+         root = root->right;
+         temp->left  = NULL;
+         temp->right = NULL;
+         delete temp;
+         temp = NULL;
+         --(this->_size);
+      }
+      else if(!(root->right)){
+         temp = root;
+         root = root->left;
+         temp->left  = NULL;
+         temp->right = NULL;
+         delete temp;
+         temp = NULL;
+         --(this->_size);
+      }
+      else{
+         temp         = this->min(root->right);
+         Node* temp2  = new Node(temp->data());
+         temp2->left  = root->left;
+         temp2->right = root->right;
+         root->left   = NULL;
+         root->right  = NULL;
+         delete root;
+         root         = temp2;
+         temp2        = NULL;
+         root->right  = this->remove(root->right, temp->data());
+      }
+   }
+   return root;
+}
 
 /*
 */
