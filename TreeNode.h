@@ -8,11 +8,11 @@
 #include <iomanip>
 #include <climits>
 
-template <class T>
+template <typename T>
 class TreeNode{
    public:
-      Node(T );
-      virtual ~Node();
+      TreeNode(T );
+      virtual ~TreeNode();
       T data();
       std::ostream& print(std::ostream& );
       TreeNode<T>* left;
@@ -26,8 +26,8 @@ class TreeNode{
 //////////////////////////////////////////////////////////////////////
 /*
 */
-template <class T>
-TreeNode<T>::Node(T t) :
+template <typename T>
+TreeNode<T>::TreeNode(T t) :
 left(NULL),
 right(NULL){
    this->data(t);
@@ -36,8 +36,8 @@ right(NULL){
 /*
 Virtual
 */
-template <class T>
-TreeNode<T>::~Node(){
+template <typename T>
+TreeNode<T>::~TreeNode(){
    std::cout<<" In the TreeNode Destructor:  "<<this->data()<<", "
       <<this->left<<", "<<this->right<<std::endl;
    if(this->left){
@@ -52,14 +52,14 @@ TreeNode<T>::~Node(){
 
 /*
 */
-template <class T>
+template <typename T>
 T TreeNode<T>::data(){
    return this->_data;
 }
 
 /*
 */
-template <class T>
+template <typename T>
 std::ostream& TreeNode<T>::print(std::ostream& os){
    if(this->left){
       this->left->print(os);
@@ -73,7 +73,7 @@ std::ostream& TreeNode<T>::print(std::ostream& os){
 
 /*
 */
-template <class T>
+template <typename T>
 std::ostream& operator<<(std::ostream& os, TreeNode<T>& node){
    return node.print(os);
 }
