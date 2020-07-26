@@ -11,6 +11,7 @@
 template <typename T>
 class TreeNode{
    public:
+      TreeNode();
       TreeNode(T );
       virtual ~TreeNode();
       T data();
@@ -24,6 +25,13 @@ class TreeNode{
 
 
 //////////////////////////////////////////////////////////////////////
+/*
+*/
+template <typename T>
+TreeNode<T>::TreeNode() :
+left(NULL),
+right(NULL){}
+
 /*
 */
 template <typename T>
@@ -76,6 +84,12 @@ std::ostream& TreeNode<T>::print(std::ostream& os){
 template <typename T>
 std::ostream& operator<<(std::ostream& os, TreeNode<T>& node){
    return node.print(os);
+}
+
+//////////////////////////Private Member Functions////////////////////
+template <typename T>
+void TreeNode<T>::data(T t){
+   this->_data = t;
 }
 
 #endif

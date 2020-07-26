@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <string>
 #include "TreeNode.h"
 
 template <class T>
@@ -14,13 +15,13 @@ class BinaryTree
    public:
       BinaryTree();
       virtual ~BinaryTree();
-      virtual T get(T );
+      virtual TreeNode<T> get(T );
       virtual int insert(T );
       virtual int peek(T );
       virtual int remove(T );
       std::ostream& print(std::ostream& );
    private:
-      T get(TreeNode<T>* , T);
+      TreeNode<T> get(TreeNode<T>* , T);
       int insert(TreeNode<T>*&, T);
       TreeNode<T>* max(TreeNode<T>* );
       TreeNode<T>* maximum(TreeNode<T>*& );
@@ -46,16 +47,25 @@ _size(0){}
 Virtual
 */
 template <typename T>
-BinaryTree<T>::~BinaryTree(){}
+BinaryTree<T>::~BinaryTree(){
+   std::cout<<"\nIn the BinaryTree destructor\n";
+   if(this->_root){
+      delete this->_root;
+   }
+}
 
 /*
 Virtual
+Throws:  std::string...
 */
 template <typename T>
-T BinaryTree<T>::get(T t){
-   T returnValue;
-
-   returnValue;
+TreeNode<T> BinaryTree<T>::get(T t){
+   TreeNode<T> returnValue;
+   if(this->peek(t)){
+      returnValue = this->get(this->_root, t);
+      return returnValue;
+   }
+   throw(std::string("get():  Value not found"));
 }
 
 /*
@@ -63,8 +73,12 @@ Virtual
 */
 template <typename T>
 int BinaryTree<T>::insert(T t){
-   int return_value = 0;
-   return return_value;
+   int returnValue = -1;
+   if(!(this->peek(t))){
+      returnValue = this->insert(this->_root, t);
+      return returnValue;
+   }
+   throw(std::string("insert():  value already in the Tree"));
 }
 
 /*
@@ -72,24 +86,34 @@ Virtual
 */
 template <typename T>
 int BinaryTree<T>::peek(T t){
-   return 0;
+   return this->peek(this->_root, t);
 }
 
 /*
 Virtual
+Throws:  std::string...
 */
 template <typename T>
 int BinaryTree<T>::remove(T t){
-   int return_value = 0;
-
-   return return_value;
+   int return_value = -1;
+   if(this->peek(t)){
+      this->_root = this->remove(this->_root, t);
+      return_value = this->_size;
+      return return_value;
+   }
+   throw(std::string("remove():  value not in tree to remove"));
 }
 
 /*
 */
 template <typename T>
 std::ostream& BinaryTree<T>::print(std::ostream& os){
-   os<<std::endl<<this->_size<<std::endl<<*(this->_root)<<std::endl;
+   if(this->_root){
+      os<<std::endl<<this->_size<<std::endl<<*(this->_root)<<std::endl;
+   }
+   else{
+      os<<std::endl<<this->_size<<std::endl<<this->_root<<std::endl;
+   }
    return os;
 }
 
@@ -97,8 +121,19 @@ std::ostream& BinaryTree<T>::print(std::ostream& os){
 /*
 */
 template <typename T>
-T BinaryTree<T>::get(TreeNode<T>* node, T t){
-   T value;
+TreeNode<T> BinaryTree<T>::get(TreeNode<T>* node, T t){
+   TreeNode<T> value;
+   if(node){
+      if(t > node->data()){
+         value = this->get(node->right, t);
+      }
+      else if(t < node->data()){
+         value = this->get(node->left, t);
+      }
+      else{
+         value = *node;
+      }
+   }
    return value;
 }
 
@@ -107,6 +142,19 @@ T BinaryTree<T>::get(TreeNode<T>* node, T t){
 template <typename T>
 int BinaryTree<T>::insert(TreeNode<T>*& node, T t){
    int returnValue = -1;
+   if(node){
+      if(t > node->data()){
+         returnValue = this->insert(node->right, t);
+      }
+      else if(t < node->data()){
+         returnValue = this->insert(node->left, t);
+      }
+   }
+   else{
+      node = new TreeNode<T>(t);
+      ++(this->_size);
+      returnValue = this->_size;
+   }
    return returnValue;
 }
 
