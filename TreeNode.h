@@ -46,7 +46,7 @@ TreeNode<T>::~TreeNode(){
    }
    if(this->right){
       delete this->right;
-      this=>right = NULL;
+      this->right = NULL;
    }
 }
 
