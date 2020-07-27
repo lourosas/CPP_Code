@@ -37,6 +37,12 @@ int Tree::insert(int data){
 
 /*
 */
+int Tree::peek(int data){
+   return this->peek(this->_root, data);
+}
+
+/*
+*/
 int Tree::remove(int data){
    int return_value = -1;
    Node* parent = NULL;
@@ -46,12 +52,6 @@ int Tree::remove(int data){
       return_value = this->_size;
    }
    return return_value;
-}
-
-/*
-*/
-int Tree::peek(int data){
-   return this->peek(this->_root, data);
 }
 
 /*

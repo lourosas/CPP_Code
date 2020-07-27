@@ -70,6 +70,7 @@ TreeNode<T> BinaryTree<T>::get(T t){
 
 /*
 Virtual
+Throws:  std::string...
 */
 template <typename T>
 int BinaryTree<T>::insert(T t){
@@ -162,28 +163,45 @@ int BinaryTree<T>::insert(TreeNode<T>*& node, T t){
 */
 template <typename T>
 TreeNode<T>* BinaryTree<T>::max(TreeNode<T>* node){
-   return NULL;
+   TreeNode<T>* y = node;
+   while(y->right){
+      y = y->right;
+   }
+   return y;
 }
 
 /*
 */
 template <typename T>
 TreeNode<T>* BinaryTree<T>::maximum(TreeNode<T>*& node){
-   return NULL;
+   TreeNode<T>* y = node;
+   while(y->right){
+      node = y;
+      y = y->right;
+   }
+   return y;
 }
 
 /*
 */
 template <typename T>
 TreeNode<T>* BinaryTree<T>::min(TreeNode<T>* node){
-   return NULL;
+   TreeNode<T>* y = node;
+   while(y->left){
+      y = y->left;
+   }
+   return y;
 }
 
 /*
 */
 template <typename T>
 TreeNode<T>* BinaryTree<T>::minimum(TreeNode<T>*& node){
-   return NULL;
+   TreeNode<T>* y = node;
+   while(y->left){
+      node = y;
+      y = y->left;
+   }
 }
 
 /*
@@ -191,14 +209,65 @@ TreeNode<T>* BinaryTree<T>::minimum(TreeNode<T>*& node){
 template <typename T>
 int BinaryTree<T>::peek(TreeNode<T>* node, T t){
    int isFound = 0;
+   if(node){
+      if(t > node->data()){
+         isFound = this->peek(node->right, t);
+      }
+      else if(t < node->data()){
+         isFound = this->peek(node->left, t);
+      }
+      else{
+         isFound = 1;
+      }
+   }
    return isFound;
 }
 
 /*
 */
 template <typename T>
-int BinaryTree<T>::remove(TreeNode<T>* parent,TreeNode<T>* root,T t){
-   int value = -1;
+int BinaryTree<T>::remove(TreeNode<T>* parent,TreeNode<T>* node,T t){
+   int           value     = -1;
+   TreeNode<T>*  temp      = NULL;
+   TreeNode<T>*  temp_node = NULL;
+
+   if(node->data() == t){
+      if(!(node->left)){
+         this->transplant(parent, node, node->right);
+      }
+      else if(!(node->right)){
+         this->transplant(parent, node, node->left);
+      }
+      else{
+         TreeNode<T>* temp_parent = node->right;
+         temp = this->minimum(temp_parent);
+         if(node->right != temp){
+            this->transplant(temp_parent, temp, temp->right);
+            temp->right = node->right;
+         }
+         if(!parent){
+            temp_node = node;
+            this->transplant(parent, node, temp);
+         }
+         else{
+            this->transplant(parent, node, temp);
+         }
+         temp->left = node->left;
+      }
+      node->left  = NULL;
+      node->right = NULL;
+      delete node;
+      node = NULL;
+      value = --(this->_size);
+   }
+   else{
+      if(t < node->data()){
+         value = this->remove(node, node->left, t);
+      }
+      else{
+         value = this->remove(node, node->right, t);
+      }
+   }
    return value;
 }
 
@@ -206,7 +275,47 @@ int BinaryTree<T>::remove(TreeNode<T>* parent,TreeNode<T>* root,T t){
 */
 template <typename T>
 TreeNode<T>* BinaryTree<T>::remove(TreeNode<T>* root, T t){
-   return NULL;
+   TreeNode<T>* temp = NULL;
+   if(t < root->data()){
+      root->left = this->remove(root->left, t);
+   }
+   else if(t > root->data()){
+      root->right = this->remove(root->right, t);
+   }
+   else{
+      if(!(root->left)){
+         temp = root;
+         root = root->right;
+         temp->left  = NULL;
+         temp->right = NULL;
+         delete temp;
+         temp = NULL;
+         --(this->_size);
+      }
+      else if(!(root->right)){
+         temp = root;
+         root = root->left;
+         temp->left  = NULL;
+         temp->right = NULL;
+         delete temp;
+         temp = NULL;
+         --(this->_size);
+         
+      }
+      else{
+         temp                = this->min(root->right);
+         TreeNode<T>*  temp2 = new TreeNode<T>(temp->data());
+         temp2->left         = root->left;
+         temp2->right        = root->right;
+         root->left          = NULL;
+         root->right         = NULL;
+         delete root;
+         root                = temp2;
+         temp2               = NULL;
+         root->right         = this->remove(root->right,temp->data());
+      }
+   }
+   return root;
 }
 
 /*
@@ -217,7 +326,17 @@ void BinaryTree<T>::transplant
    TreeNode<T>*& parent,
    TreeNode<T>* x,
    TreeNode<T>* y
-){}
+){
+   if(!parent){
+      this->_root = y;
+   }
+   else if(parent->left = x){
+      parent->left = y;
+   }
+   else{
+      parent->right = y;
+   }
+}
 
 //////////////////////////////////////////////////////////////////////
 template <typename T>

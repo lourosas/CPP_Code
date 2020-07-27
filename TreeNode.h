@@ -46,7 +46,7 @@ Virtual
 */
 template <typename T>
 TreeNode<T>::~TreeNode(){
-   std::cout<<" In the TreeNode Destructor:  "<<this->data()<<", "
+   std::cout<<"In the TreeNode Destructor:  "<<this->data()<<", "
       <<this->left<<", "<<this->right<<std::endl;
    if(this->left){
       delete this->left;
@@ -74,7 +74,7 @@ std::ostream& TreeNode<T>::print(std::ostream& os){
    }
    os<<this->data()<<":";
    if(this->right){
-      this->left->print(os);
+      this->right->print(os);
    }
    return os;
 }
