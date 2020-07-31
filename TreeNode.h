@@ -13,8 +13,10 @@ class TreeNode{
    public:
       TreeNode();
       TreeNode(T );
+      TreeNode(const TreeNode<T>& );
       virtual ~TreeNode();
-      T data();
+      TreeNode<T>& operator=(const TreeNode<T>& );
+      T data() const;
       std::ostream& print(std::ostream& );
       TreeNode<T>* left;
       TreeNode<T>* right;
@@ -42,6 +44,15 @@ right(NULL){
 }
 
 /*
+*/
+template <typename T>
+TreeNode<T>::TreeNode(const TreeNode<T>& node) :
+left(NULL),
+right(NULL){
+   this->_data = node._data;
+}
+
+/*
 Virtual
 */
 template <typename T>
@@ -61,7 +72,17 @@ TreeNode<T>::~TreeNode(){
 /*
 */
 template <typename T>
-T TreeNode<T>::data(){
+TreeNode<T>& TreeNode<T>::operator=(const TreeNode<T>& node){
+   this->left  = NULL;
+   this->right = NULL;
+   this->_data = node.data();
+   return *this;
+}
+
+/*
+*/
+template <typename T>
+T TreeNode<T>::data() const{
    return this->_data;
 }
 
