@@ -10,8 +10,8 @@ int main(int argc, char* argv[]){
    BinaryTree<int> t;
    time_t timer;
    srand((unsigned)time(&timer));
-   for(int i = 0; i < 10; i++){
-      int value = rand() % 10000;
+   for(int i = 0; i < 100000; i++){
+      int value = rand() % 1000000;
       try{
          std::cout<<"Value = "<<value<<", "<<t.insert(value)
            <<" (size)"<<std::endl;
@@ -22,8 +22,8 @@ int main(int argc, char* argv[]){
    }
    std::cout<<"Tree:  "<<t<<std::endl<<std::endl;
    srand((unsigned)time(&timer));
-   for(int i = 0; i < 5; i++){
-      int value = rand() % 10000;
+   for(int i = 0; i < 90000; i++){
+      int value = rand() % 1000000;
       try{
          std::cout<<"Remove Value = "<<value<<", "<<t.remove(value)
            <<std::endl;

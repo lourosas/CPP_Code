@@ -15,10 +15,10 @@ class BinaryTree
    public:
       BinaryTree();
       virtual ~BinaryTree();
-      virtual TreeNode<T> get(T );
-      virtual int insert(T );
+      virtual TreeNode<T> get(T ); //Throws:  std::string
+      virtual int insert(T );      //Throws:  std::string
       virtual int peek(T );
-      virtual int remove(T );
+      virtual int remove(T );      //Throws:  std::string
       std::ostream& print(std::ostream& );
    private:
       TreeNode<T> get(TreeNode<T>* , T);
