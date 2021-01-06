@@ -11,14 +11,16 @@ class Timer{
       Timer();
       Timer(int );
       ~Timer();
+      void quit(int );
       void run();
       void start(int );
    private:
       void sleepTime(int );
-      private int                     _sleepTime;
-      private int                     _start;
-      private std::mutex              _mutex;
-      private std::condition_variable _cv;
+      int                     _quit;
+      int                     _sleepTime;
+      int                     _start;
+      std::mutex              _mutex;
+      std::condition_variable _cv;
 };
-#endif;
+#endif
 

@@ -1,6 +1,7 @@
 #include "Timer.h"
 
 Timer::Timer() : 
+_quit(0),
 _sleepTime(0), 
 _start(0){}
 
@@ -12,7 +13,23 @@ _start(0){
 
 Timer::~Timer(){}
 
-void Timer::run(){}
+void Timer::quit(int toQuit){
+   //Apparently, do not need anything more than this...
+   this->_quit = toQuit;  //I think it should be this simple
+}
+
+void Timer::run(){
+   while(!this->_quit){
+      std::unique_lock<std::mutex> lock(this->_mutex);
+      while(!this->_start){
+         this->_cv.wait(lock);
+      }
+      std::cout<<"\nTimer::run()\n";
+      std::this_thread::sleep_for(std::chrono::milliseconds
+                                                  (this->_sleepTime));
+      std::cout<<"\nTimer::run()\n";
+   }
+}
 
 void Timer::start(int toStart){
    std::unique_lock<std::mutex> lock(this->_mutex);
@@ -23,4 +40,8 @@ void Timer::start(int toStart){
    else{
       this->_start = toStart;
    }
+}
+
+void Timer::sleepTime(int time){
+   this->_sleepTime = time;
 }
