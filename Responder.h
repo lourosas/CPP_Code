@@ -10,7 +10,13 @@ class Responder{
    public:
       Responder();
       ~Responder();
+      void quit(int );
+      void triggerResponse()
    protected:
    private:
+      int                     _quit;
+      std::mutex              _mutex;
+      std::condition_variable _cv;
+      void respond();
 };
 #endif

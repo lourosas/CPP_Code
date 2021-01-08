@@ -12,7 +12,8 @@ class Keeper{
       Keeper();
       Keeper(Responder );
       ~Keeper();
-      void runTheSystem();
+      void quit(int );
+      void run();
       void sleepTime(int );
    protected:
    private:
