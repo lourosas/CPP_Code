@@ -28,6 +28,8 @@ void Timer::run(){
       std::this_thread::sleep_for(std::chrono::milliseconds
                                                   (this->_sleepTime));
       std::cout<<"\nTimer::run()\n";
+      while(this->_cv.wait_for(lock, std::chrono::milliseconds(1))
+            == std::cv_status::no_timeout){}
    }
 }
 
@@ -39,6 +41,7 @@ void Timer::start(int toStart){
    }
    else{
       this->_start = toStart;
+      //this->_cv.notify_one();
    }
 }
 

@@ -15,10 +15,13 @@ int main(){
    t0->start(1);
    std::this_thread::sleep_for(std::chrono::seconds(5));
    t0->quit(0);
-   std::this_thread::sleep_for(std::chrono::seconds(5));
-   t0->quit(1);
+   t0->start(0);
    std::this_thread::sleep_for(std::chrono::seconds(5));
    t0->quit(0);
+   t0->start(1);
+   std::this_thread::sleep_for(std::chrono::seconds(5));
+   t0->quit(1);
+   std::this_thread::sleep_for(std::chrono::seconds(1));
    //t0->quit(0);
    //t1->start(1);
    if(t0 != nullptr){ delete t0; }
