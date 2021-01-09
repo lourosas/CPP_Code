@@ -22,13 +22,13 @@ void Keeper::quit(int quit_){
 
 /**/
 void Keeper::run(){
+   std::unique_lock<std::mutex> lock(this->_mutex);
    while(!this->_quit){
-      std::unique_lock<std::mutex> lock(this->mutex);
-      this->_responder()->triggerResponse();
-      std::this_thread_sleep_for(
+      this->_responder.triggerResponse();
+      std::this_thread::sleep_for(
                          std::chrono::milliseconds(this->_sleepTime));
       while(this->_cv.wait_for(lock,std::chrono::microseconds(500))==
-            == std::cv_status::no_timout()){}
+            std::cv_status::no_timeout){}
    }
 }
 

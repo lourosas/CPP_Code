@@ -9,14 +9,17 @@
 class Responder{
    public:
       Responder();
+      Responder(const Responder& );
       ~Responder();
+      Responder& operator=(const Responder& );
       void quit(int );
-      void triggerResponse()
+      void triggerResponse();
    protected:
    private:
+      void respond();
       int                     _quit;
+      int                     _response;
       std::mutex              _mutex;
       std::condition_variable _cv;
-      void respond();
 };
 #endif
