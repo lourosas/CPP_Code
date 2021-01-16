@@ -45,8 +45,8 @@ void Keeper::run(){
       while(this->_cv.wait_for(lock,std::chrono::microseconds(1))==
             std::cv_status::no_timeout){}
    }
-   this->_responder->triggerResponse();
    this->_responder->quit(1);
+   this->_responder->triggerResponse();
 }
 
 /**/
