@@ -27,7 +27,23 @@ void Responder::quit(int quit){
 }
 
 /**/
-void Responder::triggerResponse(){}
+void Responder::triggerResponse(){
+   std::unique_lock<std::mutex> lock(this->_mutex);
+   this->_response = 1;
+   this->_cv.notify_one();
+}
 
 /**/
-void Responder::respond(){}
+void Responder::respond(){
+   while(!this->_quit){
+      std::unique_lock<std::mutex> lock(this->_mutex);
+      while(!this->_response){
+         this->_cv.wait(lock);
+      }
+      std::cout<<"\nConcurency Sucks in C++\n";
+      this->_response = 0;
+      while(this->_cv.wait_for(lock,std::chrono::microseconds(1))==
+            std::cv_status::no_timeout){}
+   }
+   std::cout<<"Responder::respond():quit";
+}

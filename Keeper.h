@@ -9,15 +9,15 @@
 
 class Keeper{
    public:
-      Keeper();
-      Keeper(Responder );
+      //Keeper();
+      Keeper(Responder* );
       ~Keeper();
       void quit(int );
       void run();
       void sleepTime(int );
    protected:
    private:
-      Responder               _responder;
+      Responder*              _responder;
       int                     _quit;
       int                     _sleepTime;
       std::mutex              _mutex;

@@ -1,8 +1,21 @@
 #include "Keeper.h"
+#include "Responder.h"
 
 int main(){
    std::cout<<"Hello World\n";
-   Keeper* k = new Keeper();
+   Responder* r = new Responder();
+   //Keeper* k  = new Keeper(*r);
+   Keeper* k  = new Keeper(r);
+   k->sleepTime(2000);
+   std::thread th0(&Keeper::run, k);
+   std::thread th1(&Responder::respond, r);
+   std::this_thread::sleep_for(std::chrono::seconds(10));
+   //r->triggerResponse();
+   k->quit(1);
+   r->quit(1);
+   if(r != nullptr){ delete r;}
    if(k != nullptr){ delete k; }
+   th1.join();
+   th0.join();
    return 0;
 }

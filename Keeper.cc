@@ -1,19 +1,31 @@
 #include "Keeper.h"
 
 /**/
+/*
 Keeper::Keeper() :
+_responder(0),
 _quit(0),
-_sleepTime(0){}
+_sleepTime(0)
+{}
+*/
 
 /**/
-Keeper::Keeper(Responder responder) :
+Keeper::Keeper(Responder* responder) :
+_responder(0),
 _quit(0),
-_sleepTime(0){
+_sleepTime(0)
+{
    this->_responder = responder;
 }
 
 /**/
-Keeper::~Keeper(){}
+Keeper::~Keeper(){
+   /*
+   if(this->_responder != nullptr){
+      this->_responder = nullptr;
+   }
+   */
+}
 
 /**/
 void Keeper::quit(int quit_){
@@ -22,14 +34,19 @@ void Keeper::quit(int quit_){
 
 /**/
 void Keeper::run(){
-   std::unique_lock<std::mutex> lock(this->_mutex);
    while(!this->_quit){
-      this->_responder.triggerResponse();
+      std::cout<<"\nWhat the fuck?";
+      std::unique_lock<std::mutex> lock(this->_mutex);
+      if(this->_responder != nullptr){
+         this->_responder->triggerResponse();
+      }
       std::this_thread::sleep_for(
                          std::chrono::milliseconds(this->_sleepTime));
-      while(this->_cv.wait_for(lock,std::chrono::microseconds(500))==
+      while(this->_cv.wait_for(lock,std::chrono::microseconds(1))==
             std::cv_status::no_timeout){}
    }
+   this->_responder->triggerResponse();
+   this->_responder->quit(1);
 }
 
 /**/

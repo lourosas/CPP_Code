@@ -14,9 +14,9 @@ class Responder{
       Responder& operator=(const Responder& );
       void quit(int );
       void triggerResponse();
+      void respond();
    protected:
    private:
-      void respond();
       int                     _quit;
       int                     _response;
       std::mutex              _mutex;
