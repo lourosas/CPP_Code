@@ -20,6 +20,7 @@ class Response{
       int                      _sleepTime;
       std::mutex               _mutex;
       std::condition_variable  _cv;
+      std::thread              _th;
 };
 
 #endif

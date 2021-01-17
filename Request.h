@@ -12,15 +12,16 @@ class Request{
       Request();
       virtual ~Request();
       void quit(int );
-      void run();
       void sleepTime(int);
    protected:
    private:
+      void run();
       Response*               _response;
       int                     _quit;
       int                     _sleepTime;
       std::mutex              _mutex;
       std::condition_variable _cv;
+      std::thread             _th;
 };
 
 #endif

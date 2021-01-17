@@ -1,8 +1,11 @@
 #include "Keeper.h"
 #include "Responder.h"
+#include "Request.h"
+#include "Response.h"
 
 int main(){
    std::cout<<"Hello World\n";
+   /*
    Responder* r = new Responder();
    //Keeper* k  = new Keeper(*r);
    Keeper* k  = new Keeper(r);
@@ -17,5 +20,6 @@ int main(){
    if(k != nullptr){ delete k; }
    th1.join();
    th0.join();
+   */
    return 0;
 }
