@@ -10,10 +10,10 @@
 class Request{
    public:
       Request();
-      ~Request();
-      quit(int );
-      run();
-      sleepTime(int);
+      virtual ~Request();
+      void quit(int );
+      void run();
+      void sleepTime(int);
    protected:
    private:
       Response*               _response;

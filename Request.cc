@@ -11,3 +11,12 @@ Request::Request():
 Request::~Request(){}
 
 /**/
+void Request::quit(int quit_){ this->_quit = quit_; }
+
+/**/
+void Request::run(){}
+
+/**/
+void Request::sleepTime(int sleepTime_){
+   this->_sleepTime = sleepTime_;
+}
