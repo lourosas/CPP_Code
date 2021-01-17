@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-SEQUENCEAPP = sequenceapp.o Responder.o Keeper.o
+SEQUENCEAPP = sequenceapp.o Responder.o Keeper.o Request.o Response.o
 TREEOBJS = testTree.o Node.o Tree.o
 TESTTREE2 = testTree2.o
 TIMERAPP = timerapp.o Timer.o

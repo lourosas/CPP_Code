@@ -21,5 +21,11 @@ int main(){
    th1.join();
    th0.join();
    */
+   Request* r = new Request();
+   std::thread th0(&Request::run, r);
+   std::this_thread::sleep_for(std::chrono::hours(24));
+   r->quit(1);
+   if(r != nullptr){ delete r; }
+   th0.join();
    return 0;
 }

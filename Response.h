@@ -11,16 +11,16 @@ class Response{
       Response();
       virtual ~Response();
       void quit(int );
+      void run();
       void sleepTime(int );
       void trigger();
    protected:
    private:
-      void run();
       int                      _quit;
+      int                      _triggered;
       int                      _sleepTime;
       std::mutex               _mutex;
       std::condition_variable  _cv;
-      std::thread              _th;
 };
 
 #endif
