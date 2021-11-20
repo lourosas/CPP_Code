@@ -1,0 +1,5 @@
+clear
+rm *.o
+g++ -c NodeData.cc assign1.cc
+g++ -o assign1 assign1.o NodeData.o
+ls -l

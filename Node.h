@@ -1,25 +1,16 @@
-/*********************************************************************
-*********************************************************************/
+//A generic Node Class by Lou Rosas
+//Part of the continuation of CIS 278 and my desire to create
+//a general data structure tool set.
+
 #ifndef NODE_H
 #define NODE_H
 
-#include <iostream>
-#include <iomanip>
-#include <climits>
-
+template <class Type>
 class Node
 {
    public:
-      Node(int );
-      virtual ~Node();
-      int data();
-      std::ostream& print(std::ostream& );
-      Node* left;
-      Node* right;
-   private:
-      void data(int );
-      int _data;
+      Type data;        //The actual data in the Node
+      Node<Type>* next; //Pointer to the next Node object
+                        //Default:  NULL
 };
-std::ostream& operator<<(std::ostream& , Node& );
 #endif
-//////////////////////////////////////////////////////////////////////

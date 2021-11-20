@@ -1,0 +1,5 @@
+clear
+rm *.o
+g++ -c NodeData.cc mem_manager.cc test1.cc
+g++ -o assign1 test1.o mem_manager.o NodeData.o
+ls -l

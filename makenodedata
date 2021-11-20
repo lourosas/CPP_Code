@@ -1,0 +1,4 @@
+clear
+rm *.o
+g++ -c NodeData.cc
+ls -l .
