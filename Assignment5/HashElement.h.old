@@ -1,0 +1,360 @@
+//HashElement Class
+//A generic data structures class
+//Part of the ongoing work to fulfill my desire
+//to create a generic data structure tool set
+//for everyday application development
+//This class is designed exclusively for the HastTable class
+//A class by Lou Rosas
+
+#ifndef HASH_ELEMENT_H
+#define HASH_ELEMENT_H
+
+#include "Generic.h"
+#include <iostream>
+#include <iomanip.h>
+#include <string.h>
+#include <typeinfo>
+using namespace std;
+
+template <class Key, class Data>
+class HashElement
+{
+   public:
+      //Constructor with no arguments
+      HashElement();
+
+      //Constructor setting the key and data fields
+      HashElement(const Key&, const Data& );
+
+      //Copy constructor
+      HashElement(const HashElement<Key, Data>& );
+
+      //Destructor
+      ~HashElement();
+
+      //Assignment Operator
+      HashElement<Key, Data>& operator=(const HashElement<Key, Data>& );
+
+      //Get the data field: method #1
+      void getData(Data& );
+
+      //Get the data field: method #2
+      Data& getData();
+
+      //Get the key field: method #1
+      void getKey(Key& );
+
+      //Get the key field: method #2
+      Key& getKey();
+
+      //Get the flag field
+      int getFlag();
+
+      //Set the data field
+      BOOLEAN setData(const Data& );
+
+      //Set the Key field
+      BOOLEAN setKey(const Key& );
+
+      //Set the flag field
+      BOOLEAN setFlag(int );
+
+      //The print method
+      void print();
+
+      //Simple flag values
+      //No data in the HashElement object
+      static const int EMPTY   = 0;
+      //Indicates in-valid data in the HashElement--ussually
+      //associated with a delete message in the HashTable
+      static const int DELETED = 1;
+      //Indicates valid data in the HashElement
+      static const int SET     = 2;
+
+   private:
+      Key  key;
+      Data data;
+      int  flag;
+};
+//Overload the insertion operator
+template <class Key, class Data>
+ostream& operator<<(ostream&, HashElement<Key, Data>& );
+
+//Class Implementation
+//Public Methods
+/********************************************************************
+* Constructor                                                       *
+* Constructor of no attributes                                      *
+********************************************************************/
+template <class Key, class Data>
+HashElement<Key, Data>::HashElement()
+{
+   char* set_data = "";
+   char* set_key  = "";
+   if(typeid(Key) == typeid(set_key))
+      this->setKey(set_key);
+   if(typeid(Data) == typeid(set_data))
+      this->setData(set_data);
+   this->setFlag(EMPTY);
+}
+
+/********************************************************************
+* Constructor that explicitly sets the key and data fields          *
+* object                                                            *
+********************************************************************/
+template <class Key, class Data>
+HashElement<Key, Data>::HashElement(const Key& key, const Data& the_data)
+{
+   this->setKey(key);       //Set the key
+   this->setData(the_data); //Copy in the data
+   this->setFlag(SET);      //Indicate the object contains valid data
+}
+
+/********************************************************************
+* Copy constructor                                                  *
+* Copies One HashElement Object fields to another HashElement Object*
+* fields, completely separate in memory.                            *
+********************************************************************/
+template <class Key, class Data>
+HashElement<Key, Data>::HashElement
+(
+   const HashElement<Key, Data>& copy_element
+)
+{
+   Key   copy_key;
+   Data  copy_data;
+
+   //Get the key that is to be copied in
+   copy_element.getKey(copy_key);
+
+   //Get the data that is to be copied in
+   copy_element.getData(copy_data);
+
+   //Get the flag that is to be copied in
+   //(simultaneously set the flag as well)
+   this->setFlag(copy_element.getFlag());
+
+   //Set the key to be copied in
+   this->setKey(copy_key);
+
+   //Set the data to be copied in
+   this->setData(copy_data);
+}
+
+/********************************************************************
+* Destructor                                                        *
+********************************************************************/
+template <class Key, class Data>
+HashElement<Key, Data>::~HashElement()
+{
+   char* test_key;
+   char* test_data;
+   //If the key field is of type char* (string), delete the string
+   //and assign the pointer to NULL
+   if(typeid(test_key) == typeid(this->key))
+   {
+      delete[] this->key;
+      this->key = NULL;
+   }
+
+   //If the data field is of type char* (string), delete the string
+   //and assign the pointer to NULL
+   if(typeid(data) == typeid(test_data))
+   {
+      delete[] data;
+      data = NULL;
+   }
+
+   //Although is does not matter--since the object is being destoyed,
+   //set the flag field to EMPTY, since not only was the data and keys
+   //destroyed, they are COMPLETELY empty.  Therefore, DELETED would
+   //not do this object justice in describing the state of the data.
+   this->setFlag(EMPTY);
+}
+
+/********************************************************************
+* Assignment operator                                               *
+* Essentially, follow what was done with the Copy Constructor       *
+********************************************************************/
+template <class Key, class Data>
+HashElement<Key, Data>& HashElement<Key, Data>::operator=
+(
+   const HashElement<Key, Data>& hash_element
+)
+{
+   Key  copy_key;
+   Data copy_data;
+
+   //Get the key to copy in
+   hash_element.getKey(copy_key);
+
+   //Get the data to copy
+   hash_element.getData(copy_data);
+
+   //Get the flag data to copy and simultaneously
+   //set the this flag field.
+   this->setFlag(hash_element.getFlag());
+
+   //Set the key copied in
+   this->setKey(copy_key);
+
+   //set the data copied in
+   this->setData(copy_data);
+
+   return *this;
+}
+
+/********************************************************************
+* Get the data field:  method #1                                    *
+********************************************************************/
+template <class Key, class Data>
+void HashElement<Key, Data>::getData(Data& copy_data)
+{
+   if(typeid(copy_data) == typeid(char*)
+      && typeid(this->data) == typeid(char*))
+   {
+      strcpy(copy_data, this->data);
+   }
+   else
+   {
+      //If it is NOT a type char*, the assignement operator
+      //BETTER be defined for this type, or there might be trouble!!
+      copy_data = this->data;
+   }
+}
+
+/********************************************************************
+* Get the data field: method #2                                     *
+********************************************************************/
+template <class Key, class Data>
+Data& HashElement<Key, Data>::getData()
+{
+   return this->data;
+}
+
+/********************************************************************
+* Get the key field: method #1                                      *
+********************************************************************/
+template <class Key, class Data>
+void HashElement<Key, Data>::getKey(Key& copy_key)
+{
+   if(typeid(copy_key) == typeid(char*)
+      && typeid(this->key) == typeid(char*))
+   {
+      strcpy(copy_key, this->key);
+   }
+   else
+   {
+      //If it is NOT a type char*, the assignement operator
+      //BETTER be defined for this type, or there might be trouble!!
+      copy_key = this->key;
+   }
+}
+
+/********************************************************************
+* Get the key field: method #2                                      *
+********************************************************************/
+template <class Key, class Data>
+Key& HashElement<Key, Data>::getKey()
+{
+   return this->key;
+}
+
+/********************************************************************
+* Return the flag field                                             *
+********************************************************************/
+template <class Key, class Data>
+int HashElement<Key, Data>::getFlag()
+{
+   return this->flag;
+}
+
+/********************************************************************
+* Set the data field based on the input                             *
+********************************************************************/
+template <class Key, class Data>
+BOOLEAN HashElement<Key, Data>::setData(const Data& the_data)
+{
+   BOOLEAN return_bool = FALSE;
+
+   if(typeid(the_data) == typeid(char*) &&
+      typeid(this->data) == typeid(char*))
+   {
+      //Delete the previous data
+      delete[] data;
+      //set the field to NULL
+      this->data = NULL;
+      //Start the creation of the new data by allocating enough
+      //memory to store the incomming data
+      this->data = new char[strlen(the_data) + 1];
+      if(data)
+      {
+         //copy the new data
+         strcpy(this->data, the_data);
+         return_bool = TRUE;
+      }
+   }
+   else
+   {
+      //If it is NOT a type char*, the assignement operator
+      //BETTER be defined for this type, or there might be trouble!!
+      this->data = the_data;
+      return_bool = TRUE;
+   }
+   return return_bool;
+}
+
+/********************************************************************
+* Set the key field                                                 *
+********************************************************************/
+template <class Key, class Data>
+BOOLEAN HashElement<Key, Data>::setKey(const Key& the_key)
+{
+   BOOLEAN return_bool = FALSE;
+
+   if(typeid(the_key) == typeid(char*) &&
+      typeid(this->key) == typeid(char*))
+   {
+      //Delete the previous key
+      delete[] key;
+      //set the key field to NULL
+      this->key = NULL;
+      //Start the creation of the new key by allocating enough
+      //memory to store the incomming data
+      this->key = new char[strlen(the_key) + 1];
+      if(key)
+      {
+         //copy the new key
+         strcpy(this->key, the_key);
+         return_bool = TRUE;
+      }
+   }
+   else
+   {
+      //If it is NOT a type char*, the assignement operator
+      //BETTER be defined for this type, or there might be trouble!!
+      this->key = the_key;
+      return_bool = TRUE;
+   }
+   return return_bool;
+}
+
+/********************************************************************
+* The print method                                                  *
+********************************************************************/
+template <class Key, class Data>
+void HashElement<Key, Data>::print()
+{
+   cout<<"( "<<this->key<<", "<<this->data<<") ";
+}
+
+/********************************************************************
+* Insertion Operator                                                *
+********************************************************************/
+template <class Key, class Data>
+ostream& operator<<(ostream& os, HashElement<Key, Data>& he)
+{
+   he.print();
+   return os;
+}
+#endif

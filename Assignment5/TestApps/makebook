@@ -1,0 +1,7 @@
+clear
+rm BookDataBaseApp
+rm *.o
+g++ -c -Wno-deprecated BookDataBaseApp.cc BookData.cc MathTools.cc
+g++ -o BookDataBaseApp BookDataBaseApp.o BookData.o MathTools.o
+ls -l *.o
+ls -l BookDataBaseApp

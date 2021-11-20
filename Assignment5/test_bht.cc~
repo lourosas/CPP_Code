@@ -1,0 +1,19 @@
+#include "BasicHashTable.h"
+#include "MathTools.h"
+#include <iostream.h>
+
+float rehash = .95;
+BasicHashTable<int> bht;
+BasicHashTable<long> bht2(rehash);
+
+int main()
+{
+   cout<<"\nHello World!\n\n";
+   bht.insert("Fuck", 12);
+   bht.insert("This", 14);
+   bht.insert("Asshole", 999);
+   bht.insert("Me", 123);
+   bht.insert("More", 1503);
+   cout<<bht<<endl;
+   return 1;
+}

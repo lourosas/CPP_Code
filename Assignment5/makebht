@@ -1,0 +1,7 @@
+'clear'
+rm *.o
+rm test_bht
+g++ -c -Wno-deprecated test_bht.cc
+g++ -c -Wno-deprecated MathTools.cc
+g++ -o test_bht test_bht.o MathTools.o
+ls -l

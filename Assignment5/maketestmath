@@ -1,0 +1,6 @@
+rm *.o
+rm test_math
+g++ -c -Wno-deprecated test_math.cc
+g++ -c -Wno-deprecated MathTools.cc
+g++ -o test_math test_math.o MathTools.o
+ls -l
