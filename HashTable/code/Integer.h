@@ -16,7 +16,7 @@ class Integer : public Object{
    protected:
    private:
 };
-std::ostream& operator<<(std::ostream& os, Object& obj);
+std::ostream& operator<<(std::ostream& os, Integer& obj);
 #endif
 //////////////////////////////////////////////////////////////////////
 

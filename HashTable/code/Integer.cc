@@ -25,7 +25,7 @@ Integer::~Integer(){}
 /**/
 Integer& Integer::operator=(const Integer& rhs){
    if(this != &rhs){
-      this->_key = rhs._key;
+      this->_key = rhs.key();
    }
    return *this;
 }
