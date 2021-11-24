@@ -1,6 +1,6 @@
 /*
  * The Key is going to be the SAME as the value!!!
- * THAT IS WHY THE ARE INTERCHANGEABLE!!!
+ * THAT IS WHY THEY ARE INTERCHANGEABLE!!!
 */
 #include "Object.h"
 #include "Integer.h"
@@ -11,31 +11,42 @@ Integer::Integer()
 : Object(0){}
 
 /**/
-Integer::Integer(int key)
-: Object(key){}
+Integer::Integer(int value)
+: Object(value){
+   this->generateKey();
+}
 
 /**/
-Integer::Integer(const Integer& rhs){
-   this->_key = rhs.key();
-}
+//Integer::Integer(const Integer& rhs){
+//   this->_key = rhs.key();
+//}
 
 /*Virtual*/
 Integer::~Integer(){}
 
 /**/
-Integer& Integer::operator=(const Integer& rhs){
-   if(this != &rhs){
-      this->_key = rhs.key();
-   }
-   return *this;
-}
+//Integer& Integer::operator=(const Integer& rhs){
+//   if(this != &rhs){
+//      this->_key = rhs.key();
+//   }
+//   return *this;
+//}
 
 /* Virtual */
-std::ostream& Integer::print(std::ostream& os){
-   return Object::print(os);
+//std::ostream& Integer::print(std::ostream& os){
+//   return Object::print(os);
+//}
+///////////////////////Private Member Functions///////////////////////
+/*
+Virtual
+The Key and the Value are the same for this type
+*/
+void Integer::generateKey(){
+   this->_key = this->_value;
 }
+
 ////////////////////////Function Declarations/////////////////////////
-std::ostream& operator<<(std::ostream& os, Integer& int_){
-   return int_.print(os);
-}
+//std::ostream& operator<<(std::ostream& os, Integer& int_){
+//   return int_.print(os);
+//}
 //////////////////////////////////////////////////////////////////////

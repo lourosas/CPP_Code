@@ -7,19 +7,77 @@
 #include <iostream>
 #include <iomanip>
 
+template <typename T>
 class Object{
    public:
       Object();
-      Object(int );
+      Object(T);
       Object(const Object& );
       virtual ~Object();
       Object& operator=(const Object& );
       int key() const;
+      T value() const;
       virtual std::ostream& print(std::ostream& );
    protected:
       int _key;
+      T _value;
    private:
+      virtual void generateKey() = 0;
 };
-std::ostream& operator<<(std::ostream& os, Object& obj);
+template<typename T>
+std::ostream& operator<<(std::ostream& os, Object<T>& obj);
+
+////////////////////////Public Member Functions///////////////////////
+/**/
+template<typename T>
+Object<T>::Object()
+: _key(0)
+{}
+
+/**/
+template<typename T>
+Object<T>::Object(T value)
+: _key(0), _value(value)
+{}
+
+/**/
+template<typename T>
+Object<T>::Object(const Object& rhs){
+   this->_key   = rhs._key;
+   this->_value = rhs._value;
+}
+
+/*
+virtual
+*/
+template<typename T>
+Object<T>::~Object(){}
+
+/**/
+template<typename T>
+Object<T>& Object<T>::operator=(const Object& rhs){
+   if(this != &rhs){
+      this->_key   = rhs._key;
+      this->_value = rhs._value;
+   }
+   return *this;
+}
+
+/*
+virtual
+*/
+template<typename T>
+std::ostream& Object<T>::print(std::ostream& os){
+   os<<this->_key<<", "<<this->_value;
+   return os;
+}
+
+////////////////////////Function Declarations/////////////////////////
+template<typename T>
+std::ostream& operator<<(std::ostream& os, Object<T>& obj)
+{
+   obj.print(os);
+   return os;
+}
 #endif
 //////////////////////////////////////////////////////////////////////

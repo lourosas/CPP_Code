@@ -5,18 +5,16 @@
 #define INTEGER_H
 #include "Object.h"
 
-class Integer : public Object{
+class Integer : public Object<int>{
    public:
       Integer();
       Integer(int );
-      Integer(const Integer& );
       virtual ~Integer();
-      Integer& operator=(const Integer& );
-      virtual std::ostream& print(std::ostream& );
+      //Integer& operator=(const Integer& );
    protected:
    private:
+      virtual void generateKey();
 };
-std::ostream& operator<<(std::ostream& os, Integer& obj);
+//std::ostream& operator<<(std::ostream& os, Integer& obj);
 #endif
 //////////////////////////////////////////////////////////////////////
-
