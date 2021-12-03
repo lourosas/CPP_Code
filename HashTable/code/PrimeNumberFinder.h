@@ -10,8 +10,10 @@ class PrimeNumberFinder{
       PrimeNumberFinder(int );
       virtual ~PrimeNumberFinder();
       void findPrimes();
-      int numberOfPrimes() const;
-      int size() const;
+      int  lastPrime();
+      int  numberOfPrimes() const;
+      int  primeAt(int);
+      int  size() const;
       virtual std::ostream& print(std::ostream& );
    protected:
    private:
@@ -20,5 +22,6 @@ class PrimeNumberFinder{
       int  _size;
       int  _primes;
 };
+std::ostream& operator<<(std::ostream&, PrimeNumberFinder& );
 #endif
 //////////////////////////////////////////////////////////////////////

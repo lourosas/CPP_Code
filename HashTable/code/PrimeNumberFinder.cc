@@ -1,12 +1,12 @@
 /**/
-#include PrimeNumberFinder.h
+#include "PrimeNumberFinder.h"
 //////////////////////////////////////////////////////////////////////
 /**/
 PrimeNumberFinder::PrimeNumberFinder()
   :_prime(nullptr),
    _isPrime(nullptr),
-   _primes(0),
-   _size(100)
+   _size(100),
+   _primes(0)
 {
    this->_prime = new int[_size];
    if(this->_prime == nullptr ){
@@ -26,8 +26,8 @@ PrimeNumberFinder::PrimeNumberFinder()
 PrimeNumberFinder::PrimeNumberFinder(int size)
   :_prime(nullptr),
    _isPrime(nullptr),
-   _primes(0),
-   _size(size)
+   _size(size),
+   _primes(0)
 {
    this->_prime = new int[_size];
    if(this->_prime == nullptr ){
@@ -86,14 +86,31 @@ void PrimeNumberFinder::findPrimes(){
       if(!this->_isPrime[k]){
          this->_isPrime[k] = 1;
          this->_prime[++i] = k;
-         ++this->primes;
+         ++this->_primes;
       }
    }
 }
 
 /**/
+int PrimeNumberFinder::lastPrime(){
+   int lp = this->_prime[this->_primes - 1];
+   lp = (!lp) ? -1 : lp;
+   return lp;
+}
+
+/**/
 int PrimeNumberFinder::numberOfPrimes() const{
    return this->_primes;
+}
+
+/**/
+int PrimeNumberFinder::primeAt(int index){
+   int p = -1;
+   if(index < this->_primes && index > -1){
+      p = this->_prime[index];
+      p = (!p) ? -1: p;
+   }
+   return p;
 }
 
 /**/
@@ -104,7 +121,7 @@ int PrimeNumberFinder::size() const{
 /*
 virtual
 */
-std::ostream& print(std::ostream& os){
+std::ostream& PrimeNumberFinder::print(std::ostream& os){
    for(int i = 0; i < this->_size; ++i){
       os<<this->_prime[i]<<" ";
    }
