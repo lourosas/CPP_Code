@@ -11,10 +11,12 @@ class Integer : public Object<int>{
       Integer(int );
       virtual ~Integer();
       //Integer& operator=(const Integer& );
+      std::ostream& print(std::ostream& ) const;
    protected:
    private:
       void generateKey();
 };
-//std::ostream& operator<<(std::ostream& os, Integer& obj);
+std::ostream& operator<<(std::ostream& os, Integer& obj);
+std::ostream& operator<<(std::ostream& os, const Integer& obj);
 #endif
 //////////////////////////////////////////////////////////////////////

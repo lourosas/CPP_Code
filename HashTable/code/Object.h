@@ -17,7 +17,7 @@ class Object{
       Object& operator=(const Object& );
       int key() const;
       T value() const;
-      virtual std::ostream& print(std::ostream& );
+      virtual std::ostream& print(std::ostream& ) const;
    protected:
       int _key;
       T _value;
@@ -26,6 +26,8 @@ class Object{
 };
 template<typename T>
 std::ostream& operator<<(std::ostream& os, Object<T>& obj);
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const Object<T>& obj);
 
 ////////////////////////Public Member Functions///////////////////////
 /**/
@@ -78,7 +80,7 @@ T Object<T>::value() const{
 virtual
 */
 template<typename T>
-std::ostream& Object<T>::print(std::ostream& os){
+std::ostream& Object<T>::print(std::ostream& os) const{
    os<<this->_key<<", "<<this->_value;
    return os;
 }
@@ -86,6 +88,13 @@ std::ostream& Object<T>::print(std::ostream& os){
 ////////////////////////Function Declarations/////////////////////////
 template<typename T>
 std::ostream& operator<<(std::ostream& os, Object<T>& obj)
+{
+   obj.print(os);
+   return os;
+}
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const Object<T>& obj)
 {
    obj.print(os);
    return os;

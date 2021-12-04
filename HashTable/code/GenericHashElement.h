@@ -1,8 +1,8 @@
 /*
 */
 //////////////////////////////////////////////////////////////////////
-#ifndef GENERIC_HASH_TABLE_H
-#define GENERIC_HASH_TABLE_H
+#ifndef GENERIC_HASH_ELEMENT_H
+#define GENERIC_HASH_ELEMENT_H
 
 #include "Object.h"
 

@@ -33,9 +33,9 @@ Integer::~Integer(){}
 //}
 
 /* Virtual */
-//std::ostream& Integer::print(std::ostream& os){
-//   return Object::print(os);
-//}
+std::ostream& Integer::print(std::ostream& os) const{
+   return Object::print(os);
+}
 ///////////////////////Private Member Functions///////////////////////
 /*
 The Key and the Value are the same for this type
@@ -45,7 +45,11 @@ void Integer::generateKey(){
 }
 
 ////////////////////////Function Declarations/////////////////////////
-//std::ostream& operator<<(std::ostream& os, Integer& int_){
-//   return int_.print(os);
-//}
+std::ostream& operator<<(std::ostream& os, Integer& int_){
+   return int_.print(os);
+}
+
+std::ostream& operator<<(std::ostream& os, const Integer& int_){
+   return int_.print(os);
+}
 //////////////////////////////////////////////////////////////////////
