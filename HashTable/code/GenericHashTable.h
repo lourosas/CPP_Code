@@ -17,9 +17,9 @@ class GenericHashTable{
       GenericHashTable();
       virtual ~GenericHashTable();
       //Pure Virtual Member Functions
-      Value& remove(Key )    = 0;
-      Value& retrieve(Key )  = 0;
-      int insert(Key, Value) = 0;
+      virtual Value& remove(Key )    = 0;
+      virtual Value& retrieve(Key )  = 0;
+      virtual int insert(Key, Value) = 0;
 
       virtual std::ostream& print(std::ostream& );
       int size() const;
@@ -70,7 +70,7 @@ GenericHashTable<Key,Value>::GenericHashTable()
         <<"Finder!\nExiting...";
       exit(0);
    }
-   this->pnf->findPrimes();
+   this->pnf->findPrimes();//Make a 1000 primes
 }
 
 /*********************************************************************

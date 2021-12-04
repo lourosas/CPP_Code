@@ -13,7 +13,7 @@ class Integer : public Object<int>{
       //Integer& operator=(const Integer& );
    protected:
    private:
-      virtual void generateKey();
+      void generateKey();
 };
 //std::ostream& operator<<(std::ostream& os, Integer& obj);
 #endif

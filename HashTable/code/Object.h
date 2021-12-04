@@ -63,6 +63,17 @@ Object<T>& Object<T>::operator=(const Object& rhs){
    return *this;
 }
 
+/**/
+template<typename T>
+int Object<T>::key() const{
+   return this->_key;
+}
+
+template<typename T>
+T Object<T>::value() const{
+   return this->_value;
+}
+
 /*
 virtual
 */

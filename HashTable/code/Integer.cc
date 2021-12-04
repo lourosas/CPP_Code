@@ -38,7 +38,6 @@ Integer::~Integer(){}
 //}
 ///////////////////////Private Member Functions///////////////////////
 /*
-Virtual
 The Key and the Value are the same for this type
 */
 void Integer::generateKey(){
