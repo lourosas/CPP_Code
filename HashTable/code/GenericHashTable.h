@@ -9,6 +9,7 @@
 #include <iomanip>
 #include "Object.h"
 #include "GenericHashElement.h"
+#include "PrimeNumberFinder.h"
 
 template <typename Key, typename Value>
 class GenericHashTable{
@@ -23,9 +24,10 @@ class GenericHashTable{
       virtual std::ostream& print(std::ostream& );
       int size() const;
    protected:
-      virtual void rehash();
+      virtual void rehash() = 0;
       static int initialCapacity;
       static double loadFactor;
+      PrimeNumberFinder* pnf;
    private:
       int a_Hash_Value;
       int b_Hash_Value;
@@ -54,6 +56,7 @@ GenericHashTable<Key,Value>::GenericHashTable()
   p_Hash_Value(103),
   _size(initialCapacity),
   _array(nullptr)
+  pnf(nullptr)
 {
    this->_array = new GenericHashElement<Value>[initialCapacity];
    if(!this->_array){
@@ -61,6 +64,13 @@ GenericHashTable<Key,Value>::GenericHashTable()
         <<"\nExiting...";
       exit(0);
    }
+   this->pnf = new PrimeNumberFinder(1000);
+   if(!this->pnf){
+      std::cout<<"\n\nCould not allocate memory for the Prime Number "
+        <<"Finder!\nExiting...";
+      exit(0);
+   }
+   this->pnf->findPrimes();
 }
 
 /*********************************************************************
@@ -70,6 +80,9 @@ template<typename Key, typename Value>
 GenericHashTable<Key,Value>::~GenericHashTable(){
    if(this->_array){
       delete [] this->_array;
+   }
+   if(this->pnf){
+      delete this->pnf;
    }
 }
 
@@ -88,14 +101,6 @@ template<typename Key, typename Value>
 int GenericHashTable<Key, Value>::size() const{
    return this->_size;
 }
-
-///////////////////////Private Member Functions///////////////////////
-/*
-TBD this will have to be set up
-virtual
-*/
-template<typename Key, typename Value>
-void GenericHashTable<Key,Value>::rehash(){}
 
 //////////////////////Function Declarations///////////////////////////
 template<typename Key, typename Value>
