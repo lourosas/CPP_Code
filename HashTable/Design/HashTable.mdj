@@ -1989,7 +1989,7 @@
 											"top": 516,
 											"width": 226.50341796875,
 											"height": 13,
-											"text": "-_size: int = 100",
+											"text": "-_size: int = 1000",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3404,7 +3404,7 @@
 							"name": "_size",
 							"visibility": "private",
 							"type": "int",
-							"defaultValue": "100"
+							"defaultValue": "1000"
 						},
 						{
 							"_type": "UMLAttribute",
