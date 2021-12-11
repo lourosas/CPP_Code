@@ -42,6 +42,10 @@ Virtual
 */
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
+   for(int i = 0; i < this->initialCapacity; ++i){
+      std::cout<<this->array[i]<<", ";
+   }
+   std::cout<<std::endl;
    return -1;
 }
 
