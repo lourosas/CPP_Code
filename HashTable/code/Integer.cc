@@ -34,7 +34,11 @@ Integer::~Integer(){}
 
 /* Virtual */
 std::ostream& Integer::print(std::ostream& os) const{
-   return Object::print(os);
+   os<<"(";
+   Object::print(os); //Use the 'Inheritance protocol...'
+   os<<")";
+   //os<<"("<<this->_key<<", "<<this->_value<<")";
+   return os;
 }
 ///////////////////////Private Member Functions///////////////////////
 /*

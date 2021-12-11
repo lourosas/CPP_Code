@@ -18,8 +18,8 @@ class GenericHashTable{
       virtual ~GenericHashTable();
       //Pure Virtual Member Functions
       virtual int   insert(Key, Value) = 0;
-      virtual Value remove(Key )    = 0;
-      virtual Value retrieve(Key )  = 0;
+      virtual Value remove(Key )       = 0;
+      virtual Value retrieve(Key )     = 0;
 
       virtual std::ostream& print(std::ostream& );
       int size() const;
