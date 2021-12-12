@@ -42,13 +42,15 @@ Virtual
 */
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
-   this->array[key] = value;
-   /*
+   //GenericHashElement<Value> he(value);
+   this->array[key.key()] = value;
+   //std::cout<<this->array[key.key()]<<std::endl;
+
    for(int i = 0; i < this->initialCapacity; ++i){
       std::cout<<this->array[i]<<", ";
    }
    std::cout<<std::endl;
-   */
+   
    return -1;
 }
 

@@ -6,8 +6,9 @@ int main(){
    std::cout<<"Hello World\n";
    OpenAddressingHashTable<Integer, Integer> oht;
    Integer i(3);
+   Integer j(2300);
    //Integer x = oht.retrieve(i);
    //std::cout<<oht.retrieve(i).value()<<std::endl;
-   oht.insert(i, i);
+   oht.insert(i, j);
    return 1;
 }
