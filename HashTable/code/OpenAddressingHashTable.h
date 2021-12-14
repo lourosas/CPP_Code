@@ -14,6 +14,8 @@ class OpenAddressingHashTable : public GenericHashTable<Key, Value>{
       virtual int    insert(Key, Value);
       virtual Value  remove(Key );
       virtual Value  retrieve(Key);
+      virtual int    searchKeys(Key);
+      virtual int    searchValues(Value);
    protected:
       virtual void rehash();
    private:
@@ -42,15 +44,17 @@ Virtual
 */
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
-   //GenericHashElement<Value> he(value);
-   this->array[key.key()] = value;
+   GenericHashElement<Key, Value> he(key, value);
+   //this->array[key.key()] = value;
+   //this->array[key.key()] = value;
+   this->array[key.key()] = he;
    //std::cout<<this->array[key.key()]<<std::endl;
 
    for(int i = 0; i < this->initialCapacity; ++i){
       std::cout<<this->array[i]<<", ";
    }
    std::cout<<std::endl;
-   
+
    return -1;
 }
 
@@ -72,6 +76,22 @@ Value OpenAddressingHashTable<Key, Value>::retrieve(Key key){
       value = this->array[0].value;
    }
    return value;
+}
+
+/*
+Virtual
+*/
+template<typename Key, typename Value>
+int OpenAddressingHashTable<Key, Value>::searchKeys(Key key){
+   return 0;
+}
+
+/*
+Virtual
+*/
+template<typename Key, typename Value>
+int OpenAddressingHashTable<Key, Value>::searchValues(Value object){
+   return 0;
 }
 
 ////////////////////////Protected Member Functions////////////////////

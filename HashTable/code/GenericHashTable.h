@@ -17,9 +17,11 @@ class GenericHashTable{
       GenericHashTable();
       virtual ~GenericHashTable();
       //Pure Virtual Member Functions
-      virtual int   insert(Key, Value) = 0;
-      virtual Value remove(Key )       = 0;
-      virtual Value retrieve(Key )     = 0;
+      virtual int   insert(Key, Value)  = 0;
+      virtual Value remove(Key )        = 0;
+      virtual Value retrieve(Key )      = 0;
+      virtual int   searchKeys(Key)     = 0;
+      virtual int   searchValues(Value) = 0;
 
       virtual std::ostream& print(std::ostream& );
       int size() const;
@@ -28,7 +30,7 @@ class GenericHashTable{
       static int initialCapacity;
       static double loadFactor;
       PrimeNumberFinder* pnf;
-      GenericHashElement<Value>* array;
+      GenericHashElement<Key, Value>* array;
    private:
       int a_Hash_Value;
       int b_Hash_Value;
@@ -63,14 +65,15 @@ GenericHashTable<Key,Value>::GenericHashTable()
   p_Hash_Value(103),
   _size(initialCapacity)
 {
-   this->array = new GenericHashElement<Value>[this->initialCapacity];
+   this->array =
+             new GenericHashElement<Key,Value>[this->initialCapacity];
    if(!this->array){
       std::cout<<"\n\nCould not allocate memory for the Hash Table!"
         <<"\nExiting...";
       exit(0);
    }
    for(int i = 0; i < this->initialCapacity; ++i){
-      this->array[i].storeValue = GenericHashElement<Value>::EMPTY;
+      this->array[i].storeValue=GenericHashElement<Key,Value>::EMPTY;
    }
    this->pnf = new PrimeNumberFinder(1000);
    if(!this->pnf){
