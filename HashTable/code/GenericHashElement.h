@@ -37,14 +37,14 @@ std::ostream& operator<<(std::ostream& os,
 /**/
 template<class Key, class Value>
 GenericHashElement<Key, Value>::GenericHashElement(){
-   this->storeValue = UNKNOWN;
+   this->storeValue = EMPTY;
 }
 
 template<class Key, class Value>
 GenericHashElement<Key, Value>::GenericHashElement(Key k, Value v){
    this->_key        = k;
    this->_value      = v;
-   this->storeValue  = UNKNOWN;
+   this->storeValue  = EMPTY;
 }
 
 /*
@@ -73,7 +73,7 @@ std::ostream& GenericHashElement<Key, Value>::print
 (
    std::ostream& os
 )const{
-   os<<"("<<this->storeValue<<", "<<this->_key.key()<<", "
+   os<<"("<<this->storeValue<<", "<<this->_key<<", "
       <<this->_value<<")";
    return os;
 }

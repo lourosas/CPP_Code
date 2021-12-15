@@ -5,7 +5,7 @@
 int main(){
    std::cout<<"Hello World\n";
    OpenAddressingHashTable<Integer, Integer> oht;
-   Integer i(3);
+   Integer i(4);
    Integer j(2300);
    //Integer x = oht.retrieve(i);
    //std::cout<<oht.retrieve(i).value()<<std::endl;

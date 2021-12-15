@@ -48,6 +48,8 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
    //this->array[key.key()] = value;
    //this->array[key.key()] = value;
    this->array[key.key()] = he;
+   this->array[key.key()].storeValue =
+                                  GenericHashElement<Key,Value>::SET;
    //std::cout<<this->array[key.key()]<<std::endl;
 
    for(int i = 0; i < this->initialCapacity; ++i){
