@@ -73,7 +73,7 @@ template<typename Key, typename Value>
 Value OpenAddressingHashTable<Key, Value>::retrieve(Key key){
    Value value;
    if(this->array){
-      value = this->array[0].value;
+      value = this->array[0].value();
    }
    return value;
 }

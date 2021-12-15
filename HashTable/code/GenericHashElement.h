@@ -37,7 +37,7 @@ std::ostream& operator<<(std::ostream& os,
 /**/
 template<class Key, class Value>
 GenericHashElement<Key, Value>::GenericHashElement(){
-   this->storeValue = UKNOWN;
+   this->storeValue = UNKNOWN;
 }
 
 template<class Key, class Value>
@@ -56,7 +56,7 @@ GenericHashElement<Key, Value>::GenericHashElement
 ){
    this->_key        = rhs._key;
    this->_value      = rhs._value;
-   this->storeValue  = rhs._storeValue;
+   this->storeValue  = rhs.storeValue;
 }
 
 /*
@@ -73,7 +73,7 @@ std::ostream& GenericHashElement<Key, Value>::print
 (
    std::ostream& os
 )const{
-   os<<"("<<this->_storeValue<<", "<<this->_key.key()<<", "
+   os<<"("<<this->storeValue<<", "<<this->_key.key()<<", "
       <<this->_value<<")";
    return os;
 }
@@ -88,11 +88,24 @@ GenericHashElement<Key, Value>::operator=
    const GenericHashElement& rhs
 ){
    this->_key        = rhs._key;
-   this->_storeValue = rhs._storeValue;
+   this->storeValue  = rhs.storeValue;
    this->_value      = rhs._value;
    return *this;
 }
 
+/*
+*/
+template<class Key, class Value>
+Key GenericHashElement<Key, Value>::key() const{
+   return this->_key;
+}
+
+/*
+*/
+template<class Key, class Value>
+Value GenericHashElement<Key, Value>::value() const{
+   return this->_value;
+}
 
 /*
 Virtual
