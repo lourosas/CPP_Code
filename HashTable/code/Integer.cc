@@ -8,7 +8,9 @@
 ////////////////////////Public Member Functions///////////////////////
 /**/
 Integer::Integer()
-: Object(0){}
+: Object(0){
+   this->generateKey();
+}
 
 /**/
 Integer::Integer(int value)

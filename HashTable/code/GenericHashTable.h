@@ -16,6 +16,7 @@ class GenericHashTable{
    public:
       GenericHashTable();
       virtual ~GenericHashTable();
+
       //Pure Virtual Member Functions
       virtual int   insert(Key, Value)  = 0;
       virtual Value remove(Key )        = 0;
@@ -31,6 +32,7 @@ class GenericHashTable{
       static double loadFactor;
       PrimeNumberFinder* pnf;
       GenericHashElement<Key, Value>* array;
+      int numberOfElements;
    private:
       int a_Hash_Value;
       int b_Hash_Value;
@@ -47,7 +49,7 @@ template<typename Key, typename Value>
 int GenericHashTable<Key,Value>::initialCapacity = 101;
 
 template<typename Key, typename Value>
-double GenericHashTable<Key, Value>::loadFactor = 0.75;
+double GenericHashTable<Key, Value>::loadFactor = 0.5;
 
 //Class Implementation
 //Public Methods
@@ -59,6 +61,7 @@ template<typename Key, typename Value>
 GenericHashTable<Key,Value>::GenericHashTable()
 : pnf(nullptr),
   array(nullptr),
+  numberOfElements(0),
   a_Hash_Value(1),
   b_Hash_Value(0),
   m_Hash_Value(0),

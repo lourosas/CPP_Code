@@ -9,7 +9,7 @@
 template <class Key, class Value>
 class GenericHashElement{
    public:
-      enum{EMPTY, DELETED, SET, UNKNOWN};
+      enum{UNKNOWN=-4,SET,DELETED,EMPTY};
       GenericHashElement();
       GenericHashElement(Key, Value );
       GenericHashElement(const GenericHashElement& );
