@@ -19,6 +19,7 @@ class OpenAddressingHashTable : public GenericHashTable<Key, Value>{
    protected:
       virtual void rehash();
    private:
+      enum{SIZE_ERROR = -0xF,INSERTION_ERROR};
       int performHash(Key, int  = 0);
       //Value _value;
 };
@@ -45,33 +46,35 @@ Virtual
 */
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
-   //int EMPTY   = GenericHashElement<Key,Value>::EMPTY;
-   //int UNKNOWN = GenericHashElement<Key,Value>::UNKNOWN;
-   int SET = GenericHashElement<Key,Value>::SET;
-   //int DELETED = GenericHashElement<Key,Value>::DELETED;
+   int SET    = GenericHashElement<Key,Value>::SET;
+   int index  = GenericHashElement<Key,Value>::EMPTY;
+   int storeValue = index;
 
-   int storeValue;
    GenericHashElement<Key, Value> ghe(key, value);
-   //this->array[key.key()] = value;
-   //this->array[key.key()] = value;
-   //this->array[key.key()] = ghe;
-   //this->array[key.key()].storeValue =
-   //                                 GenericHashElement<Key,Value>::SET;
-   //std::cout<<this->array[key.key()]<<std::endl;
+   try{
+      index = this->searchKeys(key, storeValue);
 
-   //for(int i = 0; i < this->initialCapacity; ++i){
-   //   std::cout<<this->array[i]<<", ";
-   //}
-   //std::cout<<std::endl;
-   //The Key is NOT in the Hash Table, so insert it
-   int index = this->searchKeys(key, storeValue);
-   if(index < 0 || storeValue != SET){
-      if(index > -1){}
-      else{
-         std::cout<<this->performHash(key)<<std::endl;
+      if(index < 0 || storeValue != SET){
+         if(index < 0){
+            //If the Key is not there, find out where the Key belongs
+            //in the Hash Table
+            index = this->performHash(key);
+         }
+         this->array[index] = ghe;
+         this->array[index].storeValue = SET;
+         ++this->numberOfElements;
       }
    }
-   return -1;
+   catch(int x){
+      if(x == SIZE_ERROR){
+         std::cout<<"\nERROR:  "<<ghe<<" could NOT be inserted into "
+           <<"the Hash Table--Hash Table Size too small\n";
+         int insertionError = INSERTION_ERROR;
+         throw insertionError;
+      }
+   }
+   //return the index of where it was stored...I think...leme think
+   return index;
 }
 
 /*
@@ -100,9 +103,7 @@ Virtual
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::searchKeys(Key key, int& sv){
    int EMPTY   = GenericHashElement<Key,Value>::EMPTY;
-   //int UNKNOWN = GenericHashElement<Key,Value>::UNKNOWN;
-   //int SET     = GenericHashElement<Key,Value>::SET;
-   //int DELETED = GenericHashElement<Key,Value>::DELETED;
+
    int index   = EMPTY;
    int i       = 0;
 
@@ -121,6 +122,10 @@ int OpenAddressingHashTable<Key, Value>::searchKeys(Key key, int& sv){
          }
       }
    }while(index < 0 && sv != EMPTY && ++i < this->size());
+   if(i >= this->size()){
+      int sizeError = SIZE_ERROR;
+      throw sizeError;
+   }
    return index;
 }
 

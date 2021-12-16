@@ -9,6 +9,11 @@ int main(){
    Integer j(2300);
    //Integer x = oht.retrieve(i);
    //std::cout<<oht.retrieve(i).value()<<std::endl;
-   oht.insert(i, j);
+   try{
+      std::cout<<std::endl<<oht.insert(i, j)<<std::endl;
+   }
+   catch(int x){
+      std::cout<<x<<std::endl;
+   }
    return 1;
 }
