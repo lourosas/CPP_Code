@@ -14,7 +14,7 @@ class OpenAddressingHashTable : public GenericHashTable<Key, Value>{
       virtual int    insert(Key, Value);
       virtual Value  remove(Key );
       virtual Value  retrieve(Key);
-      virtual int    searchKeys(Key);
+      virtual int    searchKeys(Key, int& );
       virtual int    searchValues(Value);
    protected:
       virtual void rehash();
@@ -45,6 +45,12 @@ Virtual
 */
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
+   //int EMPTY   = GenericHashElement<Key,Value>::EMPTY;
+   //int UNKNOWN = GenericHashElement<Key,Value>::UNKNOWN;
+   int SET = GenericHashElement<Key,Value>::SET;
+   //int DELETED = GenericHashElement<Key,Value>::DELETED;
+
+   int storeValue;
    GenericHashElement<Key, Value> ghe(key, value);
    //this->array[key.key()] = value;
    //this->array[key.key()] = value;
@@ -58,8 +64,13 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
    //}
    //std::cout<<std::endl;
    //The Key is NOT in the Hash Table, so insert it
-   std::cout<<std::endl<<this->searchKeys(key)<<std::endl
-     <<this->performHash(key)<<std::endl;
+   int index = this->searchKeys(key, storeValue);
+   if(index < 0 || storeValue != SET){
+      if(index > -1){}
+      else{
+         std::cout<<this->performHash(key)<<std::endl;
+      }
+   }
    return -1;
 }
 
@@ -87,12 +98,15 @@ Value OpenAddressingHashTable<Key, Value>::retrieve(Key key){
 Virtual
 */
 template<typename Key, typename Value>
-int OpenAddressingHashTable<Key, Value>::searchKeys(Key key){
+int OpenAddressingHashTable<Key, Value>::searchKeys(Key key, int& sv){
    int EMPTY   = GenericHashElement<Key,Value>::EMPTY;
-   int UNKNOWN = GenericHashElement<Key,Value>::UNKNOWN;
-   int index   = UNKNOWN;
-   int sv      = index;//store value
+   //int UNKNOWN = GenericHashElement<Key,Value>::UNKNOWN;
+   //int SET     = GenericHashElement<Key,Value>::SET;
+   //int DELETED = GenericHashElement<Key,Value>::DELETED;
+   int index   = EMPTY;
    int i       = 0;
+
+   sv          = index;
    //To allot for an index < 0 (which indicates nothing was found
    //or the storeValue in the array is NOT empty (which indicates
    //there may or may NOT have been any collisions), or every value in
@@ -101,13 +115,12 @@ int OpenAddressingHashTable<Key, Value>::searchKeys(Key key){
    do{
       int idx = this->performHash(key, i);
       if(idx > -1){
+         sv = this->array[idx].storeValue;
          if(this->array[idx].key() == key){
             index = idx;
          }
-         sv = this->array[idx].storeValue;
       }
    }while(index < 0 && sv != EMPTY && ++i < this->size());
-   std::cout<<std::endl<<sv<<std::endl;
    return index;
 }
 

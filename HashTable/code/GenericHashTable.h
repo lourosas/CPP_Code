@@ -21,7 +21,7 @@ class GenericHashTable{
       virtual int   insert(Key, Value)  = 0;
       virtual Value remove(Key )        = 0;
       virtual Value retrieve(Key )      = 0;
-      virtual int   searchKeys(Key)     = 0;
+      virtual int   searchKeys(Key,int&)= 0;
       virtual int   searchValues(Value) = 0;
 
       virtual std::ostream& print(std::ostream& );
