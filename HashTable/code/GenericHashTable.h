@@ -28,6 +28,7 @@ class GenericHashTable{
       int size() const;
    protected:
       virtual void rehash() = 0;
+      void size(int);
       static int initialCapacity;
       static double loadFactor;
       PrimeNumberFinder* pnf;
@@ -68,8 +69,7 @@ GenericHashTable<Key,Value>::GenericHashTable()
   p_Hash_Value(103),
   _size(initialCapacity)
 {
-   this->array =
-             new GenericHashElement<Key,Value>[this->initialCapacity];
+   this->array = new GenericHashElement<Key,Value>[this->_size];
    if(!this->array){
       std::cout<<"\n\nCould not allocate memory for the Hash Table!"
         <<"\nExiting...";
@@ -78,7 +78,7 @@ GenericHashTable<Key,Value>::GenericHashTable()
    for(int i = 0; i < this->initialCapacity; ++i){
       this->array[i].storeValue=GenericHashElement<Key,Value>::EMPTY;
    }
-   this->pnf = new PrimeNumberFinder(1000);
+   this->pnf = new PrimeNumberFinder(10000);
    if(!this->pnf){
       std::cout<<"\n\nCould not allocate memory for the Prime Number "
         <<"Finder!\nExiting...";
@@ -114,6 +114,13 @@ std::ostream& GenericHashTable<Key, Value>::print(std::ostream& os){
 template<typename Key, typename Value>
 int GenericHashTable<Key, Value>::size() const{
    return this->_size;
+}
+
+///////////////////////Protected Member Functions/////////////////////
+/*
+*/
+void GenericHashTable<Key, Value>::size(int size){
+   this->_size = size;
 }
 
 //////////////////////Function Declarations///////////////////////////

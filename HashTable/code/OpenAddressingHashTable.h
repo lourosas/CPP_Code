@@ -19,8 +19,9 @@ class OpenAddressingHashTable : public GenericHashTable<Key, Value>{
    protected:
       virtual void rehash();
    private:
-      enum{SIZE_ERROR = -0xF,INSERTION_ERROR};
-      int performHash(Key, int  = 0);
+      enum{SIZE_ERROR = -0xFF,INSERTION_ERROR,ALREADY_INSERTED};
+      void checkIncreaseSize();
+      int  performHash(Key, int  = 0);
       //Value _value;
 };
 
@@ -63,14 +64,22 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
          this->array[index] = ghe;
          this->array[index].storeValue = SET;
          ++this->numberOfElements;
+         this->checkIncreaseSize();
+      }
+      //The Key-Value pair is already in the Hash Table
+      else{
+         throw ALREADY_INSERTED;
       }
    }
    catch(int x){
       if(x == SIZE_ERROR){
-         std::cout<<"\nERROR:  "<<ghe<<" could NOT be inserted into "
-           <<"the Hash Table--Hash Table Size too small\n";
-         int insertionError = INSERTION_ERROR;
-         throw insertionError;
+         std::cout<<"\nERROR:  "<<ghe<<" could NOT be inserted: "
+           <<"Size too small\n";
+         throw INSERTION_ERROR;
+      }
+      else if(x == ALREADY_INSERTED){
+         std::cout<<std::endl<<ghe<<": PREVIOUSLY INSERTED\n";
+         throw ALREADY_INSERTED;
       }
    }
    //return the index of where it was stored...I think...leme think
@@ -145,6 +154,31 @@ template<typename Key, typename Value>
 void OpenAddressingHashTable<Key, Value>::rehash(){}
 
 /////////////////////////Private Member Functions/////////////////////
+/**/
+template<typename Key, typename Value>
+void OpenAddressingHashTable<Key, Value>::checkIncreaseSize(){
+   double currentPercentage =
+                          (double)this->numberOfElements/this->size();
+   if(currentPercentage > GenericHashTable<Key,Value>::loadFactor){
+      //find another set of prime numbers
+      //create more primes, as needed...
+      while(this->pnf->lastPrime() < 10*this->size()){
+         delete this->pnf;
+         this->pnf = new PrimeNumberFinder(10*this->size());
+         this->pnf->findPrimes();
+      }
+      //resize as needed
+      int count     = (this->pnf->numberOfPrimes())/2;
+      int find      = 0;
+      int testPrime = this->pnf->primeAt(count);
+      do{
+          testPrime = this->pnf->primeAt(count++);
+      }while(testPrime < (10*this->size()));
+      this->size(testPrime);
+      this->rehash();
+   }
+}
+
 /**/
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::performHash(Key key, int i){

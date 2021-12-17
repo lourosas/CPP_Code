@@ -15,7 +15,7 @@ int main(){
      <<pnf->primeAt(pnf->numberOfPrimes()/2)
      <<std::endl;
    delete pnf;
-   pnf = new PrimeNumberFinder(5000);
+   pnf = new PrimeNumberFinder(10000);
    pnf->findPrimes();
    os.open("primes.txt", std::ofstream::app);
    if(os){ os<<std::endl<<*pnf<<std::endl; }
