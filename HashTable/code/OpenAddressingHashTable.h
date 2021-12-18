@@ -152,7 +152,11 @@ int OpenAddressingHashTable<Key, Value>::searchValues(Value object){
 Virtual
 */
 template<typename Key, typename Value>
-void OpenAddressingHashTable<Key, Value>::rehash(){}
+void OpenAddressingHashTable<Key, Value>::rehash(){
+   GenericHashElement<Key, Value>* temp = this->array;
+   this->array = new GenericHashElement<Key,Value>[this->size()];
+   
+}
 
 /////////////////////////Private Member Functions/////////////////////
 /**/
