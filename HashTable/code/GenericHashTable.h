@@ -119,6 +119,7 @@ int GenericHashTable<Key, Value>::size() const{
 ///////////////////////Protected Member Functions/////////////////////
 /*
 */
+template<typename Key, typename Value>
 void GenericHashTable<Key, Value>::size(int size){
    this->_size = size;
 }

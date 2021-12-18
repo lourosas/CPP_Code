@@ -4,6 +4,7 @@
 #ifndef OPEN_ADDRESSING_HASH_TABLE_H
 #define OPEN_ADDRESSING_HASH_TABLE_H
 
+#include <cmath>
 #include "GenericHashTable.h"
 
 template<typename Key, typename Value>
@@ -162,18 +163,23 @@ void OpenAddressingHashTable<Key, Value>::checkIncreaseSize(){
    if(currentPercentage > GenericHashTable<Key,Value>::loadFactor){
       //find another set of prime numbers
       //create more primes, as needed...
-      while(this->pnf->lastPrime() < 10*this->size()){
+      int e = 1;
+      double m = pow(10,e);
+      int compareValue = 10*this->size();
+      while(this->pnf->lastPrime() < compareValue){
          delete this->pnf;
-         this->pnf = new PrimeNumberFinder(10*this->size());
+         this->pnf = new PrimeNumberFinder(m*this->pnf->size());
          this->pnf->findPrimes();
+         ++e;
+         m = pow(10,e);
       }
       //resize as needed
-      int count     = (this->pnf->numberOfPrimes())/2;
-      int find      = 0;
-      int testPrime = this->pnf->primeAt(count);
+      int count     = (this->pnf->numberOfPrimes())/2 - 1;
+      int testPrime = -1;
       do{
-          testPrime = this->pnf->primeAt(count++);
-      }while(testPrime < (10*this->size()));
+         testPrime = this->pnf->primeAt(count);
+         ++count;
+      }while(testPrime < compareValue);
       this->size(testPrime);
       this->rehash();
    }
