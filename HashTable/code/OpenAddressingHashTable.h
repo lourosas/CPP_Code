@@ -21,7 +21,7 @@ class OpenAddressingHashTable : public GenericHashTable<Key, Value>{
       virtual void rehash();
    private:
       enum{SIZE_ERROR = -0xFF,INSERTION_ERROR,ALREADY_INSERTED};
-      void checkIncreaseSize();
+      int checkIncreaseSize();
       int  performHash(Key, int  = 0);
       //Value _value;
 };
@@ -65,7 +65,7 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
          this->array[index] = ghe;
          this->array[index].storeValue = SET;
          ++this->numberOfElements;
-         this->checkIncreaseSize();
+         this->rehash();
       }
       //The Key-Value pair is already in the Hash Table
       else{
@@ -153,17 +153,27 @@ Virtual
 */
 template<typename Key, typename Value>
 void OpenAddressingHashTable<Key, Value>::rehash(){
-   GenericHashElement<Key, Value>* temp = this->array;
-   this->array = new GenericHashElement<Key,Value>[this->size()];
-   
+   int newSize = 0;
+   if(newSize = (this->checkIncreaseSize())){
+      int tempSize = this->size();
+      this->size(newSize);
+      GenericHashElement<Key,Value>* temp = this->array;
+      this->array = new GenericHashElement<Key, Value>[this->size()];
+   }
+
+
 }
 
 /////////////////////////Private Member Functions/////////////////////
-/**/
+/*
+Rehashing a Hash Table is very expensive time wise...
+It is best not to have to continue to rehash...
+*/
 template<typename Key, typename Value>
-void OpenAddressingHashTable<Key, Value>::checkIncreaseSize(){
+int OpenAddressingHashTable<Key, Value>::checkIncreaseSize(){
    double currentPercentage =
                           (double)this->numberOfElements/this->size();
+   int newSize = 0;
    if(currentPercentage > GenericHashTable<Key,Value>::loadFactor){
       //find another set of prime numbers
       //create more primes, as needed...
@@ -184,9 +194,11 @@ void OpenAddressingHashTable<Key, Value>::checkIncreaseSize(){
          testPrime = this->pnf->primeAt(count);
          ++count;
       }while(testPrime < compareValue);
-      this->size(testPrime);
-      this->rehash();
+      //this->size(testPrime);
+      //set the next size to the most appropriate prime...
+      newSize = testPrime;
    }
+   return newSize;
 }
 
 /**/
