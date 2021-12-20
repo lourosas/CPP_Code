@@ -69,7 +69,8 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
       }
       //The Key-Value pair is already in the Hash Table
       else{
-         throw ALREADY_INSERTED;
+         int x = ALREADY_INSERTED;
+         throw x;
       }
    }
    catch(int x){
@@ -80,7 +81,7 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
       }
       else if(x == ALREADY_INSERTED){
          std::cout<<std::endl<<ghe<<": PREVIOUSLY INSERTED\n";
-         throw ALREADY_INSERTED;
+         //throw ALREADY_INSERTED;
       }
    }
    //return the index of where it was stored...I think...leme think
@@ -131,6 +132,10 @@ int OpenAddressingHashTable<Key, Value>::searchKeys(Key key, int& sv){
             index = idx;
          }
       }
+      //TEST PRINTS FOR THE TIME BEING!!!
+      if(sv==GenericHashElement<Key,Value>::SET){
+         std::cout<<"Collision: "<<idx<<" ; "<<key.key()<<std::endl;
+      }
    }while(index < 0 && sv != EMPTY && ++i < this->size());
    if(i >= this->size()){
       int sizeError = SIZE_ERROR;
@@ -153,8 +158,11 @@ Virtual
 */
 template<typename Key, typename Value>
 void OpenAddressingHashTable<Key, Value>::rehash(){
-   int newSize = 0;
-   if(newSize = (this->checkIncreaseSize())){
+   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
+   int SET   = GenericHashElement<Key,Value>::SET;
+
+   int newSize = this->checkIncreaseSize();
+   if(newSize){
       int tempSize = this->size();
       this->size(newSize);
 
@@ -162,12 +170,11 @@ void OpenAddressingHashTable<Key, Value>::rehash(){
 
       this->array = new GenericHashElement<Key, Value>[this->size()];
       for(int i = 0; i < this->size(); ++i){
-         this->array[i].storeValue =
-                                 GenericHashElement<Key,Value>::EMPTY;
+         this->array[i].storeValue = EMPTY;
       }
       //Now, replace...
       for(int i = 0; i < tempSize; ++i){
-         if(temp[i].storeValue == GenericHashElement<Key,Value>::SET){
+         if(temp[i].storeValue == SET){
             this->insert(temp[i].key(), temp[i].value());
          }
       }

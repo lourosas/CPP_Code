@@ -106,6 +106,11 @@ Virtual
 */
 template<typename Key, typename Value>
 std::ostream& GenericHashTable<Key, Value>::print(std::ostream& os){
+   os<<std::endl;
+   for(int i = 0; i < this->_size; ++i){
+      os<<this->array[i]<<", ";
+   }
+   os<<std::endl;
    return os;
 }
 
