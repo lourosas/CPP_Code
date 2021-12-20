@@ -157,11 +157,22 @@ void OpenAddressingHashTable<Key, Value>::rehash(){
    if(newSize = (this->checkIncreaseSize())){
       int tempSize = this->size();
       this->size(newSize);
+
       GenericHashElement<Key,Value>* temp = this->array;
+
       this->array = new GenericHashElement<Key, Value>[this->size()];
+      for(int i = 0; i < this->size(); ++i){
+         this->array[i].storeValue =
+                                 GenericHashElement<Key,Value>::EMPTY;
+      }
+      //Now, replace...
+      for(int i = 0; i < tempSize; ++i){
+         if(temp[i].storeValue == GenericHashElement<Key,Value>::SET){
+            this->insert(temp[i].key(), temp[i].value());
+         }
+      }
+      delete [] temp;
    }
-
-
 }
 
 /////////////////////////Private Member Functions/////////////////////
