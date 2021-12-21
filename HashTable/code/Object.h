@@ -34,13 +34,13 @@ std::ostream& operator<<(std::ostream& os, const Object<T>& obj);
 /**/
 template<typename T>
 Object<T>::Object()
-: _key(0)
+: _key(-1)
 {}
 
 /**/
 template<typename T>
 Object<T>::Object(T value)
-: _key(0), _value(value)
+: _key(-1), _value(value)
 {}
 
 /**/

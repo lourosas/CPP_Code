@@ -73,8 +73,16 @@ std::ostream& GenericHashElement<Key, Value>::print
 (
    std::ostream& os
 )const{
+   /*
    os<<"("<<this->storeValue<<", "<<this->_key<<", "
       <<this->_value<<")";
+   */
+   os<<"(";
+   if(this->storeValue == UNKNOWN){os<<" UNKNOWN, ";}
+   else if(this->storeValue == SET){os<<" SET, ";}
+   else if(this->storeValue == DELETED){os<<" DELETED, ";}
+   else if(this->storeValue == EMPTY){os<<" EMPTY, ";}
+   os<<this->_key.key()<<", "<<this->_value.value()<<")";
    return os;
 }
 

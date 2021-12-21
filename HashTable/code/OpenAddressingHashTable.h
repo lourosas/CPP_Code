@@ -102,9 +102,23 @@ Virtual
 */
 template<typename Key, typename Value>
 Value OpenAddressingHashTable<Key, Value>::retrieve(Key key){
+   int SET   = GenericHashElement<Key,Value>::SET;
+   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
    Value value;
-   if(this->array){
-      value = this->array[0].value();
+   int   storeValue = EMPTY;
+   try{
+      int index = this->searchKeys(key, storeValue);
+      if(index > EMPTY){
+         if(this->array[index].storeValue == SET){
+            //Found the value, because key is in the Hashtable
+            value = this->array[index].value();
+         }
+      }
+   }
+   catch(int x){
+      if(x == SIZE_ERROR){
+         std::cout<<"\n"<<key<<" not in the Hash Table\n\n";
+      }
    }
    return value;
 }

@@ -17,6 +17,10 @@ int main(){
    }
 
    std::cout<<oht;
+   
+   Integer test((int)rand()%5000);
+   Integer v = oht.retrieve(test);
+   std::cout<<std::endl<<v<<std::endl;
 
    //Integer i(4);
    //Integer j(2300);

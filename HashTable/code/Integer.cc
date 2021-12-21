@@ -8,7 +8,7 @@
 ////////////////////////Public Member Functions///////////////////////
 /**/
 Integer::Integer()
-: Object(0){
+: Object(-1){
    this->generateKey();
 }
 
