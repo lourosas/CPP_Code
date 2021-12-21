@@ -22,7 +22,8 @@ class OpenAddressingHashTable : public GenericHashTable<Key, Value>{
    private:
       enum{SIZE_ERROR = -0xFF,INSERTION_ERROR,ALREADY_INSERTED};
       int checkIncreaseSize();
-      int  performHash(Key, int  = 0);
+      int performHash(Key, int  = 0);
+      int searchForEmpty(Key);
       //Value _value;
 };
 
@@ -54,26 +55,16 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
 
    GenericHashElement<Key, Value> ghe(key, value);
    try{
-
-      //TEST PRINTS FOR THE TIME BEING!!!
-      std::cout<<ghe<<std::endl;
-
       index = this->searchKeys(key, storeValue);
       if(index < 0 || storeValue != SET){
          if(index < 0){
             //If the Key is not there, find out where the Key belongs
             //in the Hash Table
-            int i = 0;
-            do{
-               index = this->performHash(key, i);
-               ++i;
-            }while(this->array[index].storeValue == SET);
+            index = this->searchForEmpty(key);
          }
          this->array[index] = ghe;
          this->array[index].storeValue = SET;
          ++this->numberOfElements;
-         //TEST PRINTS FOR THE TIME BEING
-         std::cout<<index<<" : "<<ghe<<std::endl;
          this->rehash();
       }
       //The Key-Value pair is already in the Hash Table
@@ -86,10 +77,11 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
       if(x == SIZE_ERROR){
          std::cout<<"\nERROR:  "<<ghe<<" could NOT be inserted: "
            <<"Size too small\n";
-         throw INSERTION_ERROR;
+         int x = INSERTION_ERROR;
+         throw x;
       }
       else if(x == ALREADY_INSERTED){
-         std::cout<<std::endl<<ghe<<": PREVIOUSLY INSERTED\n";
+         std::cout<<std::endl<<ghe<<": PREVIOUSLY INSERTED\n\n";
          //throw ALREADY_INSERTED;
       }
    }
@@ -141,10 +133,6 @@ int OpenAddressingHashTable<Key, Value>::searchKeys(Key key, int& sv){
             index = idx;
          }
       }
-      //TEST PRINTS FOR THE TIME BEING!!!
-      if(sv==GenericHashElement<Key,Value>::SET){
-         std::cout<<" Collision: "<<idx<<" ; "<<key.key()<<std::endl;
-      }
    }while(index < 0 && sv != EMPTY && ++i < this->size());
    if(i >= this->size()){
       int sizeError = SIZE_ERROR;
@@ -174,6 +162,8 @@ void OpenAddressingHashTable<Key, Value>::rehash(){
    if(newSize){
       int tempSize = this->size();
       this->size(newSize);
+      //Reset the number of elements in the Hash Table
+      this->numberOfElements = 0;
 
       GenericHashElement<Key,Value>* temp = this->array;
 
@@ -202,8 +192,6 @@ int OpenAddressingHashTable<Key, Value>::checkIncreaseSize(){
                           (double)this->numberOfElements/this->size();
    int newSize = 0;
    if(currentPercentage > GenericHashTable<Key,Value>::loadFactor){
-      //find another set of prime numbers
-      //create more primes, as needed...
       int e = 1;
       double m = pow(10,e);
       int compareValue = 10*this->size();
@@ -234,6 +222,19 @@ int OpenAddressingHashTable<Key, Value>::performHash(Key key, int i){
    int hashPrime = key.key()%this->size();
    int index     = (hashPrime + i + i*i)%this->size();
 
+   return index;
+}
+
+/**/
+template<typename Key, typename Value>
+int OpenAddressingHashTable<Key,Value>::searchForEmpty(Key key){
+   int SET   = GenericHashElement<Key,Value>::SET;
+   int index = -1;
+   int i     = 0;
+   do{
+      index = this->performHash(key,i);
+      ++i;
+   }while(this->array[index].storeValue == SET);
    return index;
 }
 #endif

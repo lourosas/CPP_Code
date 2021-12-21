@@ -10,8 +10,8 @@ int main(){
    std::cout<<"Hello World\n";
    OpenAddressingHashTable<Integer, Integer> oht;
 
-   for(int i = 0; i < 40; ++i){
-      int v = rand()%500;
+   for(int i = 0; i < 45; ++i){
+      int v = rand()%5000;
       Integer x(v);
       oht.insert(x.key(), x.value());
    }
