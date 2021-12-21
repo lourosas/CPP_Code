@@ -54,8 +54,11 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
 
    GenericHashElement<Key, Value> ghe(key, value);
    try{
-      index = this->searchKeys(key, storeValue);
 
+      //TEST PRINTS FOR THE TIME BEING!!!
+      std::cout<<ghe<<std::endl;
+
+      index = this->searchKeys(key, storeValue);
       if(index < 0 || storeValue != SET){
          if(index < 0){
             //If the Key is not there, find out where the Key belongs
@@ -65,6 +68,8 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
          this->array[index] = ghe;
          this->array[index].storeValue = SET;
          ++this->numberOfElements;
+         //TEST PRINTS FOR THE TIME BEING
+         std::cout<<index<<" : "<<ghe<<std::endl;
          this->rehash();
       }
       //The Key-Value pair is already in the Hash Table
@@ -134,7 +139,7 @@ int OpenAddressingHashTable<Key, Value>::searchKeys(Key key, int& sv){
       }
       //TEST PRINTS FOR THE TIME BEING!!!
       if(sv==GenericHashElement<Key,Value>::SET){
-         std::cout<<"Collision: "<<idx<<" ; "<<key.key()<<std::endl;
+         std::cout<<" Collision: "<<idx<<" ; "<<key.key()<<std::endl;
       }
    }while(index < 0 && sv != EMPTY && ++i < this->size());
    if(i >= this->size()){
