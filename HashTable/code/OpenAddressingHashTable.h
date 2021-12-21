@@ -63,7 +63,11 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
          if(index < 0){
             //If the Key is not there, find out where the Key belongs
             //in the Hash Table
-            index = this->performHash(key);
+            int i = 0;
+            do{
+               index = this->performHash(key, i);
+               ++i;
+            }while(this->array[index].storeValue == SET);
          }
          this->array[index] = ghe;
          this->array[index].storeValue = SET;
