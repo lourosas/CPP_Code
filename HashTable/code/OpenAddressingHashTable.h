@@ -12,15 +12,20 @@ class OpenAddressingHashTable : public GenericHashTable<Key, Value>{
    public:
       OpenAddressingHashTable();
       virtual ~OpenAddressingHashTable();
+      virtual int    contains(Value);
+      virtual int    containsKey(Key);
       virtual int    insert(Key, Value);
       virtual Value  remove(Key );
       virtual Value  retrieve(Key);
       virtual int    searchKeys(Key, int& );
       virtual int    searchValues(Value);
+      enum{SIZE_ERROR = -0xFF,
+           INSERTION_ERROR,
+           ALREADY_INSERTED,
+           NO_ENTRY_EXCEPTION};
    protected:
       virtual void rehash();
    private:
-      enum{SIZE_ERROR = -0xFF,INSERTION_ERROR,ALREADY_INSERTED};
       int checkIncreaseSize();
       int performHash(Key, int  = 0);
       int searchForEmpty(Key);
@@ -44,6 +49,33 @@ OpenAddressingHashTable<Key, Value>::~OpenAddressingHashTable(){}
 
 
 /////////////////Public Member Functions//////////////////////////////
+/*
+Virtual
+*/
+template<typename Key, typename Value>
+int OpenAddressingHashTable<Key, Value>::contains(Value value){
+   return 0;
+}
+
+/*
+Virtual
+*/
+template<typename Key, typename Value>
+int OpenAddressingHashTable<Key, Value>::containsKey(Key key){
+   int SET   = GenericHashElement<Key,Value>::SET;
+   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
+
+   int containsKey = 0;
+   int storeValue   = EMPTY;
+   try{
+      int index   = this->searchKeys(key, storeValue);
+      containsKey = ((index > EMPTY) && (storeValue == SET));
+   }
+   catch(int x){}
+
+   return containsKey;
+}
+
 /*
 Virtual
 */
@@ -81,7 +113,8 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
          throw x;
       }
       else if(x == ALREADY_INSERTED){
-         std::cout<<std::endl<<ghe<<": PREVIOUSLY INSERTED\n\n";
+         std::cout<<std::endl<<(ghe.value()).value()
+           <<": PREVIOUSLY INSERTED\n\n";
          //throw ALREADY_INSERTED;
       }
    }
@@ -94,7 +127,22 @@ Virtual
 */
 template<typename Key, typename Value>
 Value OpenAddressingHashTable<Key, Value>::remove(Key key){
-   return this->retrieve(key);
+   int DELETED = GenericHashElement<Key, Value>::DELETED;
+   Value value;
+
+   if(this->containsKey(key)){
+      int sv;
+      int index = this->searchKeys(key,sv);
+      value     = this->array[index].value();
+      //Now, go ahead and delete it by setting Store Value to DELETED
+      this->array[index].storeValue = DELETED;
+      --this->numberOfElements;
+   }
+   else{
+      int exception = NO_ENTRY_EXCEPTION;
+      throw exception;
+   }
+   return value;
 }
 
 /*
@@ -102,23 +150,15 @@ Virtual
 */
 template<typename Key, typename Value>
 Value OpenAddressingHashTable<Key, Value>::retrieve(Key key){
-   int SET   = GenericHashElement<Key,Value>::SET;
-   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
    Value value;
-   int   storeValue = EMPTY;
-   try{
-      int index = this->searchKeys(key, storeValue);
-      if(index > EMPTY){
-         if(this->array[index].storeValue == SET){
-            //Found the value, because key is in the Hashtable
-            value = this->array[index].value();
-         }
-      }
+   if(this->containsKey(key)){
+      int sv;
+      int index = this->searchKeys(key,sv);
+      value     = this->array[index].value();
    }
-   catch(int x){
-      if(x == SIZE_ERROR){
-         std::cout<<"\n"<<key<<" not in the Hash Table\n\n";
-      }
+   else{
+      int exception = NO_ENTRY_EXCEPTION;
+      throw exception;
    }
    return value;
 }

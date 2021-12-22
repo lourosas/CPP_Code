@@ -18,6 +18,8 @@ class GenericHashTable{
       virtual ~GenericHashTable();
 
       //Pure Virtual Member Functions
+      virtual int   contains(Value)     = 0;
+      virtual int   containsKey(Key)    = 0;
       virtual int   insert(Key, Value)  = 0;
       virtual Value remove(Key )        = 0;
       virtual Value retrieve(Key )      = 0;
