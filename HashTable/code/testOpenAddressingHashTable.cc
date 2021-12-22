@@ -31,16 +31,16 @@ int main(){
       }
    }
 
-   test = (int)5403;
+   Integer test1 = (int)5403;
    try{
       //Integer v = oht.retrieve(test);
-      Integer v = oht.remove(test);
+      Integer v = oht.remove(test1);
       std::cout<<std::endl<<v<<std::endl<<std::endl;
    }
    catch(int x){
       std::cout<<std::endl<<"Exception Occured:  "<<x;
       if(x == oht.NO_ENTRY_EXCEPTION){
-         std::cout<<"\n\n"<<test.value()<<" NOT in the Hash Table\n\n";
+         std::cout<<"\n\n"<<test1.value()<<" NOT in the Hash Table\n\n";
       }
    }
 
