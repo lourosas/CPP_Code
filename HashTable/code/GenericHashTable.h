@@ -16,7 +16,7 @@ class GenericHashTable{
    public:
       GenericHashTable();
       virtual ~GenericHashTable();
-
+      virtual void clear();
       //Pure Virtual Member Functions
       virtual int   contains(Value)     = 0;
       virtual int   containsKey(Key)    = 0;
@@ -103,6 +103,18 @@ GenericHashTable<Key,Value>::~GenericHashTable(){
 }
 
 ///////////////////////Public Member Functions////////////////////////
+/*
+Virtual
+*/
+template<typename Key, typename Value>
+void GenericHashTable<Key, Value>::clear(){
+   if(this->array != nullptr){
+      delete [] this->array;
+      this->array = nullptr;
+      this->array = new GenericHashElement<Key,Value>[this->_size];
+   }
+}
+
 /*
 Virtual
 */

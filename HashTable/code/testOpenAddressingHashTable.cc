@@ -48,5 +48,8 @@ int main(){
    
    oht.insert(test.key(), test.value());
    std::cout<<oht<<std::endl;
+
+   oht.clear();
+   std::cout<<oht<<std::endl;
    return 1;
 }
