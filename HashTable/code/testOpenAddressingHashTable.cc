@@ -10,7 +10,6 @@ int main(){
    std::cout<<"Hello World\n";
    OpenAddressingHashTable<Integer, Integer> oht;
 
-   std::cout<<oht.isEmpty()<<"\n\n";
 
    for(int i = 0; i < 45; ++i){
       int v = rand()%5000;
@@ -20,7 +19,6 @@ int main(){
    Integer test((int)rand()%5000);
    oht.insert(test.key(), test.value());
 
-   std::cout<<oht.isEmpty()<<"\n\n";
 
    std::cout<<oht;
    std::cout<<std::endl<<test<<std::endl;
@@ -51,14 +49,32 @@ int main(){
 
    std::cout<<oht<<std::endl;
    
-   std::cout<<oht.isEmpty()<<"\n\n";
 
    oht.insert(test.key(), test.value());
    std::cout<<oht<<std::endl;
 
-   oht.clear();
-   std::cout<<oht<<std::endl;
+   std::cout<<"\n"<<oht.searchValues(test1.value())<<"\n\n";
 
-   std::cout<<oht.isEmpty()<<"\n\n";
+   int size = -1;
+   Integer* keys = oht.keys(size);
+   std::cout<<size<<"\n\n"<<keys<<"\n\n";
+   for(int i = 0; i < size; ++i){
+      std::cout<<keys[i].key()<<", ";
+   }
+   Integer* values = oht.values(size);
+   std::cout<<"\n\n"<<size<<"\n\n"<<values<<"\n\n";
+   for(int i = 0; i < size; ++i){
+      std::cout<<values[i].value()<<", ";
+   }
+
+   oht.clear();
+   std::cout<<"\n"<<oht<<std::endl;
+
+   //keys = oht.keys(size);
+   //std::cout<<size<<"\n\n"<<keys<<"\n\n";
+   values = oht.values(size);
+   std::cout<<"\n\n"<<size<<"\n\n"<<values<<"\n\n";
+
+   std::cout<<"\n\n";
    return 1;
 }

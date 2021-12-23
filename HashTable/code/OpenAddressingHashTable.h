@@ -129,7 +129,26 @@ Virtual
 */
 template<typename Key, typename Value>
 Key* OpenAddressingHashTable<Key,Value>::keys(int& size){
-   return nullptr;
+   int SET = GenericHashElement<Key,Value>::SET;
+   if(this->keys_ != nullptr){
+      delete [] this->keys_;
+      this->keys_ = nullptr;
+   }
+   size = this->numberOfElements;
+   if(size){
+      int idx = 0;
+      this->keys_ = new Key[this->numberOfElements];
+      if(this->keys_ != nullptr){
+         for(int i = 0; i < this->size(); ++i){
+            if(this->array[i].storeValue == SET){
+               this->keys_[idx] = this->array[i].key();
+               ++idx;
+            }
+         }
+         size = this->numberOfElements;
+      }
+   }
+   return this->keys_;
 }
 
 /*
@@ -210,7 +229,35 @@ Virtual
 */
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::searchValues(Value object){
-   return 0;
+   int index = GenericHashElement<Key,Value>::EMPTY;
+   int kys   = 0;
+   int vals  = 0;
+   this->keys(kys);
+   this->values(vals);
+   if(kys && vals &&
+      (kys==this->numberOfElements && vals==this->numberOfElements)){
+      int found = 0; int idx   = 0;
+      for(int i = 0; i < vals && !found; ++i){
+         if(this->values_[i] == object){
+            found = 1;
+            idx = i;
+         }
+      }
+      int sv = GenericHashElement<Key,Value>::EMPTY;
+      if(found){
+         try{
+            index = this->searchKeys(this->keys_[idx], sv);
+            if(sv != GenericHashElement<Key,Value>::SET){
+               //This should never happen!!
+               throw int(-1);
+            }
+         }
+         catch(int x){
+            index = GenericHashElement<Key,Value>::EMPTY;
+         }
+      }
+   }
+   return index;
 }
 
 /*
@@ -218,7 +265,22 @@ Virtual
 */
 template<typename Key, typename Value>
 Value* OpenAddressingHashTable<Key,Value>::values(int& size){
-   return nullptr;
+   if(this->values_ != nullptr){
+      delete [] this->values_;
+      this->values_ = nullptr;
+   }
+   size = this->numberOfElements;
+   if(size){
+      int size_;
+      this->keys(size_);
+      if(size_ == this->numberOfElements){
+         this->values_ = new Value[this->numberOfElements];
+         for(int i = 0; i < size_; ++i){
+            this->values_[i] = this->retrieve(this->keys_[i]);
+         }
+      }
+   }
+   return this->values_;
 }
 
 ////////////////////////Protected Member Functions////////////////////
