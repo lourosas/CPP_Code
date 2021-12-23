@@ -16,32 +16,38 @@ class GenericHashTable{
    public:
       GenericHashTable();
       virtual ~GenericHashTable();
-      virtual void clear();
-      //Pure Virtual Member Functions
-      virtual int   contains(Value)     = 0;
-      virtual int   containsKey(Key)    = 0;
-      virtual int   insert(Key, Value)  = 0;
-      virtual Value remove(Key )        = 0;
-      virtual Value retrieve(Key )      = 0;
-      virtual int   searchKeys(Key,int&)= 0;
-      virtual int   searchValues(Value) = 0;
 
+      //Pure Virtual Member Functions
+      virtual int    contains(Value)     = 0;
+      virtual int    containsKey(Key)    = 0;
+      virtual int    insert(Key, Value)  = 0;
+      virtual Key*   keys(int&)          = 0;
+      virtual Value  remove(Key )        = 0;
+      virtual Value  retrieve(Key )      = 0;
+      virtual int    searchKeys(Key,int&)= 0;
+      virtual int    searchValues(Value) = 0;
+      virtual Value* values(int&)        = 0;
+
+      virtual void clear();
+      int isEmpty();
       virtual std::ostream& print(std::ostream& );
       int size() const;
    protected:
       virtual void rehash() = 0;
       void size(int);
-      static int initialCapacity;
-      static double loadFactor;
-      PrimeNumberFinder* pnf;
+      static int                      initialCapacity;
+      static double                   loadFactor;
+      PrimeNumberFinder*              pnf;
       GenericHashElement<Key, Value>* array;
-      int numberOfElements;
+      Value*                          values_;
+      Key*                            keys_;
+      int                             numberOfElements;
    private:
-      int a_Hash_Value;
-      int b_Hash_Value;
-      int m_Hash_Value;
-      int p_Hash_Value;
-      int _size;
+      int    a_Hash_Value;
+      int    b_Hash_Value;
+      int    m_Hash_Value;
+      int    p_Hash_Value;
+      int    _size;
 };
 //Overload the insertion operator
 template<typename Key, typename Value>
@@ -64,6 +70,8 @@ template<typename Key, typename Value>
 GenericHashTable<Key,Value>::GenericHashTable()
 : pnf(nullptr),
   array(nullptr),
+  values_(nullptr),
+  keys_(nullptr),
   numberOfElements(0),
   a_Hash_Value(1),
   b_Hash_Value(0),
@@ -111,8 +119,20 @@ void GenericHashTable<Key, Value>::clear(){
    if(this->array != nullptr){
       delete [] this->array;
       this->array = nullptr;
+      //clear out the number of elements...
+      this->numberOfElements = 0;
+      //Reset the Size to the Initial Capacity (not that it should
+      //matter)
+      this->_size = initialCapacity;
       this->array = new GenericHashElement<Key,Value>[this->_size];
    }
+}
+
+/*
+*/
+template<typename Key, typename Value>
+int GenericHashTable<Key, Value>::isEmpty(){
+   return (this->numberOfElements == 0);
 }
 
 /*

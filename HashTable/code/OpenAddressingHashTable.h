@@ -15,10 +15,12 @@ class OpenAddressingHashTable : public GenericHashTable<Key, Value>{
       virtual int    contains(Value);
       virtual int    containsKey(Key);
       virtual int    insert(Key, Value);
+      virtual Key*   keys(int&);
       virtual Value  remove(Key );
       virtual Value  retrieve(Key);
       virtual int    searchKeys(Key, int& );
       virtual int    searchValues(Value);
+      virtual Value* values(int&);
       enum{SIZE_ERROR = -0xFF,
            INSERTION_ERROR,
            ALREADY_INSERTED,
@@ -126,6 +128,14 @@ int OpenAddressingHashTable<Key, Value>::insert(Key key, Value value){
 Virtual
 */
 template<typename Key, typename Value>
+Key* OpenAddressingHashTable<Key,Value>::keys(int& size){
+   return nullptr;
+}
+
+/*
+Virtual
+*/
+template<typename Key, typename Value>
 Value OpenAddressingHashTable<Key, Value>::remove(Key key){
    int DELETED = GenericHashElement<Key, Value>::DELETED;
    Value value;
@@ -201,6 +211,14 @@ Virtual
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::searchValues(Value object){
    return 0;
+}
+
+/*
+Virtual
+*/
+template<typename Key, typename Value>
+Value* OpenAddressingHashTable<Key,Value>::values(int& size){
+   return nullptr;
 }
 
 ////////////////////////Protected Member Functions////////////////////

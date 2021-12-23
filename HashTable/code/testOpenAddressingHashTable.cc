@@ -10,6 +10,8 @@ int main(){
    std::cout<<"Hello World\n";
    OpenAddressingHashTable<Integer, Integer> oht;
 
+   std::cout<<oht.isEmpty()<<"\n\n";
+
    for(int i = 0; i < 45; ++i){
       int v = rand()%5000;
       Integer x(v);
@@ -17,6 +19,8 @@ int main(){
    }
    Integer test((int)rand()%5000);
    oht.insert(test.key(), test.value());
+
+   std::cout<<oht.isEmpty()<<"\n\n";
 
    std::cout<<oht;
    std::cout<<std::endl<<test<<std::endl;
@@ -40,16 +44,21 @@ int main(){
    catch(int x){
       std::cout<<std::endl<<"Exception Occured:  "<<x;
       if(x == oht.NO_ENTRY_EXCEPTION){
-         std::cout<<"\n\n"<<test1.value()<<" NOT in the Hash Table\n\n";
+         std::cout<<"\n\n"<<test1.value()
+           <<" NOT in the Hash Table\n\n";
       }
    }
 
    std::cout<<oht<<std::endl;
    
+   std::cout<<oht.isEmpty()<<"\n\n";
+
    oht.insert(test.key(), test.value());
    std::cout<<oht<<std::endl;
 
    oht.clear();
    std::cout<<oht<<std::endl;
+
+   std::cout<<oht.isEmpty()<<"\n\n";
    return 1;
 }
