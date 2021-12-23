@@ -56,7 +56,8 @@ Virtual
 */
 template<typename Key, typename Value>
 int OpenAddressingHashTable<Key, Value>::contains(Value value){
-   return 0;
+   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
+   return(this->searchValues(value) > EMPTY);
 }
 
 /*

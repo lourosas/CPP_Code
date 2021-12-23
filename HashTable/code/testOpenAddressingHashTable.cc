@@ -14,14 +14,15 @@ int main(){
    for(int i = 0; i < 45; ++i){
       int v = rand()%5000;
       Integer x(v);
-      oht.insert(x.key(), x.value());
+      oht.insert(x, x);
    }
    Integer test((int)rand()%5000);
-   oht.insert(test.key(), test.value());
+   oht.insert(test, test);
 
 
    std::cout<<oht;
    std::cout<<std::endl<<test<<std::endl;
+   std::cout<<std::endl<<oht.contains(test)<<std::endl<<std::endl;
    if(oht.containsKey(test)){
       try{
          //Integer v = oht.retrieve(test);
@@ -33,10 +34,11 @@ int main(){
       }
    }
 
+
    Integer test1 = (int)5403;
    try{
       //Integer v = oht.retrieve(test);
-      Integer v = oht.remove(test1);
+      Integer v = oht.remove(test1.key());
       std::cout<<std::endl<<v<<std::endl<<std::endl;
    }
    catch(int x){
@@ -47,10 +49,12 @@ int main(){
       }
    }
 
+   std::cout<<std::endl<<oht.contains(test1)<<std::endl<<std::endl;
+
    std::cout<<oht<<std::endl;
    
 
-   oht.insert(test.key(), test.value());
+   oht.insert(test, test);
    std::cout<<oht<<std::endl;
 
    std::cout<<"\n"<<oht.searchValues(test1.value())<<"\n\n";
