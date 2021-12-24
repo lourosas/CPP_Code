@@ -31,7 +31,7 @@ clean:
 	rm -f testPrimeNumberFinder \
 		testInteger \
 		testOpenAddressingHashTable \
-	       	*.o core *.core *.txt
+	       	*.o core *.core *.txt *.text
 
 .cc.o:
 	${CXX} ${CFLAGS} ${LDFLAGS} -c $<
