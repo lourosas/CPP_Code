@@ -36,6 +36,7 @@ class LinkedList{
       ~LinkedList();
       int           add(const T& );
       int           add(const T&, int);
+      int           contains(const T&);
       T&            get(int);
       int           getIndex(const T&);
       int           isEmpty();
@@ -49,7 +50,9 @@ class LinkedList{
       void          sort();
       void          sortReverse();
       enum{FALSE, TRUE};
-      enum{ALREADY_INSERTED,INSERTION_ERROR};
+      enum{INSERTION_ERROR = -0XF,
+           NOT_INSERTED = -1,
+           ALREADY_INSERTED = 0};
    protected:
       void size(int );
    private:
@@ -61,7 +64,7 @@ class LinkedList{
 };
 //Overload the insertion Operator
 template<class T>
-std::ostream& operator<<(ostream&, LinkedList<T>& );
+std::ostream& operator<<(std::ostream& os, LinkedList<T>& list);
 
 ////////////////////////Class Implementations/////////////////////////
 //Public Member Functions
@@ -76,13 +79,18 @@ LinkedList<T>::LinkedList()
    _size(0){}
 
 /*
-Copy Contstructor
+Copy Constructor
 */
 template<class T>
-LinkedList<T>::LinkedList<T>(const LinkedList<T>& rhs){
+LinkedList<T>::LinkedList(const LinkedList<T>& rhs){
    if(this->head){
       this->destroyLinkedList();
+      this->head = nullptr;
    }
+   for(int i = 0; i < rhs.size(); ++i){
+      this->add(rhs.get(i));
+   }
+   this->_isOrdered = rhs._isOrdered;
 }
 
 /*
@@ -95,17 +103,87 @@ LinkedList<T>::~LinkedList(){
    }
 }
 
+/**/
+template<class T>
+int LinkedList<T>::add(const T& input){
+   int added = NOT_INSERTED;
+   if(this->contains(input) < ALREADY_INSERTED){
+      LinkedListNode<T>* temp = new LinkedListNode<T>();
+      temp->data = input;
+      temp->next = nullptr;
+      //Add to the BACK of the Linked List...
+      if(this->head == nullptr){
+         this->head = temp;
+         this->tail = this->head;
+      }
+      else{
+         this->tail->next = temp;
+         this->tail = temp;
+      }
+      temp = nullptr;
+      ++this->_size;
+      added = this->_size;
+   }
+   return added;
+}
+
+/**/
+template<class T>
+int LinkedList<T>::add(const T& input, int index){
+   int added = NOT_INSERTED;
+   if(this->contains(input) < ALREADY_INSERTED){
+      LinkedListNode<T>* current  = nullptr;
+      LinkedListNode<T>* previous = nullptr;
+      LinkedListNode<T>* temp     = nullptr;
+      if((index >= this->_size) || (this->head == nullptr)){
+         added = this->add(input);
+      }
+      else{
+         current = this->head;
+         for(int i = 0; i < index; ++i){
+            previous = current;
+            current  = current->next;
+         }
+         temp = new LinkedListNode<T>();
+         if(temp != nullptr){
+            temp->data = input;
+            temp->next = current;
+            if(previous == nullptr){
+               this->head = temp;
+            }
+            else{
+               previous->next = temp;
+            }
+            ++this->_size;
+            added = this->_size;
+         }
+         current  = nullptr;
+         previous = nullptr;
+         temp     = nullptr;
+      }
+   }
+   return added;
+}
+
+
+/**/
+template<class T>
+int LinkedList<T>::contains(const T& input){
+   int index = NOT_INSERTED;
+   return index;
+}
+
 //Private Member Functions
 /*
 */
 template<class T>
-LinkedList<T>::destroyLinkedList(){
-   LinkedListNode<T> temp = nullptr;
-   this->tail             = nullptr;
+void LinkedList<T>::destroyLinkedList(){
+   LinkedListNode<T>* temp = nullptr;
+   this->tail              = nullptr;
 
-   while(this->_head){
-      temp = this->_head;
-      this->_head = temp->next;
+   while(this->head){
+      temp = this->head;
+      this->head  = temp->next;
       temp->next  = nullptr;
       delete temp;
       temp = nullptr;
