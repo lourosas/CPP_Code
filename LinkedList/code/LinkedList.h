@@ -242,7 +242,17 @@ T& LinkedList<T>::peekEnd(){
    }
 }
 
-
+/**/
+template<class T>
+std::ostream& LinkedList<T>::print(std::ostream& os){
+   for(int i = 0; i < this->size(); ++i){
+      try{
+         os<<this->get(i)<<", ";
+      }
+      catch(int x){}
+   }
+   return os;
+}
 
 /**/
 template<class T>

@@ -36,12 +36,21 @@ int main(){
    //ll.add(x, 2);
    x = 3333;
    ll.add(x);
+
+   std::cout<<"\nWhat the fuck!!\n\n"<<ll.isEmpty();
+
    try{
-   std::cout<<"\n"<<ll.isEmpty()<<"\n"<<ll.peekEnd()<<"\n"
-      <<ll.peek()<<"\n"<<ll.peek(2)<<"\n"<<ll.peek(56);
+      std::cout<<"\n"<<ll.peekEnd().value()<<"\n"<<ll.peek().value()
+        <<"\n"<<ll.peek(3).value();
    }
    catch(int x){
       std::cout<<"\n"<<x<<"\n";
    }
+   try{
+      std::cout<<"\n\n"<<ll.peek(67)<<"\n\n";
+   }
+   catch(int x){ std::cout<<"\n\n"<<x<<"\n\n"; }
+   std::cout<<"\n"<<ll<<"\n";
+
    return 1;
 }
