@@ -23,15 +23,25 @@ int main(){
    LinkedList<Integer> ll;
    std::cout<<ll.isEmpty()<<std::endl;
    Integer x(3405);
-   ll.add(x, 40);
+   //ll.add(x, 40);
+   ll.add(x);
    x = 4305;
-   ll.add(x, 0);
+   ll.add(x);
+   //ll.add(x, 0);
    x = 5007;
-   ll.add(x, 1);
+   ll.add(x);
+   //ll.add(x, 1);
    x = 6007;
-   ll.add(x, 2);
+   ll.add(x);
+   //ll.add(x, 2);
    x = 3333;
    ll.add(x);
-   std::cout<<std::endl<<ll.isEmpty()<<std::endl;
+   try{
+   std::cout<<"\n"<<ll.isEmpty()<<"\n"<<ll.peekEnd()<<"\n"
+      <<ll.peek()<<"\n"<<ll.peek(2)<<"\n"<<ll.peek(56);
+   }
+   catch(int x){
+      std::cout<<"\n"<<x<<"\n";
+   }
    return 1;
 }
