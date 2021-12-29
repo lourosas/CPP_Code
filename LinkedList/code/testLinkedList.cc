@@ -21,6 +21,7 @@
 int main(){
    std::cout<<"\n\nHello World\n\n";
    LinkedList<Integer> ll;
+   std::cout<<ll.isEmpty()<<std::endl;
    Integer x(3405);
    ll.add(x, 40);
    x = 4305;
@@ -29,5 +30,8 @@ int main(){
    ll.add(x, 1);
    x = 6007;
    ll.add(x, 2);
+   x = 3333;
+   ll.add(x);
+   std::cout<<std::endl<<ll.isEmpty()<<std::endl;
    return 1;
 }

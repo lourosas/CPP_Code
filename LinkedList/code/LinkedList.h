@@ -15,7 +15,7 @@ A generic LinkeList class by Lou Rosas
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  */
  /////////////////////////////////////////////////////////////////////
 #ifndef LINKED_LIST_H
@@ -107,7 +107,7 @@ LinkedList<T>::~LinkedList(){
 template<class T>
 int LinkedList<T>::add(const T& input){
    int added = NOT_INSERTED;
-   if(this->contains(input) < ALREADY_INSERTED){
+   if(this->contains(input) != TRUE){
       LinkedListNode<T>* temp = new LinkedListNode<T>();
       temp->data = input;
       temp->next = nullptr;
@@ -131,7 +131,7 @@ int LinkedList<T>::add(const T& input){
 template<class T>
 int LinkedList<T>::add(const T& input, int index){
    int added = NOT_INSERTED;
-   if(this->contains(input) < ALREADY_INSERTED){
+   if(this->contains(input) != TRUE){
       LinkedListNode<T>* current  = nullptr;
       LinkedListNode<T>* previous = nullptr;
       LinkedListNode<T>* temp     = nullptr;
@@ -169,8 +169,83 @@ int LinkedList<T>::add(const T& input, int index){
 /**/
 template<class T>
 int LinkedList<T>::contains(const T& input){
+   int found = FALSE;
+   LinkedListNode<T>* temp = this->head;
+   while(temp && !found){
+      found = (temp->data == input);
+      temp  = temp->next;
+   }
+   return found;
+}
+
+/**/
+template<class T>
+T& LinkedList<T>::get(int index){
+   if(index < this->_size){
+      LinkedListNode<T>* temp = this->head;
+      for(int i = 0; i < index; ++i){
+         temp = temp->next;
+      }
+      return temp->data;
+   }
+   else{
+      int error = NOT_INSERTED;
+      throw error;
+   }
+}
+
+/**/
+template<class T>
+int LinkedList<T>::getIndex(const T& input){
    int index = NOT_INSERTED;
+
    return index;
+}
+
+/**/
+template<class T>
+int LinkedList<T>::isEmpty(){
+   return(!(this->size()));
+}
+
+/**/
+template<class T>
+T& LinkedList<T>::peek(){
+   try{
+      return(this->peek(0));
+   }
+   catch(int x){
+      throw x;
+   }
+}
+
+/**/
+template<class T>
+T& LinkedList<T>::peek(int index){
+   try{
+      return(this->get(index));
+   }
+   catch(int x){
+      throw x;
+   }
+}
+
+/**/
+template<class T>
+T& LinkedList<T>::peekEnd(){
+   if(!(this->isEmpty())){
+      return this->tail->data;
+   }
+   else{
+      int error = NOT_INSERTED;
+      throw error;
+   }
+}
+
+/**/
+template<class T>
+int LinkedList<T>::size() const{
+   return this->_size;
 }
 
 //Private Member Functions
