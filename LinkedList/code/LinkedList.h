@@ -282,6 +282,7 @@ T& LinkedList<T>::remove(int index){
       delete current;
       current       = nullptr;
       previous      = nullptr;
+      --this->_size;
       return this->_data;
    }
    else{
