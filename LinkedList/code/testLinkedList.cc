@@ -51,6 +51,10 @@ int main(){
    }
    catch(int x){ std::cout<<"\n\n"<<x<<"\n\n"; }
    std::cout<<"\n"<<ll<<"\n";
+   try{
+      std::cout<<ll.remove(0)<<"\n\n"<<ll.remove(67)<<"\n";
+   }
+   catch(int x){ std::cout<<"\n\n"<<x<<"\n\n"; }
 
    return 1;
 }

@@ -59,6 +59,7 @@ class LinkedList{
       void destroyLinkedList();
       LinkedListNode<T>* head;
       LinkedListNode<T>* tail;
+      T               _data;
       int             _isOrdered;
       int             _size;
 };
@@ -247,7 +248,10 @@ template<class T>
 std::ostream& LinkedList<T>::print(std::ostream& os){
    for(int i = 0; i < this->size(); ++i){
       try{
-         os<<this->get(i)<<", ";
+         os<<this->get(i);
+         if(i < (this->size() - 1)){
+            os<<", ";
+         }
       }
       catch(int x){}
    }
@@ -258,7 +262,27 @@ std::ostream& LinkedList<T>::print(std::ostream& os){
 template<class T>
 T& LinkedList<T>::remove(int index){
    if(index < this->_size){
-      return this->head->data;
+      LinkedListNode<T>* current  = this->head;
+      LinkedListNode<T>* previous = nullptr;
+      for(int i = 0; i < index; ++i){
+         previous = current;
+         current  = current->next;
+      }
+      if(previous == nullptr){
+         this->head = current->next;
+      }
+      else{
+         previous->next = current->next;
+         if(current == this->tail){
+            this->tail = previous;
+         }
+      }
+      this->_data   = current->data;
+      current->next = nullptr;
+      delete current;
+      current       = nullptr;
+      previous      = nullptr;
+      return this->_data;
    }
    else{
       int error = NOT_INSERTED;
