@@ -256,6 +256,18 @@ std::ostream& LinkedList<T>::print(std::ostream& os){
 
 /**/
 template<class T>
+T& LinkedList<T>::remove(int index){
+   if(index < this->_size){
+      return this->head->data;
+   }
+   else{
+      int error = NOT_INSERTED;
+      throw error;
+   }
+}
+
+/**/
+template<class T>
 int LinkedList<T>::size() const{
    return this->_size;
 }
