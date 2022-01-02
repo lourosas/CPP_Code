@@ -36,6 +36,7 @@ class LinkedList{
       ~LinkedList();
       int           add(const T& );
       int           add(const T&, int);
+      void          clear();
       int           contains(const T&);
       T&            get(int);
       int           getIndex(const T&);
@@ -166,6 +167,12 @@ int LinkedList<T>::add(const T& input, int index){
    return added;
 }
 
+/**/
+template<class T>
+void LinkedList<T>::clear(){
+   this->destroyLinkedList();
+}
+
 
 /**/
 template<class T>
@@ -199,7 +206,20 @@ T& LinkedList<T>::get(int index){
 template<class T>
 int LinkedList<T>::getIndex(const T& input){
    int index = NOT_INSERTED;
-
+   int found = FALSE;
+   int idx   = 0;
+   try{
+      while(idx < this->size() && !found){
+         if(this->get(idx) == input){
+            found = TRUE;
+            index = idx;
+         }
+         ++idx;
+      }
+   }
+   catch(int x){
+      index = NOT_INSERTED;
+   }
    return index;
 }
 
@@ -295,6 +315,10 @@ T& LinkedList<T>::remove(int index){
 template<class T>
 int LinkedList<T>::remove(const T& toRemove){
    int removed = this->contains(toRemove);
+   if(removed){
+      int index = this->getIndex(toRemove);
+      this->remove(index);
+   }
    return removed;
 }
 

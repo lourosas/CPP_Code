@@ -57,5 +57,8 @@ int main(){
    catch(int x){ std::cout<<"\n\n"<<x<<"\n\n"; }
    std::cout<<"\n"<<ll<<"\n";
 
+   x = 3333;
+   std::cout<<"\n"<<ll.remove(Integer(x))<<"\n"<<ll<<"\n\n\n";
+
    return 1;
 }
