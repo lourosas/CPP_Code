@@ -45,7 +45,7 @@ class LinkedList{
       T&            peekEnd();
       std::ostream& print(std::ostream& );
       T&            remove(int );
-      T&            remove(const T&);
+      int           remove(const T&);
       int           size() const;
       void          sort();
       void          sortReverse();
@@ -289,6 +289,13 @@ T& LinkedList<T>::remove(int index){
       int error = NOT_INSERTED;
       throw error;
    }
+}
+
+/**/
+template<class T>
+int LinkedList<T>::remove(const T& toRemove){
+   int removed = this->contains(toRemove);
+   return removed;
 }
 
 /**/
