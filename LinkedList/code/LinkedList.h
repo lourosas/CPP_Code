@@ -58,6 +58,9 @@ class LinkedList{
       void size(int );
    private:
       void destroyLinkedList();
+      void merge(int,int,int);
+      void mergeReverse(int, int, int);
+      void mergeSort(int, int, int);
       LinkedListNode<T>* head;
       LinkedListNode<T>* tail;
       T               _data;
@@ -325,6 +328,12 @@ int LinkedList<T>::size() const{
    return this->_size;
 }
 
+/**/
+template<class T>
+void LinkedList<T>::sort(){
+   this->mergeSort(0,this->size(),(int)FALSE);
+}
+
 //Private Member Functions
 /*
 */
@@ -340,8 +349,47 @@ void LinkedList<T>::destroyLinkedList(){
       delete temp;
       temp = nullptr;
    }
-
    this->_size      = 0;
+}
+
+/*
+As far as I can tell, just keep track of pointers...for pointer
+arithmetic...make it simple for now
+*/
+template<class T>
+void LinkedList<T>::merge(int start, int leftLimit, int end){
+   LinkedListNode<T>* begining      = this->head;
+   LinkedListNode<T>* leftEnd       = this->head;
+   LinkedListNode<T>* rightBegining = this->head;
+   for(int i = 0; i < start; ++i){
+      begining = begining->next;
+   }
+   for(int i = 0; i < leftLimit; ++i){
+      leftEnd = leftEnd->next;
+   }
+   for(int i = 0; i < end; ++i){
+      rightBegining = rightBegining->next;
+   }
+}
+
+/**/
+template<class T>
+void LinkedList<T>::mergeReverse(int start, int leftLimit, int end){}
+
+/**/
+template<class T>
+void LinkedList<T>::mergeSort(int begining, int end, int isReverse){
+   int middle = (begining + end)/2;
+   if(begining < end){
+      this->mergeSort(begining, middle, isReverse);
+      this->mergeSort(middle + 1, end, isReverse);
+      if(isReverse){
+         this->mergeReverse(begining,middle,end);
+      }
+      else{
+         this->merge(begining,middle,end);
+      }
+   }
 }
 
 ////////////////////////Function Declarations/////////////////////////
