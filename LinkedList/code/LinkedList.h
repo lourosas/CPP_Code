@@ -61,7 +61,6 @@ class LinkedList{
       LinkedListNode<T>* head;
       LinkedListNode<T>* tail;
       T               _data;
-      int             _isOrdered;
       int             _size;
 };
 //Overload the insertion Operator
@@ -77,7 +76,6 @@ template<class T>
 LinkedList<T>::LinkedList()
  : head(nullptr),
    tail(nullptr),
-   _isOrdered(0),
    _size(0){}
 
 /*
@@ -92,7 +90,6 @@ LinkedList<T>::LinkedList(const LinkedList<T>& rhs){
    for(int i = 0; i < rhs.size(); ++i){
       this->add(rhs.get(i));
    }
-   this->_isOrdered = rhs._isOrdered;
 }
 
 /*
@@ -344,7 +341,6 @@ void LinkedList<T>::destroyLinkedList(){
       temp = nullptr;
    }
 
-   this->_isOrdered = 0;
    this->_size      = 0;
 }
 
