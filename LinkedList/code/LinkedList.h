@@ -357,37 +357,68 @@ As far as I can tell, just keep track of pointers...for pointer
 arithmetic...make it simple for now
 */
 template<class T>
-void LinkedList<T>::merge(int start, int leftLimit, int end){
+void LinkedList<T>::merge(int left, int middle, int right){
    LinkedListNode<T>* begining      = this->head;
    LinkedListNode<T>* leftEnd       = this->head;
    LinkedListNode<T>* rightBegining = this->head;
-   for(int i = 0; i < start; ++i){
+   int n1 = middle - left + 1; // Left  Counter
+   int n2 = right - middle;    //Right Counter
+   T* L = new T[n1];
+   T* R = new T[n2];
+
+   for(int i = 0; i < left; ++i){
       begining = begining->next;
    }
-   for(int i = 0; i < leftLimit; ++i){
+   for(int i = 0; i < middle; ++i){
       leftEnd = leftEnd->next;
    }
-   for(int i = 0; i < end; ++i){
+   for(int i = 0; i < right; ++i){
       rightBegining = rightBegining->next;
    }
+   LinkedListNode<T>* temp = begining;
+   for(int i = 0; i < n1; ++i){
+      L[i] = temp->data;
+      temp = temp->next;
+   }
+   temp = rightBegining;
+   for(int i = 0; i < n2; ++i){
+      R[i] = temp->data;
+      temp = temp->next;
+   }
+   temp = begining;
+   int i = 0;
+   int j = 0;
+   for(int k = 0; k < (right - left); ++k){
+      if((j > n2) || (i > n1) || (L[i] <= R[j])){
+         temp->data = L[i];
+         ++i;
+      }
+      else{
+         temp->data = R[j];
+         ++j;
+      }
+      temp = temp->next;
+   }
+   delete [] L;
+   delete [] R;
 }
 
 /**/
 template<class T>
-void LinkedList<T>::mergeReverse(int start, int leftLimit, int end){}
+void LinkedList<T>::mergeReverse(int left, int middle, int right){}
 
 /**/
 template<class T>
-void LinkedList<T>::mergeSort(int begining, int end, int isReverse){
-   int middle = (begining + end)/2;
-   if(begining < end){
-      this->mergeSort(begining, middle, isReverse);
-      this->mergeSort(middle + 1, end, isReverse);
+void LinkedList<T>::mergeSort(int left, int right, int isReverse){
+   if(left < right){
+      int middle = (int)((left + right)/2);
+      this->mergeSort(left, middle, isReverse);
+      this->mergeSort(left, right,  isReverse);
       if(isReverse){
-         this->mergeReverse(begining,middle,end);
+         this->mergeReverse(left,middle,right);
       }
       else{
-         this->merge(begining,middle,end);
+         this->merge(left,middle,right);
       }
    }
 }
