@@ -30,6 +30,10 @@ class Object{
       virtual ~Object();
       Object& operator=(const Object& );
       int operator==(const Object& )const;
+      int operator>(const Object& )const;
+      int operator>=(const Object& )const;
+      int operator<(const Object& )const;
+      int operator<=(const Object& )const;
       int key() const;
       T value() const;
       virtual std::ostream& print(std::ostream& ) const;
@@ -84,6 +88,30 @@ Object<T>& Object<T>::operator=(const Object& rhs){
 template<typename T>
 int Object<T>::operator==(const Object& obj) const{
    return (this->_value == obj._value);
+}
+
+/**/
+template<typename T>
+int Object<T>::operator>(const Object& obj)const{
+   return(this->_value > obj._value);
+}
+
+/**/
+template<typename T>
+int Object<T>::operator>=(const Object& obj)const{
+   return(this->_value >= obj._value);
+}
+
+/**/
+template<typename T>
+int Object<T>::operator<(const Object& obj)const{
+   return(this->_value < obj._value);
+}
+
+/**/
+template<typename T>
+int Object<T>::operator<=(const Object& obj)const{
+   return(this->_value <= obj._value);
 }
 
 /**/

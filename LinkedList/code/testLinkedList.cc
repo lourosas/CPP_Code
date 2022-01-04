@@ -23,42 +23,22 @@ int main(){
    LinkedList<Integer> ll;
    std::cout<<ll.isEmpty()<<std::endl;
    Integer x(3405);
-   //ll.add(x, 40);
    ll.add(x);
    x = 4305;
+   /*
    ll.add(x);
-   //ll.add(x, 0);
    x = 5007;
    ll.add(x);
-   //ll.add(x, 1);
    x = 6007;
+   */
    ll.add(x);
-   //ll.add(x, 2);
    x = 3333;
    ll.add(x);
 
-   std::cout<<"\nWhat the fuck!!\n\n"<<ll.isEmpty();
-
-   try{
-      std::cout<<"\n"<<ll.peekEnd().value()<<"\n"<<ll.peek().value()
-        <<"\n"<<ll.peek(3).value();
-   }
-   catch(int x){
-      std::cout<<"\n"<<x<<"\n";
-   }
-   try{
-      std::cout<<"\n\n"<<ll.peek(67)<<"\n\n";
-   }
-   catch(int x){ std::cout<<"\n\n"<<x<<"\n\n"; }
    std::cout<<"\n"<<ll<<"\n";
-   try{
-      std::cout<<ll.remove(1)<<"\n";
-   }
-   catch(int x){ std::cout<<"\n\n"<<x<<"\n\n"; }
+   ll.sort();
    std::cout<<"\n"<<ll<<"\n";
 
-   x = 3333;
-   std::cout<<"\n"<<ll.remove(Integer(x))<<"\n"<<ll<<"\n\n\n";
 
    return 1;
 }

@@ -388,12 +388,12 @@ void LinkedList<T>::merge(int left, int middle, int right){
    temp = begining;
    int i = 0;
    int j = 0;
-   for(int k = 0; k < (right - left); ++k){
-      if((j > n2) || (i > n1) || (L[i] <= R[j])){
+   for(int k = 0; k < n1 + n2; ++k){
+      if((i < n1) && (L[i] <= R[j])){
          temp->data = L[i];
          ++i;
       }
-      else{
+      else if(j < n2){
          temp->data = R[j];
          ++j;
       }
@@ -413,7 +413,9 @@ void LinkedList<T>::mergeSort(int left, int right, int isReverse){
    if(left < right){
       int middle = (int)((left + right)/2);
       this->mergeSort(left, middle, isReverse);
-      this->mergeSort(left, right,  isReverse);
+      this->mergeSort(middle + 1, right,  isReverse);
+      //this->mergeSort(left, middle, isReverse);
+      //this->mergeSort(middle+1, right-1,  isReverse);
       if(isReverse){
          this->mergeReverse(left,middle,right);
       }
