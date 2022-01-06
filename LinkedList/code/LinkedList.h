@@ -404,7 +404,44 @@ void LinkedList<T>::merge(int beg, int right, int end){
 
 /**/
 template<class T>
-void LinkedList<T>::mergeReverse(int left, int middle, int right){}
+void LinkedList<T>::mergeReverse(int beg, int right, int end){
+   LinkedListNode<T>* beg_   = this->head;
+   LinkedListNode<T>* right_ = this->head;
+   int n1 = right - beg;
+   int n2 = end - right;
+   LinkedList<T> L;
+   LinkedList<T> R;
+   for(int i = 0; i < beg; ++i){
+      beg_ = beg_->next;
+   }
+   for(int i = 0; i < right; ++i){
+      right_ = right_->next;
+   }
+   LinkedListNode<T>* temp = beg_;
+   for(int i = 0; i < n1; ++i){
+      L.add(temp->data);
+      temp = temp->next;
+   }
+   temp = right_;
+   for(int i = 0; i < n2; ++i){
+      R.add(temp->data);
+      temp = temp->next;
+   }
+   temp  = beg_;
+   int i = 0;
+   int j = 0;
+   for(int k = beg; k < end; ++k){
+      if((j >= n2) || ((i < n1) && (L.peek(i) > R.peek(j)))){
+        temp->data = L.get(i);
+         ++i;
+      }
+      else{
+         temp->data = R.get(j);
+         ++j;
+      }
+      temp = temp->next;
+   }
+}
 
 /**/
 template<class T>

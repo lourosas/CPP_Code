@@ -36,6 +36,8 @@ int main(){
    std::cout<<"\n"<<ll<<"\n";
    ll.sort();
    std::cout<<"\n"<<ll<<"\n";
+   ll.sortReverse();
+   std::cout<<"\n"<<ll<<"\n";
 
 
    return 1;
