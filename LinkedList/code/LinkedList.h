@@ -334,6 +334,12 @@ void LinkedList<T>::sort(){
    this->mergeSort(0,this->size(),(int)FALSE);
 }
 
+/**/
+template<class T>
+void LinkedList<T>::sortReverse(){
+   this->mergeSort(0,this->size(),(int)TRUE);
+}
+
 //Private Member Functions
 /*
 */
@@ -362,8 +368,8 @@ void LinkedList<T>::merge(int beg, int right, int end){
    LinkedListNode<T>* right_ = this->head;
    int n1 = right - beg;
    int n2 = end - right;
-   T* L = new T[n1];
-   T* R = new T[n2];
+   LinkedList<T> L;
+   LinkedList<T> R;
    for(int i = 0; i < beg; ++i){
       beg_ = beg_->next;
    }
@@ -372,30 +378,28 @@ void LinkedList<T>::merge(int beg, int right, int end){
    }
    LinkedListNode<T>* temp = beg_;
    for(int i = 0; i < n1; ++i){
-      L[i] = temp->data;
+      L.add(temp->data);
       temp = temp->next;
    }
    temp = right_;
    for(int i = 0; i < n2; ++i){
-      R[i] = temp->data;
+      R.add(temp->data);
       temp = temp->next;
    }
-   temp = beg_;
+   temp  = beg_;
    int i = 0;
    int j = 0;
    for(int k = beg; k < end; ++k){
-      if((j >= n2) || ((i < n1) && (L[i] <= R[j]))){
-         temp->data = L[i];
+      if((j >= n2) || ((i < n1) && (L.peek(i) <= R.peek(j)))){
+        temp->data = L.get(i);
          ++i;
       }
       else{
-         temp->data = R[j];
+         temp->data = R.get(j);
          ++j;
       }
       temp = temp->next;
    }
-   delete [] L;
-   delete [] R;
 }
 
 /**/
