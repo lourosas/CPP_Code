@@ -25,12 +25,10 @@ int main(){
    Integer x(3405);
    ll.add(x);
    x = 4305;
-   /*
    ll.add(x);
    x = 5007;
    ll.add(x);
    x = 6007;
-   */
    ll.add(x);
    x = 3333;
    ll.add(x);

@@ -357,43 +357,38 @@ As far as I can tell, just keep track of pointers...for pointer
 arithmetic...make it simple for now
 */
 template<class T>
-void LinkedList<T>::merge(int left, int middle, int right){
-   LinkedListNode<T>* begining      = this->head;
-   LinkedListNode<T>* leftEnd       = this->head;
-   LinkedListNode<T>* rightBegining = this->head;
-   int n1 = middle - left + 1; // Left  Counter
-   int n2 = right - middle;    //Right Counter
+void LinkedList<T>::merge(int beg, int right, int end){
+   LinkedListNode<T>* beg_   = this->head;
+   LinkedListNode<T>* right_ = this->head;
+   int n1 = right - beg;
+   int n2 = end - right;
    T* L = new T[n1];
    T* R = new T[n2];
-
-   for(int i = 0; i < left; ++i){
-      begining = begining->next;
-   }
-   for(int i = 0; i < middle; ++i){
-      leftEnd = leftEnd->next;
+   for(int i = 0; i < beg; ++i){
+      beg_ = beg_->next;
    }
    for(int i = 0; i < right; ++i){
-      rightBegining = rightBegining->next;
+      right_ = right_->next;
    }
-   LinkedListNode<T>* temp = begining;
+   LinkedListNode<T>* temp = beg_;
    for(int i = 0; i < n1; ++i){
       L[i] = temp->data;
       temp = temp->next;
    }
-   temp = rightBegining;
+   temp = right_;
    for(int i = 0; i < n2; ++i){
       R[i] = temp->data;
       temp = temp->next;
    }
-   temp = begining;
+   temp = beg_;
    int i = 0;
    int j = 0;
-   for(int k = 0; k < n1 + n2; ++k){
-      if((i < n1) && (L[i] <= R[j])){
+   for(int k = beg; k < end; ++k){
+      if((j >= n2) || ((i < n1) && (L[i] <= R[j]))){
          temp->data = L[i];
          ++i;
       }
-      else if(j < n2){
+      else{
          temp->data = R[j];
          ++j;
       }
@@ -409,18 +404,16 @@ void LinkedList<T>::mergeReverse(int left, int middle, int right){}
 
 /**/
 template<class T>
-void LinkedList<T>::mergeSort(int left, int right, int isReverse){
-   if(left < right){
-      int middle = (int)((left + right)/2);
-      this->mergeSort(left, middle, isReverse);
-      this->mergeSort(middle + 1, right,  isReverse);
-      //this->mergeSort(left, middle, isReverse);
-      //this->mergeSort(middle+1, right-1,  isReverse);
+void LinkedList<T>::mergeSort(int beg, int end, int isReverse){
+   if(beg < (end - 1)){
+      int mid = (int)((beg + end)/2);
+      this->mergeSort(beg, mid, isReverse);
+      this->mergeSort(mid, end, isReverse);
       if(isReverse){
-         this->mergeReverse(left,middle,right);
+         this->mergeReverse(beg, mid, end);
       }
       else{
-         this->merge(left,middle,right);
+         this->merge(beg, mid, end);
       }
    }
 }
