@@ -52,7 +52,7 @@ public GenericHashTable<Key,LinkedList<Value>>{
 //Overload the insertion operator
 template<class Key, class LinkedList<Value>>
 std::ostream& operator<<(std::ostream& os,
-                             ChainedHashTable<Key,LinkedList<Value>>);
+                         ChainedHashTable<Key,LinkedList<Value>> cht);
 
 //Class Implemenation
 //*********************Constructor/Destructor*************************
@@ -61,20 +61,20 @@ Constructor
 Constructor of no arguments
 */
 template<class Key, class LinkedList<Value>>
-ChainedHashTable<Key, LinkedList<Value>>::ChainedHashTable(){}
+ChainedHashTable<Key,LinkedList<Value>>::ChainedHashTable(){}
 
 /*
 Destructor
 */
-template<class Key, class LinkedList<Value>>
-ChainedHashTable<Key, LinkedList<Value>>::~ChainedHashTable(){}
+template<class Key,class LinkedList<Value>>
+ChainedHashTable<Key,LinkedList<Value>>::~ChainedHashTable(){}
 
 //*********************Public Member Functions************************
 /*
 Virtual
 */
 template<class Key, class LinkedList<Value>>
-int ChainedHashTable<Key, LinkedList<Value>>::contains(Value value){
+int ChainedHashTable<Key,LinkedList<Value>>::contains(Value value){
    int EMPTY = GenericHashElement<Key,LinkedList<Value>>::EMPTY;
 
    return 0;
@@ -85,8 +85,8 @@ Virtual
 */
 template<class Key, class LinkedList<Value>>
 int ChainedHashTable<Key,LinkedList<Value>>::containsKey(Key key){
-   int SET   = GenericHashElement<Key,LinkedList<Value>>::SET;
-   int EMPTY = GenericHashElement<Key,LinkedList<Value>>::EMPTY;
+   int SET   = GenericHashElement<Key,Value>::SET;
+   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
 
    return 0;
 }
@@ -109,6 +109,88 @@ Virtual
 template<class Key, class LinkedList<Value>>
 Key* ChainedHashTable<Key,LinkedList<Value>>::keys(int& size){
    return nullptr;
+}
+
+/*
+Virtual
+*/
+template<class Key, class LinkedList<Value>>
+Value ChainedHashTable<Key,LinkedList<Value>>::remove(Key key){
+   Value v;
+   return v;
+}
+
+/*
+Virtual
+*/
+template<class Key, class LinkedList<Value>>
+Value ChainedHashTable<Key,LinkedList<Value>>::retrieve(Key key){
+   Value v;
+   return v;
+}
+
+/*
+Virtual
+*/
+template<class Key, class LinkedList<Value>>
+int ChainedHashTable<Key,LinkedList<Value>>::searchKeys
+(
+   Key  key,
+   int& index
+){
+   return 0;
+}
+
+/*
+Virtual
+*/
+template<class Key,class LinkedList<Value>>
+int ChainedHashTable<Key,LinkedList<Value>>::searchValues(Value val){
+   return 0;
+}
+
+/*
+Virtual
+*/
+template<class Key,class LinkedList<Value>>
+Value* ChainedHashTable<Key,LinkedList<Value>>::values(int& size){
+   return nullptr;
+}
+
+/*
+Virtual
+*/
+template<class Key,class LinkedList<Value>>
+std::ostream& ChainedHashTable<Key,LinkedList<Value>>::print
+(
+   std::ostream& os
+){
+   return os;
+}
+
+//*******************Protected Member Functions***********************
+/*
+*/
+template<class Key,class LinkedList<Value>>
+void ChainedHashTable<Key,LinkedList<Value>>::rehash(){}
+
+//********************Private Member Functions************************
+/*
+*/
+template<class Key, class LinkedList<Value>>
+int ChainedHashTable<Key,LinkedList<Value>>::performHash(Key key){
+   return 0;
+}
+
+//**********************Function Definition***************************
+/*
+Insertion Operator
+*/
+template<class Key,class LinkedList<Value>>
+std::ostream& operator<<(std::ostream& os,
+                          ChainedHashTable<Key,LinkedList<Value>> cht)
+{
+   return cht.print(os);
 }
 
 #endif
