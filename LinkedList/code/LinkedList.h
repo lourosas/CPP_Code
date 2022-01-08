@@ -23,10 +23,11 @@ A generic LinkeList class by Lou Rosas
 
 #include <iostream>
 #include <iomanip>
+#include "List.h"
 #include "LinkedListNode.h"
 
 template <class T>
-class LinkedList{
+class LinkedList : public List<T>{
    public:
       //Constructor with no arguments
       LinkedList();
@@ -338,6 +339,14 @@ void LinkedList<T>::sort(){
 template<class T>
 void LinkedList<T>::sortReverse(){
    this->mergeSort(0,this->size(),(int)TRUE);
+}
+
+//Protected Member Functions
+/*
+*/
+template<class T>
+void LinkedList<T>::size(int size){
+   this->_size = size;
 }
 
 //Private Member Functions
