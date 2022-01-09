@@ -11,6 +11,10 @@ TESTCHAINEDHASHTABLEOBJS=testChainedHashTable.o Integer.o \
 			 PrimeNumberFinder.o
 TESTINTEGERSOURCES=testInteger.cc Integer.cc
 TESTINTEGEROBJS=testInteger.o Integer.o
+#TESTLISTHASHSOURCES=testListHashTable.cc Integer.cc \
+		PrimeNumberFinder.cc
+#TESTLISTHASHOBJS=testListHashTable.o Integer.o \
+		PrimeNumberFinder.o
 TESTOPENHASHSOURCES=testOpenAddressingHashTable.cc Integer.cc \
 		    PrimeNumberFinder.cc
 TESTOPENHASHOBJS=testOpenAddressingHashTable.o Integer.o \
@@ -22,6 +26,9 @@ testChainedHashTable:${TESTCHAINEDHASHTABLEOBJS}
 testInteger:${TESTINTEGEROBJS}
 	${CXX} -o testInteger ${TESTINTEGEROBJS}
 
+#testListHashTable:${TESTLISTHASHOBJS}
+#	${CXX} -o testListHashTable ${TESTLISTHASHOBJS}
+
 testOpenAddressingHashTable:$(TESTOPENHASHOBJS)
 	$(CXX) -o $@ ${TESTOPENHASHOBJS}
 
@@ -32,7 +39,9 @@ testPrimeNumberFinder:$(PNFINDEROBJS)
 all:	testPrimeNumberFinder \
 	testInteger \
 	testOpenAddressingHashTable \
-	testChainedHashTable
+	testChainedHashTable \
+#	testListHashTable
+
 clean:
 	clear
 	@echo "Cleaning up..."
