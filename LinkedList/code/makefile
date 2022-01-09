@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 CC=gcc
 CXX=g++ 
-CFLAGS=-g -Wall -O0 -std=c++11
+CFLAGS=-g -Wall -O0 -std=c++14
 LDFLAGS=-lm
 TESTLINKEDLISTSOURCES=testLinkedList.cc Integer.cc 
 TESTLINKEDLISTOBJS=testLinkedList.o Integer.o
