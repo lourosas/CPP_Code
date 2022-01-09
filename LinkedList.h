@@ -41,7 +41,7 @@ class LinkedList
       //Returns the size of the LinkedList
       //(the number of Node Objects)
       int getSize();
-      
+
       //Returns true if the LinkedList is empty
       bool isEmpty();
 
@@ -90,7 +90,7 @@ class LinkedList
       //Assignment Operator
       LinkedList<Type>& operator=(const LinkedList<Type>& );
 
-      
+
    private:
       //Called by the Destructor, easy algorithmeic way to
       //destroy the entire LinkedList
@@ -136,7 +136,7 @@ LinkedList<Type>::LinkedList(LinkedList<Type>& copy_list)
 {
    Node<Type>* temp_1;//the copy_list.front address
    Node<Type>* temp_2;//current object.front address
-   
+
    temp_1 = copy_list.getFront();
    //Don't do anything if the copy_list does not have any nodes
    if(temp_1)
@@ -154,12 +154,12 @@ LinkedList<Type>::LinkedList(LinkedList<Type>& copy_list)
          temp_2->data = temp_1->data;
          temp_1 = temp_1->next;
       }
-      
+
       //Null out both temp_1 and temp_2(just to be on the safe side)
       temp_1 = NULL;
       temp_2 = NULL;
    }
-   
+
 }
 
 /********************************************************************
@@ -193,7 +193,7 @@ int LinkedList<Type>::add(const Type& the_data, int index)
 {
    int index_value  = index;
    int current_size = this->getSize();
-   
+
    Node<Type>* temp;
    Node<Type>* previous;
    Node<Type>* current;
@@ -223,11 +223,11 @@ int LinkedList<Type>::add(const Type& the_data, int index)
    {
       previous->next = temp;
    }
-   
+
    previous = NULL;
    temp     = NULL;
    current  = NULL;
-   
+
    return index_value;
 }
 
@@ -548,7 +548,7 @@ LinkedList<Type>&  LinkedList<Type>::operator=
    {
       this->destroyLinkedList();
    }
-   
+
    temp_1 = list.getFront();
    if(temp_1)
    {
@@ -574,7 +574,7 @@ LinkedList<Type>&  LinkedList<Type>::operator=
    //Null out both temp_1 and temp_2
    temp_1 = NULL;
    temp_2 = NULL;
-   
+
    return *this;
 }
 
