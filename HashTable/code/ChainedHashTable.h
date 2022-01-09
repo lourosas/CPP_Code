@@ -20,12 +20,12 @@
 #define CHAINED_HASH_TABLE_H
 
 #include <cmath>
-#include "GenericHashTable"
+#include "GenericHashTable.h"
 #include "List.h"
 #include "LinkedList.h"
 
-template<class Key, class List<Value>>
-class ChainedHashTable : public GenericHashTable<Key,List<Value>>{
+template<class Key, class Value>
+class ChainedHashTable : public GenericHashTable<Key,Value>{
    public:
       ChainedHashTable();
       virtual ~ChainedHashTable();
@@ -48,11 +48,12 @@ class ChainedHashTable : public GenericHashTable<Key,List<Value>>{
       virtual void rehash();
    private:
       int performHash(Key);
+      List<Value>* _list;
 };
 //Overload the insertion operator
-template<class Key,class List<Value>>
+template<class Key,class Value>
 std::ostream& operator<<(std::ostream& os,
-                               ChainedHashTable<Key,List<Value>> cht);
+                                    ChainedHashTable<Key,Value> cht);
 
 //Class Implemenation
 //*********************Constructor/Destructor*************************
@@ -60,22 +61,24 @@ std::ostream& operator<<(std::ostream& os,
 Constructor
 Constructor of no arguments
 */
-template<class Key, class List<Value>>
-ChainedHashTable<Key,List<Value>>::ChainedHashTable(){}
+template<class Key, class Value>
+ChainedHashTable<Key,Value>::ChainedHashTable()
+: _list(0)
+{}
 
 /*
 Destructor
 */
-template<class Key,class List<Value>>
-ChainedHashTable<Key,List<Value>>::~ChainedHashTable(){}
+template<class Key, class Value>
+ChainedHashTable<Key,Value>::~ChainedHashTable(){}
 
 //*********************Public Member Functions************************
 /*
 Virtual
 */
-template<class Key, class List<Value>>
-int ChainedHashTable<Key,List<Value>>::contains(Value value){
-   int EMPTY = GenericHashElement<Key,List<Value>>::EMPTY;
+template<class Key, class Value>
+int ChainedHashTable<Key,Value>::contains(Value value){
+   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
 
    return 0;
 }
@@ -83,10 +86,10 @@ int ChainedHashTable<Key,List<Value>>::contains(Value value){
 /*
 Virtual
 */
-template<class Key, class List<Value>>
-int ChainedHashTable<Key,List<Value>>::containsKey(Key key){
-   int SET   = GenericHashElement<Key,List<Value>>::SET;
-   int EMPTY = GenericHashElement<Key,List<Value>>::EMPTY;
+template<class Key, class Value>
+int ChainedHashTable<Key,Value>::containsKey(Key key){
+   int SET   = GenericHashElement<Key,Value>::SET;
+   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
 
    return 0;
 }
@@ -94,24 +97,24 @@ int ChainedHashTable<Key,List<Value>>::containsKey(Key key){
 /*
 Virtual
 */
-template<class Key, class List<Value>>
-int ChainedHashTable<Key,List<Value>>::insert(Key key,Value value){
+template<class Key, class Value>
+int ChainedHashTable<Key,Value>::insert(Key key,Value value){
    return 0;
 }
 
 /*
 Virtual
 */
-template<class Key, class List<Value>>
-Key* ChainedHashTable<Key,List<Value>>::keys(int& size){
+template<class Key, class Value>
+Key* ChainedHashTable<Key,Value>::keys(int& keys){
    return nullptr;
 }
 
 /*
 Virtual
 */
-template<class Key, class List<Value>>
-Value ChainedHashTable<Key,List<Value>>::remove(Key key){
+template<class Key, class Value>
+Value ChainedHashTable<Key,Value>::remove(Key key){
    Value v;
    return v;
 }
@@ -119,8 +122,8 @@ Value ChainedHashTable<Key,List<Value>>::remove(Key key){
 /*
 Virtual
 */
-template<class Key, class List<Value>>
-Value ChainedHashTable<Key,List<Value>>::retrieve(Key key){
+template<class Key, class Value>
+Value ChainedHashTable<Key,Value>::retrieve(Key key){
    Value v;
    return v;
 }
@@ -128,32 +131,32 @@ Value ChainedHashTable<Key,List<Value>>::retrieve(Key key){
 /*
 Virtual
 */
-template<class Key, class List<Value>>
-int ChainedHashTable<Key,List<Value>>::searchKeys(Key key,int& index){
+template<class Key, class Value>
+int ChainedHashTable<Key,Value>::searchKeys(Key key,int& index){
    return 0;
 }
 
 /*
 Virtual
 */
-template<class Key,class List<Value>>
-int ChainedHashTable<Key,List<Value>>::searchValues(Value value){
+template<class Key,class Value>
+int ChainedHashTable<Key,Value>::searchValues(Value value){
    return 0;
 }
 
 /*
 Virtual
 */
-template<class Key,class List<Value>>
-Value* ChainedHashTable<Key,List<Value>>::values(int& size){
+template<class Key,class Value>
+Value* ChainedHashTable<Key,Value>::values(int& size){
    return nullptr;
 }
 
 /*
 Virtual
 */
-template<class Key,class List<Value>>
-std::ostream& ChainedHashTable<Key,List<Value>>::print
+template<class Key, class Value>
+std::ostream& ChainedHashTable<Key,Value>::print
 (
    std::ostream& os
 ){
@@ -163,14 +166,14 @@ std::ostream& ChainedHashTable<Key,List<Value>>::print
 //*******************Protected Member Functions***********************
 /*
 */
-template<class Key,class List<Value>>
-void ChainedHashTable<Key,List<Value>>::rehash(){}
+template<class Key, class Value>
+void ChainedHashTable<Key,Value>::rehash(){}
 
 //********************Private Member Functions************************
 /*
 */
-template<class Key, class List<Value>>
-int ChainedHashTable<Key,List<Value>>::performHash(Key key){
+template<class Key, class Value>
+int ChainedHashTable<Key,Value>::performHash(Key key){
    return 0;
 }
 
@@ -178,11 +181,12 @@ int ChainedHashTable<Key,List<Value>>::performHash(Key key){
 /*
 Insertion Operator
 */
-template<class Key,class List<Value>>
+template<class Key, class Value>
 std::ostream& operator<<(std::ostream& os,
-                                ChainedHashTable<Key,List<Value>> cht)
+                                   ChainedHashTable<Key,Value> cht)
 {
    return cht.print(os);
 }
 
 #endif
+
