@@ -16,13 +16,31 @@
  */
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-#include <iostream>
-#include <cstdlib>
-#include "Integer.h"
-#include "ChainedHashTable.h"
+#ifndef LIST_HASH_TABLE_H
+#define LIST_HASH_TABLE_H
 
-int main(){
-   std::cout<<"\n\nHello World\n\n\n";
-   ChainedHashTable<Integer, Integer> cht;
-   return 1;
-}
+#include <cmath>
+#include "GenericHashTable.h"
+#include "List.h"
+#include "LinkedList.h"
+
+template<class Key, class Value, template<class> class L = List>
+class ListHashTable : public GenericHashTable<Key,L<Value>>{
+   public:
+      ListHashTable(){}
+      virtual ~ListHashTable(){}
+
+      virtual int    contains(Value){ return 0; }
+      virtual int    containsKey(Key){ return 0; }
+      virtual int    insert(Key key, Value value){ return 0; }
+      virtual Key*   keys(int& index){ return nullptr; }
+      virtual Value  remove(Key key){
+         Value v;
+         return v;
+      }
+      virtual Value  retrieve(Key key){Value v; return v;}
+   protected:
+   private:
+};
+
+#endif

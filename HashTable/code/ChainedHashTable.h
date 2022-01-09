@@ -64,13 +64,25 @@ Constructor of no arguments
 template<class Key, class Value>
 ChainedHashTable<Key,Value>::ChainedHashTable()
 : _list(0)
-{}
+{
+   this->_list = new LinkedList<Value>[this->initialCapacity];
+   if(!this->_list){
+      std::cout<<"\n\nCould not allocate memory for the Hash Table!"
+        <<"\nExiting...";
+      exit(0);
+   }
+}
 
 /*
 Destructor
 */
 template<class Key, class Value>
-ChainedHashTable<Key,Value>::~ChainedHashTable(){}
+ChainedHashTable<Key,Value>::~ChainedHashTable(){
+   if(this->_list){
+      std::cout<<"\n\n"<<this->_list<<"\n\n";
+      delete [] this->_list;
+   }
+}
 
 //*********************Public Member Functions************************
 /*
@@ -189,4 +201,3 @@ std::ostream& operator<<(std::ostream& os,
 }
 
 #endif
-
