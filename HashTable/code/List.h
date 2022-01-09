@@ -24,6 +24,8 @@
 template<class T>
 class List{
    public:
+      List(){}
+      virtual ~List(){}
       virtual int add(const T&)                  = 0;
       virtual int add(const T&,int)              = 0;
       virtual void clear()                       = 0;

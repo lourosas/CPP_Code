@@ -34,7 +34,8 @@ class LinkedList : public List<T>{
       //Copy Contstructor
       LinkedList(const LinkedList<T>& );
       //Destructor
-      ~LinkedList();
+      virtual       ~LinkedList();
+
       int           add(const T& );
       int           add(const T&, int);
       void          clear();
