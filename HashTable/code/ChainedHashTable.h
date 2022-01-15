@@ -91,7 +91,8 @@ ChainedHashTable<Key, Value>::ChainedHashTable
    int size
 ): _list(nullptr), _linkedlist(nullptr){
    if(size > 0 && list != nullptr){
-      this->_list = list;
+      //this->_list = list;
+      this->_linkedlist = (LinkedList<Value>*)list;
       this->size(size);
    }
 }
@@ -101,8 +102,7 @@ Destructor
 */
 template<class Key, class Value>
 ChainedHashTable<Key,Value>::~ChainedHashTable(){
-   if(this->_linkedlist){
-      std::cout<<"\n\n"<<this->_list<<"\n\n";
+   if(this->_list){
       delete[] this->_linkedlist;
    }
 }
@@ -113,7 +113,7 @@ Virtual
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::contains(Value value){
-   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
+   int EMPTY = 0;
 
    return EMPTY;
 }
@@ -123,8 +123,7 @@ Virtual
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::containsKey(Key key){
-   //int SET   = GenericHashElement<Key,Value>::SET;
-   int EMPTY = GenericHashElement<Key,Value>::EMPTY;
+   int EMPTY = 0;
 
    return EMPTY;
 }
@@ -134,7 +133,21 @@ Virtual
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::insert(Key key,Value value){
-   return 0;
+   int key_     = key.key();
+   Value value_ = value.value();
+   int index    = INSERTION_ERROR;
+   //If the List<>* is actually something other than nullptr, go
+   //ahead and add
+   if(this->_linkedlist != nullptr){
+      index = key_ % (this->size());
+      //if(!(this->contains(value))){
+         index = this->_linkedlist[index].add(value);
+      //}
+      //else{
+         //index = ALREADY_INSERTED;
+      //}
+   }
+   return index;
 }
 
 /*

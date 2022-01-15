@@ -25,9 +25,13 @@
 
 int main(){
    std::cout<<"\n\nHello World\n\n\n";
-   ChainedHashTable<Integer, Integer> cht;
+   //ChainedHashTable<Integer, Integer> cht;
+   Integer x(302);
+   //std::cout<<"\n\n"<<cht.insert(x,x)<<"\n\n";
    LinkedList<Integer>* array = new LinkedList<Integer>[101];
    ChainedHashTable<Integer, Integer> ht(array, 101);
+   int inserted = ht.insert(x,x);
+   std::cout<<"\n\n"<<inserted<<"\n\n";
    delete[] array;
    array = nullptr;
    return 1;
