@@ -102,9 +102,9 @@ Destructor
 */
 template<class T>
 LinkedList<T>::~LinkedList(){
-   if(this->head){
+   //if(this->head){
       this->destroyLinkedList();
-   }
+   //}
 }
 
 /**/

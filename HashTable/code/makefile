@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 CC=gcc
 CXX=g++ 
-CFLAGS=-g -Wall -O0 -std=c++14
+CFLAGS=-Wall -g -O0 -std=c++14
 LDFLAGS=-lm
 PNFINDERSOURCES=testPrimeNumberFinder.cc PrimeNumberFinder.cc
 PNFINDEROBJS=testPrimeNumberFinder.o PrimeNumberFinder.o

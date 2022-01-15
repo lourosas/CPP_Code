@@ -21,6 +21,7 @@
 
 #include <cmath>
 #include "GenericHashTable.h"
+#include "Integer.h"
 #include "List.h"
 #include "LinkedList.h"
 
@@ -28,6 +29,7 @@ template<class Key, class Value>
 class ChainedHashTable : public GenericHashTable<Key,Value>{
    public:
       ChainedHashTable();
+      ChainedHashTable(List<Value>*, int);
       virtual ~ChainedHashTable();
 
       virtual int    contains(Value);
@@ -49,6 +51,7 @@ class ChainedHashTable : public GenericHashTable<Key,Value>{
    private:
       int performHash(Key);
       List<Value>* _list;
+      LinkedList<Value>* _linkedlist;
 };
 //Overload the insertion operator
 template<class Key,class Value>
@@ -63,13 +66,33 @@ Constructor of no arguments
 */
 template<class Key, class Value>
 ChainedHashTable<Key,Value>::ChainedHashTable()
-: _list(0)
+: _list(nullptr), _linkedlist(nullptr)
 {
-   this->_list = new LinkedList<Value>[this->initialCapacity];
-   if(!this->_list){
+   int capacity = GenericHashTable<Key,Value>::initialCapacity;
+   this->_linkedlist = new LinkedList<Value>[capacity];
+
+   if(!this->_linkedlist){
       std::cout<<"\n\nCould not allocate memory for the Hash Table!"
         <<"\nExiting...";
       exit(0);
+   }
+   this->_list = this->_linkedlist;
+}
+
+/*
+Constructor
+Constructor that takes a List type pointer and the size of the
+array structure to be POINTED at by the List pointer
+*/
+template<class Key, class Value>
+ChainedHashTable<Key, Value>::ChainedHashTable
+(
+   List<Value>* list,
+   int size
+): _list(nullptr), _linkedlist(nullptr){
+   if(size > 0 && list != nullptr){
+      this->_list = list;
+      this->size(size);
    }
 }
 
@@ -78,9 +101,9 @@ Destructor
 */
 template<class Key, class Value>
 ChainedHashTable<Key,Value>::~ChainedHashTable(){
-   if(this->_list){
+   if(this->_linkedlist){
       std::cout<<"\n\n"<<this->_list<<"\n\n";
-      delete [] this->_list;
+      delete[] this->_linkedlist;
    }
 }
 
@@ -92,7 +115,7 @@ template<class Key, class Value>
 int ChainedHashTable<Key,Value>::contains(Value value){
    int EMPTY = GenericHashElement<Key,Value>::EMPTY;
 
-   return 0;
+   return EMPTY;
 }
 
 /*
@@ -100,10 +123,10 @@ Virtual
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::containsKey(Key key){
-   int SET   = GenericHashElement<Key,Value>::SET;
+   //int SET   = GenericHashElement<Key,Value>::SET;
    int EMPTY = GenericHashElement<Key,Value>::EMPTY;
 
-   return 0;
+   return EMPTY;
 }
 
 /*

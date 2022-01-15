@@ -19,10 +19,16 @@
 #include <iostream>
 #include <cstdlib>
 #include "Integer.h"
+#include "List.h"
+#include "LinkedList.h"
 #include "ChainedHashTable.h"
 
 int main(){
    std::cout<<"\n\nHello World\n\n\n";
    ChainedHashTable<Integer, Integer> cht;
+   LinkedList<Integer>* array = new LinkedList<Integer>[101];
+   ChainedHashTable<Integer, Integer> ht(array, 101);
+   delete[] array;
+   array = nullptr;
    return 1;
 }
