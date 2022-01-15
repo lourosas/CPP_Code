@@ -113,9 +113,17 @@ Virtual
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::contains(Value value){
-   int EMPTY = 0;
-
-   return EMPTY;
+   int EMPTY    = 0;
+   int contains = EMPTY;
+   if(this->_linkedlist != nullptr){
+      int i = 0;
+      while(i < this->size() && !contains){
+         if(!(this->_linkedlist[i].isEmpty())){
+            contains = this->_linkedlist[i].contains(value);
+         }
+      }
+   }
+   return contains;
 }
 
 /*
@@ -124,6 +132,7 @@ Virtual
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::containsKey(Key key){
    int EMPTY = 0;
+
 
    return EMPTY;
 }
@@ -140,12 +149,12 @@ int ChainedHashTable<Key,Value>::insert(Key key,Value value){
    //ahead and add
    if(this->_linkedlist != nullptr){
       index = key_ % (this->size());
-      //if(!(this->contains(value))){
+      if(!(this->contains(value))){
          index = this->_linkedlist[index].add(value);
-      //}
-      //else{
-         //index = ALREADY_INSERTED;
-      //}
+      }
+      else{
+         index = ALREADY_INSERTED;
+      }
    }
    return index;
 }
