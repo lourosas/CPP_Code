@@ -121,6 +121,7 @@ int ChainedHashTable<Key,Value>::contains(Value value){
          if(!(this->_linkedlist[i].isEmpty())){
             contains = this->_linkedlist[i].contains(value);
          }
+         ++i;
       }
    }
    return contains;
