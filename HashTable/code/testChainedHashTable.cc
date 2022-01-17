@@ -35,7 +35,23 @@ int main(){
       Integer x(v);
       std::cout<<"\n"<<x.value()<<",  "<<cht.insert(x,x);
    }
+   std::cout<<"\n\n"<<cht.containsKey(x.key())<<"\n\n"
+     <<cht.containsKey(Integer(-7))<<"\n"<<cht.keySize()<<"\n\n";
+   int size = 0;
+   Integer* keys = cht.keys(size);
+   std::cout<<size<<"\n"<<keys<<"\n\n";
+   for(int i = 0; i < size; ++i){
+      std::cout<<keys[i].key()<<", ";
+   }
    std::cout<<"\n\n";
+   size = 0;
+   Integer* vals = cht.values(size);
+   std::cout<<size<<"\n"<<vals<<"\n\n";
+   for(int i = 0; i < size; ++i){
+      std::cout<<vals[i].value()<<", ";
+   }
+   std::cout<<"\n\n";
+
    /*
    LinkedList<Integer>* array = new LinkedList<Integer>[101];
    ChainedHashTable<Integer, Integer> ht(array, 101);

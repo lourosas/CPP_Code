@@ -36,6 +36,7 @@ class ChainedHashTable : public GenericHashTable<Key,Value>{
       virtual int    containsKey(Key);
       virtual int    insert(Key, Value);
       virtual Key*   keys(int&);
+      virtual int    keySize();
       virtual Value  remove(Key);
       virtual Value  retrieve(Key);
       virtual int    searchKeys(Key, int&);
@@ -50,8 +51,9 @@ class ChainedHashTable : public GenericHashTable<Key,Value>{
       virtual void rehash();
    private:
       int performHash(Key);
-      List<Value>* _list;
+      List<Value>*       _list;
       LinkedList<Value>* _linkedlist;
+      LinkedList<Key>    _keys;
 };
 //Overload the insertion operator
 template<class Key,class Value>
@@ -132,10 +134,7 @@ Virtual
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::containsKey(Key key){
-   int EMPTY = 0;
-
-
-   return EMPTY;
+   return(this->_keys.contains(key));
 }
 
 /*
@@ -152,6 +151,7 @@ int ChainedHashTable<Key,Value>::insert(Key key,Value value){
       index = key_ % (this->size());
       if(!(this->contains(value))){
          index = this->_linkedlist[index].add(value);
+         this->_keys.add(key);
       }
       else{
          index = ALREADY_INSERTED;
@@ -165,7 +165,26 @@ Virtual
 */
 template<class Key, class Value>
 Key* ChainedHashTable<Key,Value>::keys(int& keys){
-   return nullptr;
+   keys = this->keySize();
+   if(keys && this->keys_){
+      delete[] this->keys_;
+   }
+   this->keys_ = new Key[keys];
+   if(this->keys_){
+      for(int i = 0; i < keys; ++i){
+         this->keys_[i] = this->_keys.get(i);
+      }
+   }
+   return this->keys_;
+}
+
+template<class Key, class Value>
+int ChainedHashTable<Key,Value>::keySize(){
+   int keySize = 0;
+   if(this->_linkedlist){
+      keySize = this->_keys.size();
+   }
+   return keySize;
 }
 
 /*
@@ -207,7 +226,29 @@ Virtual
 */
 template<class Key,class Value>
 Value* ChainedHashTable<Key,Value>::values(int& size){
-   return nullptr;
+   int temp = 0;
+   if(this->_linkedlist != nullptr){
+      for(int i = 0; i < this->size(); ++i){
+         temp += this->_linkedlist[i].size();
+      }
+      size = temp;
+      if(temp && this->values_){
+         delete[] this->values_;
+      }
+      this->values_ = new Value[size];
+      if(this->values_ != nullptr){
+         int index = 0;
+         for(int i = 0; i < this->size(); ++i){
+            if(!(this->_linkedlist[i].isEmpty())){
+               for(int j = 0; j < this->_linkedlist[i].size(); ++j){
+                  this->values_[index]=this->_linkedlist[i].get(j);
+                  ++index;
+               }
+            }
+         }
+      }
+   }
+   return this->values_;
 }
 
 /*
