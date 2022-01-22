@@ -24,6 +24,7 @@
 #include "ChainedHashTable.h"
 
 int main(){
+   /*
    time_t t;
    srand((unsigned)time(&t));
    std::cout<<"\n\nHello World\n\n\n";
@@ -51,15 +52,30 @@ int main(){
       std::cout<<vals[i].value()<<", ";
    }
    std::cout<<"\n\n";
+   */
 
+   //LinkedList<Integer>* array = new LinkedList<Integer>[101];
+   List<Integer>* array = new LinkedList<Integer>[2];
+   LinkedList<Integer> temp = (LinkedList<Integer>)array[0];
+   temp.insert(Integer(12));
+   temp.insert(Integer(14));
+   temp = array[1];
+   temp.insert(Integer(2));
+   temp.insert(Integer(24));
    /*
-   LinkedList<Integer>* array = new LinkedList<Integer>[101];
    ChainedHashTable<Integer, Integer> ht(array, 101);
    int inserted = ht.insert(x,x);
    std::cout<<"\n\n"<<inserted<<"\n\n";
    inserted = ht.insert(x,x);
    std::cout<<"\n\n"<<inserted<<"\n\n";
+   */
    delete[] array;
+   /*
+   List<Integer>* temp = new LinkedList<Integer>();
+   temp->add(Integer(12));
+   temp->add(Integer(14));
+   temp->print(std::cout);
+   delete temp;
    array = nullptr;
    */
    return 1;
