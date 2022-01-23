@@ -122,13 +122,10 @@ Virtual
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::insert(Key key,Value value){
-   int key_     = key.key();
    Value value_ = value.value();
    int index    = INSERTION_ERROR;
-   //If the List<>* is actually something other than nullptr, go
-   //ahead and add
    if(this->_linkedlist != nullptr){
-      index = key_ % (this->size());
+      index = this->performHash(key);
       if(!(this->contains(value))){
          index = this->_linkedlist[index].add(value);
          this->_keys.add(key);
@@ -239,6 +236,14 @@ std::ostream& ChainedHashTable<Key,Value>::print
 (
    std::ostream& os
 ){
+   int size = 0;
+   this->values_ = this->values(size);
+   for(int i = 0; i < size; ++i){
+      std::cout<<this->values_[i].value();
+      if(i < size - 1){
+         std::cout<<", ";
+      }
+   }
    return os;
 }
 
@@ -253,7 +258,8 @@ void ChainedHashTable<Key,Value>::rehash(){}
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::performHash(Key key){
-   return 0;
+   int key_ = key.key();
+   return (key_ % this->size());
 }
 
 //**********************Function Definition***************************
