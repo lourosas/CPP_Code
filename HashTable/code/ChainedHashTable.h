@@ -29,7 +29,6 @@ template<class Key, class Value>
 class ChainedHashTable : public GenericHashTable<Key,Value>{
    public:
       ChainedHashTable();
-      ChainedHashTable(List<Value>*, int);
       virtual ~ChainedHashTable();
 
       virtual int    contains(Value);
@@ -51,14 +50,13 @@ class ChainedHashTable : public GenericHashTable<Key,Value>{
       virtual void rehash();
    private:
       int performHash(Key);
-      List<Value>*       _list;
       LinkedList<Value>* _linkedlist;
       LinkedList<Key>    _keys;
 };
 //Overload the insertion operator
 template<class Key,class Value>
 std::ostream& operator<<(std::ostream& os,
-                                    ChainedHashTable<Key,Value> cht);
+                                    ChainedHashTable<Key,Value>& cht);
 
 //Class Implemenation
 //*********************Constructor/Destructor*************************
@@ -68,7 +66,7 @@ Constructor of no arguments
 */
 template<class Key, class Value>
 ChainedHashTable<Key,Value>::ChainedHashTable()
-: _list(nullptr), _linkedlist(nullptr)
+: _linkedlist(nullptr)
 {
    int capacity = GenericHashTable<Key,Value>::initialCapacity;
    this->_linkedlist = new LinkedList<Value>[capacity];
@@ -78,33 +76,15 @@ ChainedHashTable<Key,Value>::ChainedHashTable()
         <<"\nExiting...";
       exit(0);
    }
-   this->_list = this->_linkedlist;
 }
 
-/*
-Constructor
-Constructor that takes a List type pointer and the size of the
-array structure to be POINTED at by the List pointer
-*/
-template<class Key, class Value>
-ChainedHashTable<Key, Value>::ChainedHashTable
-(
-   List<Value>* list,
-   int size
-): _list(nullptr), _linkedlist(nullptr){
-   if(size > 0 && list != nullptr){
-      //this->_list = list;
-      this->_linkedlist = (LinkedList<Value>*)list;
-      this->size(size);
-   }
-}
 
 /*
 Destructor
 */
 template<class Key, class Value>
 ChainedHashTable<Key,Value>::~ChainedHashTable(){
-   if(this->_list){
+   if(this->_linkedlist){
       delete[] this->_linkedlist;
    }
 }
@@ -282,7 +262,7 @@ Insertion Operator
 */
 template<class Key, class Value>
 std::ostream& operator<<(std::ostream& os,
-                                   ChainedHashTable<Key,Value> cht)
+                                   ChainedHashTable<Key,Value>& cht)
 {
    return cht.print(os);
 }

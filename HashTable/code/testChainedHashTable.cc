@@ -27,7 +27,6 @@ template<class T>
 int addData(List<T>& );
 
 int main(){
-   /*
    time_t t;
    srand((unsigned)time(&t));
    std::cout<<"\n\nHello World\n\n\n";
@@ -41,6 +40,8 @@ int main(){
    }
    std::cout<<"\n\n"<<cht.containsKey(x.key())<<"\n\n"
      <<cht.containsKey(Integer(-7))<<"\n"<<cht.keySize()<<"\n\n";
+   std::cout<<cht<<"\n\n";
+   /*
    int size = 0;
    Integer* keys = cht.keys(size);
    std::cout<<size<<"\n"<<keys<<"\n\n";
@@ -55,18 +56,7 @@ int main(){
       std::cout<<vals[i].value()<<", ";
    }
    std::cout<<"\n\n";
-   List<Integer>* temp = new LinkedList<Integer>();
-   addData(*temp);
-   temp->print(std::cout);
-   std::cout<<"\n";
-   delete temp;
    */
-
-   LinkedList<Integer> list;
-   addData(list);
-   std::cout<<"\n";
-   list.print(std::cout);
-   std::cout<<"\n";
    return 1;
 }
 
