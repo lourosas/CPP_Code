@@ -23,6 +23,9 @@
 #include "LinkedList.h"
 #include "ChainedHashTable.h"
 
+template<class T>
+int addData(List<T>& );
+
 int main(){
    /*
    time_t t;
@@ -52,31 +55,29 @@ int main(){
       std::cout<<vals[i].value()<<", ";
    }
    std::cout<<"\n\n";
+   List<Integer>* temp = new LinkedList<Integer>();
+   addData(*temp);
+   temp->print(std::cout);
+   std::cout<<"\n";
+   delete temp;
    */
 
-   //LinkedList<Integer>* array = new LinkedList<Integer>[101];
-   List<Integer>* array = new LinkedList<Integer>[2];
-   LinkedList<Integer> temp = (LinkedList<Integer>)array[0];
-   temp.insert(Integer(12));
-   temp.insert(Integer(14));
-   temp = array[1];
-   temp.insert(Integer(2));
-   temp.insert(Integer(24));
-   /*
-   ChainedHashTable<Integer, Integer> ht(array, 101);
-   int inserted = ht.insert(x,x);
-   std::cout<<"\n\n"<<inserted<<"\n\n";
-   inserted = ht.insert(x,x);
-   std::cout<<"\n\n"<<inserted<<"\n\n";
-   */
-   delete[] array;
-   /*
-   List<Integer>* temp = new LinkedList<Integer>();
-   temp->add(Integer(12));
-   temp->add(Integer(14));
-   temp->print(std::cout);
-   delete temp;
-   array = nullptr;
-   */
+   LinkedList<Integer> list;
+   addData(list);
+   std::cout<<"\n";
+   list.print(std::cout);
+   std::cout<<"\n";
+   return 1;
+}
+
+template<class T>
+int addData(List<T>& list){
+   time_t t;
+   srand((unsigned)time(&t));
+   for(int i = 0; i < 50; ++i){
+      int v = rand()%5000;
+      Integer x(v);
+      list.add(v);
+   }
    return 1;
 }
