@@ -136,9 +136,12 @@ int ChainedHashTable<Key,Value>::insert(Key key,Value value){
    Value value_ = value.value();
    int index    = INSERTION_ERROR;
    if(this->_linkedlist != nullptr){
-      index = this->performHash(key);
+      int idx = this->performHash(key);
       if(!(this->contains(value))){
-         index = this->_linkedlist[index].add(value);
+         index = this->_linkedlist[idx].add(value);
+         GenericHashElement<Key,Value> ghe(key,value);
+         ghe.storeValue = GenericHashElement<Key,Value>::SET;
+         index = this->_list[idx].add(ghe);
          this->_keys.add(key);
       }
       else{
@@ -185,7 +188,13 @@ Value ChainedHashTable<Key,Value>::remove(Key key){
       int error = NO_ENTRY_EXCEPTION;
       throw error;
    }
-
+   if(this->_linkedlist != nullptr){
+      for(int i = 0; i < this->size(); ++i){
+         if(!(this->_list[i].isEmpty())){
+            
+         }
+      }
+   }
    return v;
 }
 
@@ -252,13 +261,23 @@ std::ostream& ChainedHashTable<Key,Value>::print
 (
    std::ostream& os
 ){
+   /*
    int size = 0;
    this->values_ = this->values(size);
    for(int i = 0; i < size; ++i){
-      std::cout<<this->values_[i].value();
+      os<<this->values_[i].value();
       if(i < size - 1){
-         std::cout<<", ";
+         os<<", ";
       }
+   }
+   */
+   for(int i = 0; i < this->size(); ++i){
+      if(!(this->_list[i].isEmpty())){
+         os<<this->_list[i];
+      }
+      /*if(i < this->size()){
+         os<<", ";
+      }*/
    }
    return os;
 }

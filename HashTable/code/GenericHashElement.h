@@ -107,7 +107,7 @@ int GenericHashElement<Key,Value>::operator==
 (
    const GenericHashElement& rhs
 ){
-   return (this->_value == rhs._value);
+   return ((this->key()==rhs.key()) && (this->value()==rhs.value()));
 }
 
 /*
