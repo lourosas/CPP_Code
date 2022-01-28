@@ -28,8 +28,13 @@ class GenericHashElement{
       GenericHashElement(Key, Value );
       GenericHashElement(const GenericHashElement& );
       virtual ~GenericHashElement();
-      virtual std::ostream& print(std::ostream& ) const;
       virtual GenericHashElement& operator=(const GenericHashElement&);
+      virtual int operator==(const GenericHashElement& );
+      virtual int operator>(const GenericHashElement& );
+      virtual int operator>=(const GenericHashElement& );
+      virtual int operator<(const GenericHashElement& );
+      virtual int operator<=(const GenericHashElement& );
+      virtual std::ostream& print(std::ostream& ) const;
       Key   key()   const;
       Value value() const;
       int   storeValue;
@@ -83,6 +88,76 @@ GenericHashElement<Key, Value>::~GenericHashElement(){}
 virtual
 */
 template<class Key, class Value>
+GenericHashElement<Key,Value>&
+GenericHashElement<Key, Value>::operator=
+(
+   const GenericHashElement& rhs
+){
+   this->_key        = rhs._key;
+   this->storeValue  = rhs.storeValue;
+   this->_value      = rhs._value;
+   return *this;
+}
+
+/*
+virtual
+*/
+template<class Key, class Value>
+int GenericHashElement<Key,Value>::operator==
+(
+   const GenericHashElement& rhs
+){
+   return (this->_value == rhs._value);
+}
+
+/*
+virutal
+*/
+template<class Key, class Value>
+int GenericHashElement<Key,Value>::operator>
+(
+   const GenericHashElement& rhs
+){
+   return (this->value() > rhs.value());
+}
+
+/*
+virtual
+*/
+template<class Key, class Value>
+int GenericHashElement<Key,Value>::operator>=
+(
+   const GenericHashElement& rhs
+){
+   return (this->value() >= rhs.value());
+}
+
+/*
+virtual
+*/
+template<class Key,class Value>
+int GenericHashElement<Key,Value>::operator<
+(
+   const GenericHashElement& rhs
+){
+   return (this->value() < rhs.value());
+}
+
+/*
+virtual
+*/
+template<class Key,class Value>
+int GenericHashElement<Key,Value>::operator<=
+(
+   const GenericHashElement& rhs
+){
+   return(this->value() <= rhs.value());
+}
+
+/*
+virtual
+*/
+template<class Key, class Value>
 std::ostream& GenericHashElement<Key, Value>::print
 (
    std::ostream& os
@@ -98,21 +173,6 @@ std::ostream& GenericHashElement<Key, Value>::print
    else if(this->storeValue == EMPTY){os<<" EMPTY, ";}
    os<<this->_key.key()<<", "<<this->_value.value()<<")";
    return os;
-}
-
-/*
-virtual
-*/
-template<class Key, class Value>
-GenericHashElement<Key,Value>&
-GenericHashElement<Key, Value>::operator=
-(
-   const GenericHashElement& rhs
-){
-   this->_key        = rhs._key;
-   this->storeValue  = rhs.storeValue;
-   this->_value      = rhs._value;
-   return *this;
 }
 
 /*

@@ -28,13 +28,13 @@ class Object{
       Object(T);
       Object(const Object& );
       virtual ~Object();
-      Object& operator=(const Object& );
-      int operator==(const Object& )const;
-      int operator>(const Object& )const;
-      int operator>=(const Object& )const;
-      int operator<(const Object& )const;
-      int operator<=(const Object& )const;
-      int key() const;
+      virtual Object& operator=(const Object& );
+      virtual int operator==(const Object& )const;
+      virtual int operator>(const Object& )const;
+      virtual int operator>=(const Object& )const;
+      virtual int operator<(const Object& )const;
+      virtual int operator<=(const Object& )const;
+      virtual int key() const;
       T value() const;
       virtual std::ostream& print(std::ostream& ) const;
    protected:

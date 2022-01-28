@@ -51,6 +51,7 @@ class ChainedHashTable : public GenericHashTable<Key,Value>{
    private:
       int performHash(Key);
       LinkedList<Value>* _linkedlist;
+      LinkedList<GenericHashElement<Key,Value>>* _list;
       LinkedList<Key>    _keys;
 };
 //Overload the insertion operator
@@ -66,12 +67,19 @@ Constructor of no arguments
 */
 template<class Key, class Value>
 ChainedHashTable<Key,Value>::ChainedHashTable()
-: _linkedlist(nullptr)
+: _linkedlist(nullptr), _list(nullptr)
 {
    int capacity = GenericHashTable<Key,Value>::initialCapacity;
    this->_linkedlist = new LinkedList<Value>[capacity];
+   int c = capacity;
+   this->_list = new LinkedList<GenericHashElement<Key,Value>>[c];
 
-   if(!this->_linkedlist){
+   if(!(this->_linkedlist)){
+      std::cout<<"\n\nCould not allocate memory for the Hash Table!"
+        <<"\nExiting...";
+      exit(0);
+   }
+   if(!(this->_list)){
       std::cout<<"\n\nCould not allocate memory for the Hash Table!"
         <<"\nExiting...";
       exit(0);
@@ -86,6 +94,9 @@ template<class Key, class Value>
 ChainedHashTable<Key,Value>::~ChainedHashTable(){
    if(this->_linkedlist){
       delete[] this->_linkedlist;
+   }
+   if(this->_list){
+      delete[] this->_list;
    }
 }
 
@@ -170,6 +181,11 @@ Virtual
 template<class Key, class Value>
 Value ChainedHashTable<Key,Value>::remove(Key key){
    Value v;
+   if(!(this->containsKey(key))){
+      int error = NO_ENTRY_EXCEPTION;
+      throw error;
+   }
+
    return v;
 }
 
