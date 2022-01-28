@@ -30,6 +30,9 @@ int main(){
    time_t t;
    srand((unsigned)time(&t));
    std::cout<<"\n\nHello World\n\n\n";
+   LinkedList<Integer> list_;
+   addData(list_);
+   std::cout<<list_<<"\n\n";
    ChainedHashTable<Integer, Integer> cht;
    Integer x(302);
    std::cout<<"\n"<<cht.insert(x,x)<<"\n";
