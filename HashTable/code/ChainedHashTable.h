@@ -183,14 +183,15 @@ Virtual
 */
 template<class Key, class Value>
 Value ChainedHashTable<Key,Value>::remove(Key key){
+   int index;
    Value v;
-   if(!(this->containsKey(key))){
+   if(!(this->searchKeys(key,index))){
       int error = NO_ENTRY_EXCEPTION;
       throw error;
    }
-   if(this->_linkedlist != nullptr){
-      for(int i = 0; i < this->size(); ++i){
-         if(!(this->_list[i].isEmpty())){
+   if(!(this->_list[index].isEmpty())){
+      for(int i = 0; i < this->_list[index].size(); ++i){
+         if(key == this->_list[index].get(i).key()){
             
          }
       }
@@ -212,7 +213,14 @@ Virtual
 */
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::searchKeys(Key key,int& index){
-   return 0;
+   int containsKey = this->containsKey(key);
+   if(containsKey){
+      index = this->performHash(key);
+   }
+   else{
+      index = -1;
+   }
+   return containsKey;
 }
 
 /*
