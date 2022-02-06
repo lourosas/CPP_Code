@@ -41,9 +41,35 @@ int main(){
       Integer x(v);
       std::cout<<"\n"<<x.value()<<",  "<<cht.insert(x,x);
    }
+   /*
    std::cout<<"\n\n"<<cht.containsKey(x.key())<<"\n\n"
      <<cht.containsKey(Integer(-7))<<"\n"<<cht.keySize()<<"\n\n";
-   std::cout<<cht<<"\n\n";
+   */
+   /*
+   int index;
+   std::cout<<"\n\n"<<cht.searchKeys(x.key(), index)<<"\n"
+     <<index<<"\n\n";
+   std::cout<<cht.searchKeys(Integer(-7),index)<<"\n"<<index<<"\n"
+     <<cht.keySize()<<"\n\n";
+   */
+   std::cout<<"\n\n"<<cht<<"\n\n";
+   /*
+   try{
+      std::cout<<"\n\n"<<cht.remove(x.key())<<"\n\n"
+        <<cht.remove(Integer(-7))<<"\n\n";
+   }
+   catch(int error){
+      std::cout<<"Remove Error:  "<<error<<"\n\n";
+   }
+   */
+   try{
+      std::cout<<"\n\n"<<cht.retrieve(x.key())<<"\n\n"
+        <<cht.retrieve(Integer(-7))<<"\n\n";
+   }
+   catch(int error){
+      std::cout<<"Retrieve Error:  "<<error<<"\n\n";
+   }
+   std::cout<<"\n\n"<<cht<<"\n\n";
    /*
    int size = 0;
    Integer* keys = cht.keys(size);

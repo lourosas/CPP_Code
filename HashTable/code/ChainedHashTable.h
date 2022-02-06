@@ -192,7 +192,7 @@ Value ChainedHashTable<Key,Value>::remove(Key key){
    if(!(this->_list[index].isEmpty())){
       for(int i = 0; i < this->_list[index].size(); ++i){
          if(key == this->_list[index].get(i).key()){
-            
+            v = this->_list[index].remove(i).value();
          }
       }
    }
@@ -204,7 +204,19 @@ Virtual
 */
 template<class Key, class Value>
 Value ChainedHashTable<Key,Value>::retrieve(Key key){
+   int index;
    Value v;
+   if(!(this->searchKeys(key,index))){
+      int error = NO_ENTRY_EXCEPTION;
+      throw error;
+   }
+   if(!(this->_list[index].isEmpty())){
+      for(int i = 0; i < this->_list[index].size(); ++i){
+         if(key == this->_list[index].get(i).key()){
+            v = this->_list[index].peek(i).value();
+         }
+      }
+   }
    return v;
 }
 
