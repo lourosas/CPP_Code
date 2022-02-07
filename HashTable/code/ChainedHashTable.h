@@ -49,6 +49,7 @@ class ChainedHashTable : public GenericHashTable<Key,Value>{
    protected:
       virtual void rehash();
    private:
+      int checkIncreaseSize();
       int performHash(Key);
       LinkedList<Value>* _linkedlist;
       LinkedList<GenericHashElement<Key,Value>>* _list;
@@ -169,6 +170,9 @@ Key* ChainedHashTable<Key,Value>::keys(int& keys){
    return this->keys_;
 }
 
+/*
+Virtual
+*/
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::keySize(){
    int keySize = 0;
@@ -216,6 +220,7 @@ Value ChainedHashTable<Key,Value>::retrieve(Key key){
             v = this->_list[index].peek(i).value();
          }
       }
+      this->checkIncreaseSize();
    }
    return v;
 }
@@ -240,7 +245,7 @@ Virtual
 */
 template<class Key,class Value>
 int ChainedHashTable<Key,Value>::searchValues(Value value){
-   return 0;
+   return this->contains(value);
 }
 
 /*
@@ -309,6 +314,29 @@ template<class Key, class Value>
 void ChainedHashTable<Key,Value>::rehash(){}
 
 //********************Private Member Functions************************
+/*
+*/
+template<class Key, class Value>
+int ChainedHashTable<Key,Value>::checkIncreaseSize(){
+   int increaseSize = 0;
+   std::cout<<"\n\n\n";
+   int i     = 0;
+   int found = 0;
+   while(i < this->pnf->numberOfPrimes() && !found){
+      if(this->pnf->primeAt(i) < this->size()){
+         ++i;
+      }
+      else{
+         found = 1;
+      }
+   }
+   int currentPrime = this->pnf->primeAt(i);
+   while(this->pnf->primeAt(i) < 5*currentPrime){ ++i; }
+   std::cout<<currentPrime<<", "<<this->pnf->primeAt(i);
+   std::cout<<"\n\n\n";
+   return increaseSize;
+}
+
 /*
 */
 template<class Key, class Value>
