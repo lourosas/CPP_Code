@@ -36,10 +36,11 @@ int main(){
    ChainedHashTable<Integer, Integer> cht;
    Integer x(302);
    std::cout<<"\n"<<cht.insert(x,x)<<"\n";
-   for(int i = 0; i < 50; ++i){
-      int v = rand()%5000;
+   Integer keys[5000];
+   for(int i = 0; i < 5000; ++i){
+      int v = rand()%500000;
       Integer x(v);
-      std::cout<<"\n"<<x.value()<<",  "<<cht.insert(x,x);
+      std::cout<<"\n"<<x.value()<<",  "<<cht.insert(x,x)<<"\n";
    }
    /*
    std::cout<<"\n\n"<<cht.containsKey(x.key())<<"\n\n"
@@ -52,8 +53,8 @@ int main(){
    std::cout<<cht.searchKeys(Integer(-7),index)<<"\n"<<index<<"\n"
      <<cht.keySize()<<"\n\n";
    */
-   std::cout<<"\n\n"<<cht<<"\n\n";
    /*
+   std::cout<<"\n\n"<<cht<<"\n\n";
    try{
       std::cout<<"\n\n"<<cht.remove(x.key())<<"\n\n"
         <<cht.remove(Integer(-7))<<"\n\n";
@@ -69,8 +70,8 @@ int main(){
    catch(int error){
       std::cout<<"Retrieve Error:  "<<error<<"\n\n";
    }
-   std::cout<<"\n\n"<<cht<<"\n\n";
    /*
+   std::cout<<"\n\n"<<cht<<"\n\n";
    int size = 0;
    Integer* keys = cht.keys(size);
    std::cout<<size<<"\n"<<keys<<"\n\n";

@@ -54,6 +54,7 @@ class ChainedHashTable : public GenericHashTable<Key,Value>{
       LinkedList<Value>* _linkedlist;
       LinkedList<GenericHashElement<Key,Value>>* _list;
       LinkedList<Key>    _keys;
+      int _insertionCount;
 };
 //Overload the insertion operator
 template<class Key,class Value>
@@ -68,7 +69,7 @@ Constructor of no arguments
 */
 template<class Key, class Value>
 ChainedHashTable<Key,Value>::ChainedHashTable()
-: _linkedlist(nullptr), _list(nullptr)
+: _linkedlist(nullptr), _list(nullptr), _insertionCount(0)
 {
    int capacity = GenericHashTable<Key,Value>::initialCapacity;
    this->_linkedlist = new LinkedList<Value>[capacity];
@@ -136,6 +137,8 @@ template<class Key, class Value>
 int ChainedHashTable<Key,Value>::insert(Key key,Value value){
    Value value_ = value.value();
    int index    = INSERTION_ERROR;
+   //int insertionLimit = 5000;
+   int insertionLimit = 50;
    if(this->_linkedlist != nullptr){
       int idx = this->performHash(key);
       if(!(this->contains(value))){
@@ -144,6 +147,11 @@ int ChainedHashTable<Key,Value>::insert(Key key,Value value){
          ghe.storeValue = GenericHashElement<Key,Value>::SET;
          index = this->_list[idx].add(ghe);
          this->_keys.add(key);
+         if(++(this->_insertionCount) >= insertionLimit){
+            //Check to see if a rehash is need ever 5000 insertions
+            this->rehash();
+            this->_insertionCount = 0;
+         }
       }
       else{
          index = ALREADY_INSERTED;
@@ -220,7 +228,6 @@ Value ChainedHashTable<Key,Value>::retrieve(Key key){
             v = this->_list[index].peek(i).value();
          }
       }
-      this->checkIncreaseSize();
    }
    return v;
 }
@@ -311,7 +318,29 @@ std::ostream& ChainedHashTable<Key,Value>::print
 /*
 */
 template<class Key, class Value>
-void ChainedHashTable<Key,Value>::rehash(){}
+void ChainedHashTable<Key,Value>::rehash(){
+   int newSize = this->checkIncreaseSize();
+   std::cout<<"\nnewSize:  "<<newSize<<"\n";
+   if(newSize){
+      int tempSize = this->size();
+      this->size(newSize);
+      LinkedList<Value>* tempLL = this->_linkedlist;
+      LinkedList<GenericHashElement<Key,Value>>* tempL = this->_list;
+      int c = newSize;
+      this->_linkedlist = new LinkedList<Value>[c];
+      this->_list = new LinkedList<GenericHashElement<Key,Value>>[c];
+      this->_keys.clear();
+      for(int i = 0; i < tempSize; ++i){
+         for(int j = 0; j < tempL[i].size(); ++j){
+            Key key     = tempL[i].peek(j).key();
+            Value value = tempL[i].peek(j).value();
+            this->insert(key, value);
+         }
+      }
+      delete[] tempLL;
+      delete[] tempL;
+   }
+}
 
 //********************Private Member Functions************************
 /*
@@ -319,21 +348,36 @@ void ChainedHashTable<Key,Value>::rehash(){}
 template<class Key, class Value>
 int ChainedHashTable<Key,Value>::checkIncreaseSize(){
    int increaseSize = 0;
-   std::cout<<"\n\n\n";
-   int i     = 0;
-   int found = 0;
-   while(i < this->pnf->numberOfPrimes() && !found){
-      if(this->pnf->primeAt(i) < this->size()){
-         ++i;
-      }
-      else{
-         found = 1;
-      }
+   //Rehash when any in the LinkedList get to this size
+   //int limit        = 5000;
+   int limit        = 50;
+   int i            = 0;
+   int found        = 0;
+   while(i < this->size() && !increaseSize){
+      increaseSize = (this->_linkedlist[i].size() >= limit);
+      ++i;
    }
-   int currentPrime = this->pnf->primeAt(i);
-   while(this->pnf->primeAt(i) < 5*currentPrime){ ++i; }
-   std::cout<<currentPrime<<", "<<this->pnf->primeAt(i);
-   std::cout<<"\n\n\n";
+   if(increaseSize){
+      if(this->size() > this->pnf->lastPrime()){
+         //Time to resize
+         int pnfsize = this->pnf->size();
+         delete this->pnf;
+         this->pnf = new PrimeNumberFinder(10*pnfsize);
+         this->pnf->findPrimes();
+      }
+      i = 0;
+      while(i < this->pnf->numberOfPrimes() && !found){
+         if(this->pnf->primeAt(i) < this->size()){
+            ++i;
+         }
+         else{
+            found = 1;
+         }
+      }
+      int currentPrime = this->pnf->primeAt(i);
+      while(this->pnf->primeAt(i) < 5*currentPrime){ ++i; }
+      increaseSize = this->pnf->primeAt(i);
+   }
    return increaseSize;
 }
 
