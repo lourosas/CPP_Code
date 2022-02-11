@@ -40,7 +40,13 @@ int main(){
    for(int i = 0; i < 5000; ++i){
       int v = rand()%500000;
       Integer x(v);
-      std::cout<<"\n"<<x.value()<<",  "<<cht.insert(x,x)<<"\n";
+      int isInsert = cht.insert(x,x);
+      if(isInsert > -1){
+         keys[i] = x.key();
+      }
+      else{
+         std::cout<<"\n"<<x.value()<<",  "<<isInsert<<"\n";
+      }
    }
    /*
    std::cout<<"\n\n"<<cht.containsKey(x.key())<<"\n\n"
@@ -63,7 +69,11 @@ int main(){
       std::cout<<"Remove Error:  "<<error<<"\n\n";
    }
    */
+   std::cout<<"\nkeySize:  "<<cht.keySize()<<"\n";
    try{
+      for(int i = 0; i < 5000; ++i){
+         std::cout<<"\n"<<cht.retrieve(keys[i]);
+      }
       std::cout<<"\n\n"<<cht.retrieve(x.key())<<"\n\n"
         <<cht.retrieve(Integer(-7))<<"\n\n";
    }

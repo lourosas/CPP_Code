@@ -50,6 +50,7 @@ class ChainedHashTable : public GenericHashTable<Key,Value>{
       virtual void rehash();
    private:
       int checkIncreaseSize();
+      int insertNoCheck(Key,Value);
       int performHash(Key);
       LinkedList<Value>* _linkedlist;
       LinkedList<GenericHashElement<Key,Value>>* _list;
@@ -137,8 +138,8 @@ template<class Key, class Value>
 int ChainedHashTable<Key,Value>::insert(Key key,Value value){
    Value value_ = value.value();
    int index    = INSERTION_ERROR;
-   //int insertionLimit = 5000;
-   int insertionLimit = 50;
+   int insertionLimit = 5000;
+   //int insertionLimit = 50;
    if(this->_linkedlist != nullptr){
       int idx = this->performHash(key);
       if(!(this->contains(value))){
@@ -334,7 +335,7 @@ void ChainedHashTable<Key,Value>::rehash(){
          for(int j = 0; j < tempL[i].size(); ++j){
             Key key     = tempL[i].peek(j).key();
             Value value = tempL[i].peek(j).value();
-            this->insert(key, value);
+            std::cout<<"\ninsertNoCheck: "<<this->insertNoCheck(key, value)<<"\n";
          }
       }
       delete[] tempLL;
@@ -349,8 +350,8 @@ template<class Key, class Value>
 int ChainedHashTable<Key,Value>::checkIncreaseSize(){
    int increaseSize = 0;
    //Rehash when any in the LinkedList get to this size
-   //int limit        = 5000;
-   int limit        = 50;
+   int limit        = 5000;
+   //int limit        = 50;
    int i            = 0;
    int found        = 0;
    while(i < this->size() && !increaseSize){
@@ -379,6 +380,26 @@ int ChainedHashTable<Key,Value>::checkIncreaseSize(){
       increaseSize = this->pnf->primeAt(i);
    }
    return increaseSize;
+}
+
+/*
+*/
+template<class Key, class Value>
+int ChainedHashTable<Key,Value>::insertNoCheck(Key key, Value value){
+   Value value_ = value.value();
+   int   index = INSERTION_ERROR;
+   if(this->_linkedlist != nullptr){
+      int idx = this->performHash(key);
+      this->_linkedlist[idx].add(value);
+      GenericHashElement<Key,Value> ghe(key,value);
+      ghe.storeValue = GenericHashElement<Key,Value>::SET;
+      index = this->_list[idx].add(ghe);
+      this->_keys.add(key);
+   }
+   else{
+      index = ALREADY_INSERTED;
+   }
+   return index;
 }
 
 /*
