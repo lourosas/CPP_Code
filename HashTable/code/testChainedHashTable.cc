@@ -17,6 +17,7 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include "Integer.h"
 #include "List.h"
@@ -28,14 +29,17 @@ int addData(List<T>& );
 
 int main(){
    time_t t;
+//   std::ofstream outs("out.txt");
    srand((unsigned)time(&t));
    std::cout<<"\n\nHello World\n\n\n";
    LinkedList<Integer> list_;
    addData(list_);
-   std::cout<<list_<<"\n\n";
+   //std::cout<<list_<<"\n\n";
+   //outs<<list_<<"\n\n";
    ChainedHashTable<Integer, Integer> cht;
    Integer x(302);
-   std::cout<<"\n"<<cht.insert(x,x)<<"\n";
+   //std::cout<<"\n"<<cht.insert(x,x)<<"\n";
+   //outs<<"\n"<<cht.insert(x,x)<<"\n";
    Integer keys[5000];
    for(int i = 0; i < 5000; ++i){
       int v = rand()%500000;
@@ -45,7 +49,9 @@ int main(){
          keys[i] = x.key();
       }
       else{
+         //outs<<"\n"<<x.value()<<",  "<<isInsert<<"\n";
          std::cout<<"\n"<<x.value()<<",  "<<isInsert<<"\n";
+         --i;
       }
    }
    /*
@@ -70,9 +76,13 @@ int main(){
    }
    */
    std::cout<<"\nkeySize:  "<<cht.keySize()<<"\n";
+   //outs<<"\nkeySize:  "<<cht.keySize()<<"\n";
    try{
       for(int i = 0; i < 5000; ++i){
+         //std::cout<<"\ni:  "<<i<<", "<<keys[i];
+         //std::cout<<"\n"<<keys[i];
          std::cout<<"\n"<<cht.retrieve(keys[i]);
+         //outs<<"\n"<<cht.retrieve(keys[i]);
       }
       std::cout<<"\n\n"<<cht.retrieve(x.key())<<"\n\n"
         <<cht.retrieve(Integer(-7))<<"\n\n";
@@ -97,6 +107,7 @@ int main(){
    }
    std::cout<<"\n\n";
    */
+   //outs.close();
    return 1;
 }
 

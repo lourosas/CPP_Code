@@ -139,7 +139,6 @@ int ChainedHashTable<Key,Value>::insert(Key key,Value value){
    Value value_ = value.value();
    int index    = INSERTION_ERROR;
    int insertionLimit = 5000;
-   //int insertionLimit = 50;
    if(this->_linkedlist != nullptr){
       int idx = this->performHash(key);
       if(!(this->contains(value))){
@@ -321,7 +320,6 @@ std::ostream& ChainedHashTable<Key,Value>::print
 template<class Key, class Value>
 void ChainedHashTable<Key,Value>::rehash(){
    int newSize = this->checkIncreaseSize();
-   std::cout<<"\nnewSize:  "<<newSize<<"\n";
    if(newSize){
       int tempSize = this->size();
       this->size(newSize);
@@ -335,7 +333,6 @@ void ChainedHashTable<Key,Value>::rehash(){
          for(int j = 0; j < tempL[i].size(); ++j){
             Key key     = tempL[i].peek(j).key();
             Value value = tempL[i].peek(j).value();
-            std::cout<<"\ninsertNoCheck: "<<this->insertNoCheck(key, value)<<"\n";
          }
       }
       delete[] tempLL;
@@ -351,7 +348,6 @@ int ChainedHashTable<Key,Value>::checkIncreaseSize(){
    int increaseSize = 0;
    //Rehash when any in the LinkedList get to this size
    int limit        = 5000;
-   //int limit        = 50;
    int i            = 0;
    int found        = 0;
    while(i < this->size() && !increaseSize){
